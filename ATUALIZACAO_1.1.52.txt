@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.56
+Na Régua — Atualização 1.1.60
 
 - No painel do dono, a navegação inferior da versão mobile agora exibe somente os ícones.
 - O primeiro item continua alinhado à esquerda e o último à direita, sem espaços em branco laterais.

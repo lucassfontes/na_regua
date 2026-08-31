@@ -384,7 +384,7 @@ body.app-message-open{overflow:hidden}
 }
 
 
-/* Na Régua 1.1.56 — navegação móvel inferior no padrão VALLE, sem espaços vazios nas pontas */
+/* Na Régua 1.1.60 — navegação móvel inferior no padrão VALLE, sem espaços vazios nas pontas */
 @media(max-width:700px){
   .owner-admin-page{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
   .owner-section-tabs{
@@ -411,7 +411,7 @@ body.app-message-open{overflow:hidden}
 }
 
 
-/* Na Régua 1.1.56 — dashboard do dono mais completo e responsivo */
+/* Na Régua 1.1.60 — dashboard do dono mais completo e responsivo */
 .owner-dashboard{display:grid;gap:16px}
 .owner-dashboard-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:2px 2px 0}
 .owner-dashboard-head h2{margin:3px 0 4px;font-size:24px;letter-spacing:-.025em}
@@ -498,4 +498,42 @@ body.app-message-open{overflow:hidden}
   .owner-highlight-grid{grid-template-columns:1fr}
   .owner-highlight-grid>div{grid-template-columns:minmax(0,1fr) auto;align-items:center;column-gap:8px}
   .owner-highlight-grid>div small{grid-column:1/-1}
+}
+
+/* Na Régua 1.1.60 — fidelidade, histórico do cliente e QR de chegada */
+.booking-loyalty-banner{display:flex;align-items:center;gap:12px;margin:-6px 0 16px;padding:13px 15px;border:1px solid #fde68a;border-radius:16px;background:#fffbeb;color:#78350f;box-shadow:0 5px 18px rgba(120,53,15,.04)}
+.booking-loyalty-banner-icon{width:42px;height:42px;display:grid;place-items:center;flex:0 0 42px;border-radius:13px;background:#fef3c7;color:#a16207}.booking-loyalty-banner-icon .bi{font-size:20px}.booking-loyalty-banner>div:last-child{display:grid;gap:2px}.booking-loyalty-banner strong{font-size:14px}.booking-loyalty-banner span{font-size:12px;line-height:1.4}
+.client-portal-card{display:grid;gap:16px;margin-bottom:16px}.client-portal-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px}.client-portal-head h2{margin:3px 0 4px}.client-portal-head p{margin:0}
+.client-loyalty-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.client-loyalty-summary>div{display:grid;gap:3px;padding:13px;border:1px solid var(--line);border-radius:14px;background:#fafafa}.client-loyalty-summary span{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.045em}.client-loyalty-summary strong{font-size:22px;letter-spacing:-.03em}.client-loyalty-summary small{font-size:10px;color:var(--muted);line-height:1.35}
+.client-loyalty-stamps{display:flex;gap:8px;flex-wrap:wrap}.client-loyalty-stamp{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:#fff;color:#a1a1aa}.client-loyalty-stamp.is-filled{background:#18181b;color:#fff;border-color:#18181b}.client-loyalty-stamp .bi{font-size:16px}
+.client-history-head{display:grid;gap:2px;padding-top:3px}.client-history-head strong{font-size:15px}.client-history-head small{font-size:11px;color:var(--muted)}.client-history-list{display:grid;gap:9px}.client-history-item{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(180px,1fr) auto;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff}.client-history-date,.client-history-main{display:grid;gap:4px;min-width:0}.client-history-date strong{font-size:12px}.client-history-date .badge{width:max-content}.client-history-main strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.client-history-main span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.client-history-actions{display:flex;justify-content:flex-end}.client-checkin-ok{display:inline-flex;align-items:center;gap:5px;color:#047857;font-size:11px;font-weight:800;white-space:nowrap}
+.booking-success-card{text-align:center}.booking-success-icon{font-size:52px}.booking-success-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:14px}.arrival-pass{display:grid;justify-items:center;gap:13px;margin:18px auto 0;padding:16px;border:1px solid var(--line);border-radius:17px;background:#fafafa;max-width:430px}.arrival-pass h3{margin:3px 0 4px}.arrival-pass p{margin:0}.arrival-qr-box{width:230px;min-height:230px;display:grid;place-items:center;padding:10px;border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}.arrival-qr-box canvas{display:block!important;margin:auto!important;max-width:100%;height:auto!important}.arrival-qr-box img{display:none!important}.arrival-code-row{display:flex;align-items:center;justify-content:space-between;gap:18px;width:min(100%,300px);padding:10px 12px;border:1px dashed #a1a1aa;border-radius:12px;background:#fff}.arrival-code-row span{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em}.arrival-code-row strong{font-size:17px;letter-spacing:.08em}.arrival-qr-dialog{width:min(440px,calc(100% - 24px))}.arrival-qr-dialog[open]{display:grid;justify-items:center;gap:14px}.arrival-qr-dialog .dialog-heading{width:100%}.arrival-qr-dialog .notice{width:100%}
+
+.owner-loyalty-panel{display:grid;gap:16px}.loyalty-settings-card{display:grid;gap:14px;padding:15px;border:1px solid var(--line);border-radius:16px;background:#fafafa}.loyalty-enable-row{display:flex;align-items:flex-start;gap:10px;cursor:pointer}.loyalty-enable-row input{width:19px;height:19px;margin-top:2px;accent-color:#18181b}.loyalty-enable-row span{display:grid;gap:2px}.loyalty-enable-row strong{font-size:14px}.loyalty-enable-row small{font-size:11px;color:var(--muted);line-height:1.4}.loyalty-settings-fields{display:grid;grid-template-columns:minmax(130px,.55fr) minmax(220px,1.25fr) auto;gap:10px;align-items:end}.loyalty-save-button{min-height:44px}.loyalty-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.loyalty-summary-grid>article{display:grid;gap:3px;padding:14px;border:1px solid var(--line);border-radius:15px;background:#fff}.loyalty-summary-grid span{font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.045em}.loyalty-summary-grid strong{font-size:24px;letter-spacing:-.035em}.loyalty-summary-grid small{font-size:10px;color:var(--muted)}.loyalty-phone{display:block;margin-top:3px;color:var(--muted);font-size:10px}.loyalty-progress-cell{display:grid;gap:5px;min-width:120px}.loyalty-progress-cell>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:11px}.loyalty-progress-cell>div:first-child span{color:var(--muted)}.loyalty-progress-track{height:7px;border-radius:999px;background:#e4e4e7;overflow:hidden}.loyalty-progress-track span{display:block;height:100%;border-radius:999px;background:#18181b}.loyalty-reward-pill{display:inline-grid;place-items:center;min-width:32px;height:27px;padding:0 9px;border-radius:999px;background:#f4f4f5;color:#71717a;font-size:12px;font-weight:900}.loyalty-reward-pill.is-ready{background:#ecfdf5;color:#047857}.loyalty-customer-table{min-width:880px}
+
+.barber-agenda-actions{display:flex;gap:8px;flex-wrap:wrap}.checkin-dialog{width:min(520px,calc(100% - 24px));display:grid;gap:14px}.checkin-reader{width:100%;min-height:250px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#111}.checkin-reader:empty{display:none}.checkin-reader video{border-radius:14px}.checkin-divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase}.checkin-divider::before,.checkin-divider::after{content:'';height:1px;flex:1;background:var(--line)}.checkin-manual-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}.checkin-code-input{text-transform:uppercase;letter-spacing:.08em;font-weight:800}.checkin-help{margin:0;text-align:center}
+
+@media(max-width:700px){
+  .client-portal-head{align-items:flex-start}.client-portal-head .btn{font-size:0;width:42px;height:42px;padding:0;flex:0 0 42px}.client-portal-head .btn .bi{font-size:17px}
+  .client-loyalty-summary{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.client-loyalty-summary>div{padding:10px}.client-loyalty-summary strong{font-size:18px}.client-loyalty-summary small{font-size:9px}
+  .client-history-item{grid-template-columns:1fr;gap:8px}.client-history-actions{justify-content:flex-start}.client-history-actions .btn{width:100%}
+  .arrival-qr-box{width:220px;min-height:220px}.booking-success-actions{display:grid;grid-template-columns:1fr}.booking-success-actions .btn{width:100%}
+  .loyalty-settings-fields{grid-template-columns:1fr}.loyalty-save-button{width:100%}.loyalty-summary-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.loyalty-summary-grid>article{padding:11px}.loyalty-summary-grid strong{font-size:20px}
+  .barber-agenda-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.barber-agenda-actions .btn{width:100%;padding-left:8px;padding-right:8px}
+  .checkin-manual-form{grid-template-columns:1fr}.checkin-manual-form .btn{width:100%}
+}
+@media(max-width:420px){
+  .client-loyalty-summary,.loyalty-summary-grid{grid-template-columns:1fr 1fr}.client-loyalty-summary>div:last-child,.loyalty-summary-grid>article:last-child{grid-column:1/-1}
+  .arrival-qr-box{width:205px;min-height:205px}
+}
+
+
+/* Na Régua 1.1.60 — leitor de QR responsivo e fallback de câmera mobile */
+.checkin-camera-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.checkin-reader video{width:100%!important;height:auto!important;object-fit:cover}
+@media(max-width:520px){
+  .checkin-dialog{width:calc(100% - 18px);max-height:calc(100dvh - 24px);overflow:auto}
+  .checkin-reader{min-height:230px}
+  .checkin-camera-actions{grid-template-columns:1fr}
+  .checkin-camera-actions .btn{width:100%;min-height:44px}
 }

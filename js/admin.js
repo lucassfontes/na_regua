@@ -1,5 +1,5 @@
-let ownerProfile, services=[], barbers=[], products=[], barberServiceLinks=[], currentPublicUrl='', financialReportRows=[], ownerMonthAppointments=[];
-const OWNER_TAB_NAMES={overview:'Visão geral',finance:'Financeiro',services:'Serviços',products:'Produtos',barbers:'Barbeiros'};
+let ownerProfile, services=[], barbers=[], products=[], barberServiceLinks=[], currentPublicUrl='', financialReportRows=[], ownerMonthAppointments=[], loyaltyCustomers=[], loyaltySettings={enabled:false,visits_required:10,reward_name:'1 serviço grátis'}, loyaltyModuleReady=true;
+const OWNER_TAB_NAMES={overview:'Visão geral',finance:'Financeiro',services:'Serviços',products:'Produtos',loyalty:'Fidelidade',barbers:'Barbeiros'};
 function centerOwnerTab(button,behavior='smooth'){
   const track=$('#ownerSectionTabs');
   if(!track||!button)return;
@@ -307,6 +307,7 @@ async function refreshAdmin(){
   $('#barberRows').innerHTML=barbers.map(b=>`<tr><td data-label="Barbeiro"><strong>${escapeHtml(b.full_name)}</strong></td><td data-label="Serviços">${barberServicesHtml(b.id)}</td><td data-label="Comissão">${Number(b.commission_pct||0).toFixed(2)}%</td><td data-label="Status"><span class="badge ${b.active?'badge-active':'badge-suspended'}">${b.active?'Ativo':'Inativo'}</span></td><td data-label="Ações"><button class="btn btn-sm btn-outline" type="button" data-edit-barber="${b.id}">Editar</button></td></tr>`).join('')||'<tr><td colspan="5" class="empty">Nenhum barbeiro.</td></tr>';
   const completed=(ap.data||[]).filter(a=>a.status==='completed');setText('monthRevenue',money(completed.reduce((a,x)=>a+x.price_cents,0)));setText('monthAppointments',completed.length);
   await refreshProducts();
+  await loadLoyalty();
   renderOwnerDashboardOperations();
   if($('#financeFrom')?.value&&$('#financeTo')?.value)await loadFinancialReport(true);
 }
@@ -396,6 +397,72 @@ function formatFinanceDate(value){
   if(!value)return '-';
   return new Intl.DateTimeFormat('pt-BR',{dateStyle:'short',timeStyle:'short'}).format(new Date(value));
 }
+function loyaltyDate(value){
+  if(!value)return '—';
+  try{return new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'}).format(new Date(value))}catch{return '—'}
+}
+function loyaltyProgressHtml(customer){
+  const required=Math.max(2,Number(loyaltySettings.visits_required||10));
+  const balance=Math.max(0,Number(customer.visits_balance||0));
+  const percent=Math.min(100,Math.round((balance/required)*100));
+  return `<div class="loyalty-progress-cell"><div><strong>${balance}/${required}</strong><span>${percent}%</span></div><div class="loyalty-progress-track"><span style="width:${percent}%"></span></div></div>`;
+}
+function renderLoyaltyCustomers(){
+  setText('loyaltyCustomerCount',String(loyaltyCustomers.length));
+  setText('loyaltyVisitCount',String(loyaltyCustomers.reduce((sum,c)=>sum+Number(c.total_validated_visits||0),0)));
+  setText('loyaltyRewardCount',String(loyaltyCustomers.reduce((sum,c)=>sum+Number(c.rewards_available||0),0)));
+  const rows=$('#loyaltyCustomerRows');if(!rows)return;
+  rows.innerHTML=loyaltyCustomers.map(c=>`<tr>
+    <td data-label="Cliente"><strong>${escapeHtml(c.customer_name||'Cliente')}</strong><small class="loyalty-phone">${escapeHtml(c.phone||'')}</small></td>
+    <td data-label="Progresso">${loyaltyProgressHtml(c)}</td>
+    <td data-label="Visitas"><strong>${Number(c.total_validated_visits||0)}</strong></td>
+    <td data-label="Recompensas"><span class="loyalty-reward-pill ${Number(c.rewards_available||0)>0?'is-ready':''}">${Number(c.rewards_available||0)}</span></td>
+    <td data-label="Última visita">${loyaltyDate(c.last_visit_at)}</td>
+    <td data-label="Ações">${Number(c.rewards_available||0)>0?`<button class="btn btn-sm" type="button" data-redeem-loyalty="${c.id}">Usar recompensa</button>`:'<span class="muted small">Sem recompensa</span>'}</td>
+  </tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhum cliente pontuou ainda.</td></tr>';
+}
+async function loadLoyalty(){
+  const notice=$('#loyaltySetupNotice');
+  const [settingsResult,customersResult]=await Promise.all([
+    sb.from('loyalty_settings').select('tenant_id,enabled,visits_required,reward_name').eq('tenant_id',ownerProfile.tenant_id).maybeSingle(),
+    sb.from('loyalty_customers').select('id,customer_name,phone,visits_balance,rewards_available,total_validated_visits,last_visit_at,updated_at').eq('tenant_id',ownerProfile.tenant_id).order('updated_at',{ascending:false})
+  ]);
+  if(settingsResult.error||customersResult.error){
+    loyaltyModuleReady=false;loyaltyCustomers=[];loyaltySettings={enabled:false,visits_required:10,reward_name:'1 serviço grátis'};
+    notice?.classList.remove('hidden');
+    const rows=$('#loyaltyCustomerRows');if(rows)rows.innerHTML='<tr><td colspan="6" class="empty">Execute ATUALIZAR_BANCO_1.1.60.sql para ativar esta área.</td></tr>';
+    setText('loyaltyCustomerCount','0');setText('loyaltyVisitCount','0');setText('loyaltyRewardCount','0');
+    return;
+  }
+  loyaltyModuleReady=true;notice?.classList.add('hidden');
+  loyaltySettings=settingsResult.data||{enabled:false,visits_required:10,reward_name:'1 serviço grátis'};
+  loyaltyCustomers=customersResult.data||[];
+  $('#loyaltyEnabled').checked=loyaltySettings.enabled===true;
+  $('#loyaltyVisitsRequired').value=String(Number(loyaltySettings.visits_required||10));
+  $('#loyaltyRewardName').value=loyaltySettings.reward_name||'1 serviço grátis';
+  renderLoyaltyCustomers();
+}
+async function saveLoyaltySettings(){
+  if(!loyaltyModuleReady)return toast('Execute ATUALIZAR_BANCO_1.1.60.sql no Supabase primeiro.','warn');
+  const visits=Math.floor(Number($('#loyaltyVisitsRequired').value));
+  const reward=$('#loyaltyRewardName').value.trim();
+  if(!Number.isInteger(visits)||visits<2||visits>30)return toast('Informe entre 2 e 30 visitas.','error');
+  if(reward.length<2)return toast('Informe a recompensa do programa.','error');
+  const button=$('#saveLoyaltySettings');button.disabled=true;
+  const {error}=await sb.from('loyalty_settings').upsert({tenant_id:ownerProfile.tenant_id,enabled:$('#loyaltyEnabled').checked,visits_required:visits,reward_name:reward},{onConflict:'tenant_id'});
+  button.disabled=false;
+  if(error)return toast(error.message,'error');
+  toast('Programa de fidelidade atualizado.');await loadLoyalty();
+}
+async function redeemLoyaltyReward(customerId){
+  const customer=loyaltyCustomers.find(c=>c.id===customerId);if(!customer)return;
+  const ok=await confirmMessage(`Confirmar o uso de 1 recompensa de ${customer.customer_name}?`,{title:'Usar recompensa',okText:'Confirmar resgate',cancelText:'Cancelar'});
+  if(!ok)return;
+  const {data,error}=await sb.rpc('redeem_loyalty_reward',{p_customer_id:customerId});
+  if(error)return toast(error.message,'error');
+  toast(`Recompensa utilizada. Restam ${Number(data?.rewards_available||0)}.`);await loadLoyalty();
+}
+
 function financePeriodText(fromValue,toValue){
   const from=parseLocalDate(fromValue),to=parseLocalDate(toValue);
   if(!from||!to)return '';
@@ -612,6 +679,8 @@ document.addEventListener('DOMContentLoaded',async()=>{
   });
   $('#accessPublicLink')?.addEventListener('click',accessCurrentPublicLink);
   $('#copyPublicLink')?.addEventListener('click',copyCurrentPublicLink);
+  $('#loyaltySettingsForm')?.addEventListener('submit',async e=>{e.preventDefault();await saveLoyaltySettings()});
+  $('#loyaltyCustomerRows')?.addEventListener('click',e=>{const btn=e.target.closest('[data-redeem-loyalty]');if(btn)redeemLoyaltyReward(btn.dataset.redeemLoyalty)});
   $('#financeFilterForm')?.addEventListener('submit',async e=>{e.preventDefault();await loadFinancialReport(false)});
   $('#financeBarber')?.addEventListener('change',renderFinancialReport);
   document.querySelectorAll('[data-finance-period]').forEach(button=>button.addEventListener('click',()=>setFinancePeriod(button.dataset.financePeriod,true)));

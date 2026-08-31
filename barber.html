@@ -4,16 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#18181b">
-  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.56">
-  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.56">
-  <link rel="manifest" href="manifest.json?v=1.1.56">
-  <link rel="stylesheet" href="css/app.css?v=1.1.56">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.60">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.60">
+  <link rel="manifest" href="manifest.json?v=1.1.60">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/app.css?v=1.1.60">
   <title>Painel do Barbeiro • Na Régua</title>
 </head>
 <body>
 <header class="topbar">
   <div class="container topbar-inner">
-    <div class="brand"><img class="brand-logo" src="icons/icon-192.png?v=1.1.56" alt="Na Régua"><div class="brand-copy"><strong>Minha agenda</strong><span id="barberName"></span></div></div>
+    <div class="brand"><img class="brand-logo" src="icons/icon-192.png?v=1.1.60" alt="Na Régua"><div class="brand-copy"><strong>Minha agenda</strong><span id="barberName"></span></div></div>
     <div class="nav-actions owner-nav-actions">
       <div class="owner-user-menu-wrap">
         <button id="barberUserMenuButton" class="owner-user-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="barberUserMenu">
@@ -49,7 +50,7 @@
               <span class="owner-menu-item-icon">↪</span>
               <span><strong>Sair da conta</strong><small>Encerrar esta sessão</small></span>
             </button>
-            <div class="owner-user-version" aria-label="Versão do sistema"><span>Versão do sistema</span><strong>1.1.56</strong></div>
+            <div class="owner-user-version" aria-label="Versão do sistema"><span>Versão do sistema</span><strong>1.1.60</strong></div>
           </div>
         </div>
       </div>
@@ -70,7 +71,7 @@
   <section class="card barber-schedule-panel barber-client-agenda-panel">
     <div class="row between barber-client-agenda-head">
       <div><span class="owner-panel-kicker">MINHA AGENDA</span><h2>Clientes de hoje</h2><p class="muted">Cada cliente agendado já possui acesso direto à própria comanda.</p></div>
-      <button class="btn btn-sm btn-outline" onclick="loadBarber()">Atualizar</button>
+      <div class="barber-agenda-actions"><button class="btn btn-sm" type="button" id="openCheckinScanner"><i class="bi bi-qr-code-scan"></i> Validar chegada</button><button class="btn btn-sm btn-outline" onclick="loadBarber()">Atualizar</button></div>
     </div>
     <div id="commandSetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para usar as comandas, aplique as atualizações do banco até a versão <strong>1.1.34</strong>.</div>
     <div id="appointmentRows" class="barber-client-agenda"><div class="empty">Carregando agenda...</div></div>
@@ -127,11 +128,33 @@
   </form>
 </dialog>
 
+
+<dialog id="checkinDialog" class="app-dialog checkin-dialog">
+  <div class="dialog-heading">
+    <div><div class="dialog-kicker">CHEGADA DO CLIENTE</div><h2>Validar QR Code</h2><p class="muted">Aponte a câmera para o QR exibido no celular do cliente.</p></div>
+    <button type="button" class="dialog-close" id="closeCheckinDialog" aria-label="Fechar">×</button>
+  </div>
+  <div id="qrReader" class="checkin-reader"></div>
+  <div id="checkinCameraNotice" class="notice notice-warn hidden">Não foi possível abrir a câmera automaticamente.</div>
+  <div id="checkinCameraActions" class="checkin-camera-actions hidden">
+    <button class="btn" type="button" id="retryCheckinCamera"><i class="bi bi-camera-video-fill"></i> Abrir câmera</button>
+    <button class="btn btn-outline" type="button" id="captureCheckinQr"><i class="bi bi-camera-fill"></i> Ler QR pela câmera</button>
+    <input id="checkinQrPhotoInput" class="hidden" type="file" accept="image/*" capture="environment">
+  </div>
+  <div class="checkin-divider"><span>ou</span></div>
+  <form id="manualCheckinForm" class="checkin-manual-form">
+    <div class="field"><label for="manualCheckinCode">Código de chegada</label><input id="manualCheckinCode" class="input checkin-code-input" maxlength="16" autocomplete="off" autocapitalize="characters" placeholder="Ex.: A1B2C3D4" required></div>
+    <button class="btn" id="validateCheckinButton" type="submit"><i class="bi bi-check2-circle"></i> Validar chegada</button>
+  </form>
+  <p class="muted small checkin-help">Cada agendamento só pode pontuar uma vez no programa de fidelidade.</p>
+</dialog>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js?v=1.1.56"></script>
-<script src="js/supabase-client.js?v=1.1.56"></script>
-<script src="js/common.js?v=1.1.56"></script>
-<script src="js/barber.js?v=1.1.56"></script>
-<script src="js/pwa.js?v=1.1.56"></script>
+<script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="js/config.js?v=1.1.60"></script>
+<script src="js/supabase-client.js?v=1.1.60"></script>
+<script src="js/common.js?v=1.1.60"></script>
+<script src="js/barber.js?v=1.1.60"></script>
+<script src="js/pwa.js?v=1.1.60"></script>
 </body>
 </html>

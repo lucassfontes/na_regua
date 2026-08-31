@@ -449,7 +449,7 @@ O painel do dono foi reorganizado em abas para reduzir a quantidade de cards e i
 - O botão de instalação fica oculto quando o app já está instalado.
 
 
-## Atualização 1.1.56
+## Atualização 1.1.60
 
 - A navegação por abas do painel do dono virou um carrossel horizontal no padrão do VALLE no celular.
 - O botão ativo é centralizado automaticamente.
@@ -467,3 +467,22 @@ O painel do dono foi reorganizado em abas para reduzir a quantidade de cards e i
 - Alerta de estoque baixo integrado à Visão geral e atalho direto para Produtos.
 - Visual otimizado para celular e desktop, usando Bootstrap Icons.
 - Não exige alteração no banco nem Edge Function.
+
+
+## Versão 1.1.60 — Fidelidade e QR de chegada
+- Criado programa de fidelidade configurável pelo dono: ativar/desativar, quantidade de visitas necessárias e nome da recompensa.
+- Nova aba **Fidelidade** no painel do dono, com clientes, progresso, visitas validadas, recompensas disponíveis e resgate de recompensa.
+- Cada agendamento público passa a gerar um **QR Code de chegada** e um código curto de segurança.
+- No painel do barbeiro, o botão **Validar chegada** abre a câmera para ler o QR; também existe digitação manual do código como alternativa.
+- A chegada validada pode iniciar o atendimento e, quando a fidelidade estiver ativa, soma exatamente uma visita ao cartão do cliente.
+- No celular do cliente, o site guarda um token privado no aparelho e mostra **histórico de cortes/agendamentos**, progresso da fidelidade, recompensas e o QR dos próximos atendimentos.
+- Execute `ATUALIZAR_BANCO_1.1.60.sql` no Supabase. Não exige republicação da Edge Function.
+
+
+## Atualização 1.1.60
+- Corrigida a abertura da câmera para validar QR Code no celular.
+- O sistema solicita a permissão e prioriza a câmera traseira.
+- Melhor compatibilidade com Safari/iPhone e Chrome/Android.
+- Adicionado botão para tentar abrir a câmera novamente.
+- Adicionado fallback "Ler QR pela câmera", usando a câmera nativa do aparelho para fotografar o QR quando o scanner em tempo real não abrir.
+- Mensagens específicas para HTTPS, permissão negada e câmera ocupada.

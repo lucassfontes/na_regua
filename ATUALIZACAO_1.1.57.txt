@@ -1,0 +1,12 @@
+Na Régua — Atualização 1.1.60
+
+- Sistema de fidelidade gerenciado pelo dono.
+- Configuração de quantidade de visitas e recompensa.
+- QR Code de chegada gerado após o agendamento.
+- Validação do QR no painel do barbeiro pela câmera ou código manual.
+- Cada chegada validada pontua somente uma vez na fidelidade.
+- Histórico de cortes/agendamentos e cartão de fidelidade no celular do cliente.
+- Resgate de recompensas pelo painel do dono.
+
+IMPORTANTE: execute ATUALIZAR_BANCO_1.1.60.sql no Supabase > SQL Editor.
+Não é necessário atualizar a Edge Function.

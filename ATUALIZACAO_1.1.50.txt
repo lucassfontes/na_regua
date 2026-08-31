@@ -1,4 +1,4 @@
-Na Régua v1.1.56
+Na Régua v1.1.60
 
 - Carrossel do painel do dono no padrão VALLE.
 - Arraste horizontal no mobile.

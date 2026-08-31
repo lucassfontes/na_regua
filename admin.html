@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#18181b">
-  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.56">
-  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.56">
-  <link rel="manifest" href="manifest.json?v=1.1.56">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.60">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.60">
+  <link rel="manifest" href="manifest.json?v=1.1.60">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="css/app.css?v=1.1.56">
+  <link rel="stylesheet" href="css/app.css?v=1.1.60">
   <title>Painel do Dono • Na Régua</title>
 </head>
 <body>
 <header class="topbar">
   <div class="container topbar-inner">
     <div class="brand">
-      <img class="brand-logo" src="icons/icon-192.png?v=1.1.56" alt="Na Régua">
+      <img class="brand-logo" src="icons/icon-192.png?v=1.1.60" alt="Na Régua">
       <div class="brand-copy">
         <strong id="tenantName">Barbearia</strong>
         <span>Painel do dono</span>
@@ -76,7 +76,7 @@
             </button>
             <div class="owner-user-version" aria-label="Versão do sistema">
               <span>Versão do sistema</span>
-              <strong>1.1.56</strong>
+              <strong>1.1.60</strong>
             </div>
           </div>
         </div>
@@ -99,6 +99,7 @@
     <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="finance" aria-label="Financeiro" title="Financeiro"><span aria-hidden="true"><i class="bi bi-cash-stack"></i></span>Financeiro</button>
     <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="services" aria-label="Serviços" title="Serviços"><span aria-hidden="true"><i class="bi bi-scissors"></i></span>Serviços</button>
     <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="products" aria-label="Produtos" title="Produtos"><span aria-hidden="true"><i class="bi bi-box-seam-fill"></i></span>Produtos</button>
+    <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="loyalty" aria-label="Fidelidade" title="Fidelidade"><span aria-hidden="true"><i class="bi bi-stars"></i></span>Fidelidade</button>
     <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="barbers" aria-label="Barbeiros" title="Barbeiros"><span aria-hidden="true"><i class="bi bi-people-fill"></i></span>Barbeiros</button>
   </nav>
 
@@ -299,6 +300,44 @@
     </div>
   </section>
 
+  <section class="card owner-loyalty-panel owner-tab-panel hidden" id="ownerLoyaltyPanel" data-owner-panel="loyalty">
+    <div class="owner-list-head loyalty-panel-head">
+      <div>
+        <span class="owner-panel-kicker">FIDELIDADE</span>
+        <h2>Programa de fidelidade</h2>
+        <p class="muted">Configure a recompensa e acompanhe o progresso dos clientes que validaram a chegada pelo QR Code.</p>
+      </div>
+    </div>
+    <div id="loyaltySetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para ativar a fidelidade e o QR de chegada, execute <strong>ATUALIZAR_BANCO_1.1.60.sql</strong> no Supabase.</div>
+
+    <form id="loyaltySettingsForm" class="loyalty-settings-card">
+      <label class="loyalty-enable-row"><input id="loyaltyEnabled" type="checkbox"><span><strong>Programa de fidelidade ativo</strong><small>Quando ativo, cada chegada validada pelo QR soma uma visita.</small></span></label>
+      <div class="loyalty-settings-fields">
+        <div class="field"><label for="loyaltyVisitsRequired">Visitas para ganhar</label><input id="loyaltyVisitsRequired" class="input" type="number" min="2" max="30" value="10" required></div>
+        <div class="field"><label for="loyaltyRewardName">Recompensa</label><input id="loyaltyRewardName" class="input" maxlength="120" value="1 serviço grátis" required></div>
+        <button id="saveLoyaltySettings" class="btn loyalty-save-button" type="submit">Salvar fidelidade</button>
+      </div>
+    </form>
+
+    <div class="loyalty-summary-grid" aria-label="Resumo da fidelidade">
+      <article><span>Clientes</span><strong id="loyaltyCustomerCount">0</strong><small>Com cartão criado</small></article>
+      <article><span>Visitas validadas</span><strong id="loyaltyVisitCount">0</strong><small>Confirmadas por QR</small></article>
+      <article><span>Recompensas disponíveis</span><strong id="loyaltyRewardCount">0</strong><small>Prontas para resgate</small></article>
+    </div>
+
+    <div class="owner-finance-block loyalty-customer-block">
+      <div class="owner-finance-block-head">
+        <div><strong>Clientes e progresso</strong><small>O QR de chegada evita pontos duplicados: cada agendamento pode pontuar uma única vez.</small></div>
+      </div>
+      <div class="table-wrap owner-table-wrap">
+        <table class="table loyalty-customer-table">
+          <thead><tr><th>Cliente</th><th>Progresso</th><th>Visitas</th><th>Recompensas</th><th>Última visita</th><th>Ações</th></tr></thead>
+          <tbody id="loyaltyCustomerRows"><tr><td colspan="6" class="empty">Carregando fidelidade...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
   <section class="card owner-list-panel owner-tab-panel hidden" id="ownerBarbersPanel" data-owner-panel="barbers">
     <div class="owner-list-head">
       <div>
@@ -452,10 +491,10 @@
 </dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js?v=1.1.56"></script>
-<script src="js/supabase-client.js?v=1.1.56"></script>
-<script src="js/common.js?v=1.1.56"></script>
-<script src="js/admin.js?v=1.1.56"></script>
-<script src="js/pwa.js?v=1.1.56"></script>
+<script src="js/config.js?v=1.1.60"></script>
+<script src="js/supabase-client.js?v=1.1.60"></script>
+<script src="js/common.js?v=1.1.60"></script>
+<script src="js/admin.js?v=1.1.60"></script>
+<script src="js/pwa.js?v=1.1.60"></script>
 </body>
 </html>

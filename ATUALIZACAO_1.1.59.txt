@@ -1,0 +1,5 @@
+Na Régua — Atualização 1.1.60
+
+- Corrigido o fechamento do modal QR de chegada.
+- O botão X/Fechar agora encerra o modal corretamente no celular e no computador.
+- Corrigido o CSS do dialog para não permanecer visível depois de fechado.

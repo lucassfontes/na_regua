@@ -9,6 +9,8 @@ let commandServicesReady=true;
 let stockModuleReady=true;
 let pendingReopenAppointmentId=null;
 let currentBarberPublicUrl='';
+let checkinScanner=null;
+let checkinBusy=false;
 
 function menuInitial(name,fallback='U'){
   const clean=String(name||'').trim();
@@ -485,6 +487,125 @@ async function changeStatus(id,status){
   await loadBarber();
 }
 
+function parseCheckinCode(raw){
+  let value=String(raw||'').trim();
+  if(!value)return '';
+  try{
+    if(/^https?:\/\//i.test(value)){const url=new URL(value);value=url.searchParams.get('checkin')||value}
+  }catch{}
+  if(value.toUpperCase().startsWith('NRCHK:'))value=value.split(':').pop()||'';
+  return value.replace(/[^a-z0-9]/gi,'').slice(0,16).toUpperCase();
+}
+async function stopCheckinScanner(){
+  const scanner=checkinScanner;checkinScanner=null;
+  if(!scanner)return;
+  try{await scanner.stop()}catch{}
+  try{await scanner.clear()}catch{}
+}
+function setCheckinCameraFallback(message='Não foi possível abrir a câmera automaticamente.'){
+  const notice=$('#checkinCameraNotice'),actions=$('#checkinCameraActions');
+  if(notice){notice.textContent=message;notice.classList.remove('hidden')}
+  actions?.classList.remove('hidden');
+}
+function hideCheckinCameraFallback(){
+  $('#checkinCameraNotice')?.classList.add('hidden');
+  $('#checkinCameraActions')?.classList.add('hidden');
+}
+async function closeCheckinScannerDialog(){
+  await stopCheckinScanner();
+  const input=$('#checkinQrPhotoInput');if(input)input.value='';
+  closeBarberDialog('checkinDialog');
+}
+function checkinResultMessage(data){
+  const name=data?.customer_name||'Cliente';
+  if(!data?.loyalty_enabled)return `Chegada de ${name} validada com sucesso.`;
+  const base=`Chegada de ${name} validada. Fidelidade: ${Number(data.visits_balance||0)}/${Number(data.visits_required||0)}.`;
+  if(Number(data.reward_earned||0)>0)return `${base}\n🎁 Nova recompensa liberada: ${data.reward_name}.`;
+  if(Number(data.rewards_available||0)>0)return `${base}\nO cliente possui ${Number(data.rewards_available)} recompensa(s) disponível(is).`;
+  return base;
+}
+async function validateCheckinCode(raw){
+  const code=parseCheckinCode(raw);
+  if(!code)return toast('Código de chegada inválido.','error');
+  if(checkinBusy)return;
+  checkinBusy=true;
+  const button=$('#validateCheckinButton');if(button)button.disabled=true;
+  try{
+    const {data,error}=await sb.rpc('validate_appointment_checkin',{p_code:code});
+    if(error)throw error;
+    await closeCheckinScannerDialog();
+    toast(checkinResultMessage(data),Number(data?.reward_earned||0)>0?'success':'ok');
+    await loadBarber();
+  }catch(error){toast(error?.message||'Não foi possível validar a chegada.','error')}
+  finally{checkinBusy=false;if(button)button.disabled=false}
+}
+function cameraErrorText(error){
+  const name=String(error?.name||'');
+  if(!window.isSecureContext)return 'A câmera do navegador precisa de HTTPS. Abra o sistema pelo endereço seguro (https://).';
+  if(name==='NotAllowedError'||name==='PermissionDeniedError')return 'A permissão da câmera foi negada. Libere a câmera nas configurações do navegador e tente novamente.';
+  if(name==='NotFoundError'||name==='DevicesNotFoundError')return 'Nenhuma câmera disponível foi encontrada neste aparelho.';
+  if(name==='NotReadableError'||name==='TrackStartError')return 'A câmera está sendo usada por outro aplicativo. Feche-o e tente novamente.';
+  return 'Não foi possível abrir a câmera automaticamente. Tente novamente ou use a câmera do celular para fotografar o QR Code.';
+}
+async function getPreferredCheckinCamera(){
+  if(typeof Html5Qrcode==='undefined')throw new Error('Leitor de QR não carregado');
+  if(!navigator.mediaDevices?.getUserMedia)throw new Error('Câmera não suportada neste navegador');
+  let permissionStream=null;
+  try{
+    permissionStream=await navigator.mediaDevices.getUserMedia({audio:false,video:{facingMode:{ideal:'environment'}}});
+  }finally{
+    permissionStream?.getTracks?.().forEach(track=>track.stop());
+  }
+  const cameras=await Html5Qrcode.getCameras();
+  if(!cameras?.length)return {facingMode:{ideal:'environment'}};
+  const backWords=/back|rear|environment|traseira|trasera|arrière|achter/i;
+  const preferred=cameras.find(c=>backWords.test(c.label||''))||cameras[cameras.length-1]||cameras[0];
+  return preferred?.id||{facingMode:{ideal:'environment'}};
+}
+async function startCheckinCamera(){
+  hideCheckinCameraFallback();
+  if(!window.isSecureContext){setCheckinCameraFallback(cameraErrorText({}));return false}
+  if(typeof Html5Qrcode==='undefined'){setCheckinCameraFallback('O leitor de QR Code não carregou. Verifique a internet e tente novamente.');return false}
+  try{
+    await stopCheckinScanner();
+    const camera=await getPreferredCheckinCamera();
+    checkinScanner=new Html5Qrcode('qrReader');
+    const config={fps:10,qrbox:(w,h)=>{const size=Math.max(170,Math.min(250,Math.floor(Math.min(w,h)*.72)));return {width:size,height:size}},aspectRatio:1};
+    await checkinScanner.start(camera,config,decoded=>validateCheckinCode(decoded),()=>{});
+    return true;
+  }catch(error){
+    console.warn('Câmera para QR indisponível:',error?.name,error?.message||error);
+    await stopCheckinScanner();
+    setCheckinCameraFallback(cameraErrorText(error));
+    return false;
+  }
+}
+async function scanCheckinQrPhoto(file){
+  if(!file)return;
+  if(typeof Html5Qrcode==='undefined')return toast('Leitor de QR Code indisponível.','error');
+  try{
+    await stopCheckinScanner();
+    hideCheckinCameraFallback();
+    checkinScanner=new Html5Qrcode('qrReader');
+    const decoded=await checkinScanner.scanFile(file,true);
+    await validateCheckinCode(decoded);
+  }catch(error){
+    console.warn('Não foi possível ler o QR da foto:',error?.message||error);
+    setCheckinCameraFallback('Não consegui identificar um QR Code nessa imagem. Tente aproximar mais a câmera ou digite o código abaixo.');
+  }finally{
+    try{await checkinScanner?.clear()}catch{}
+    checkinScanner=null;
+    const input=$('#checkinQrPhotoInput');if(input)input.value='';
+  }
+}
+async function openCheckinScannerDialog(){
+  const manual=$('#manualCheckinCode');if(manual)manual.value='';
+  hideCheckinCameraFallback();
+  openBarberDialog('checkinDialog');
+  await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));
+  await startCheckinCamera();
+}
+
 async function loadBarber(){
   barberProfile=barberProfile||await guard(['barber']);
   setText('barberName',barberProfile.full_name);syncBarberUserMenu();updateBarberPublicAgendaUrl();
@@ -503,6 +624,8 @@ async function loadBarber(){
 }
 
 document.addEventListener('DOMContentLoaded',async()=>{
+  const initialCheckin=qs('checkin');
+  if(initialCheckin){try{sessionStorage.setItem('na_regua_pending_checkin',initialCheckin)}catch{}}
   $('#barberUserMenuButton')?.addEventListener('click',e=>{e.stopPropagation();toggleBarberUserMenu()});
   $('#barberUserMenu')?.addEventListener('click',e=>e.stopPropagation());
   document.addEventListener('click',closeBarberUserMenu);
@@ -531,5 +654,14 @@ document.addEventListener('DOMContentLoaded',async()=>{
   $('#commandItems')?.addEventListener('click',e=>{const btn=e.target.closest('[data-remove-command-item]');if(btn)removeCommandItem(btn.dataset.removeCommandItem)});
   $('#finishCommandButton')?.addEventListener('click',finishCommand);
   $('#reopenCommandForm')?.addEventListener('submit',async e=>{e.preventDefault();await reopenClientCommandWithOwnerPassword()});
+  $('#openCheckinScanner')?.addEventListener('click',openCheckinScannerDialog);
+  $('#closeCheckinDialog')?.addEventListener('click',closeCheckinScannerDialog);
+  $('#retryCheckinCamera')?.addEventListener('click',startCheckinCamera);
+  $('#captureCheckinQr')?.addEventListener('click',()=>$('#checkinQrPhotoInput')?.click());
+  $('#checkinQrPhotoInput')?.addEventListener('change',e=>scanCheckinQrPhoto(e.target.files?.[0]));
+  $('#manualCheckinForm')?.addEventListener('submit',async e=>{e.preventDefault();await validateCheckinCode($('#manualCheckinCode').value)});
   await loadBarber();
+  let checkinFromQr=qs('checkin');
+  if(!checkinFromQr){try{checkinFromQr=sessionStorage.getItem('na_regua_pending_checkin')||''}catch{}}
+  if(checkinFromQr){try{sessionStorage.removeItem('na_regua_pending_checkin')}catch{}const cleanUrl=new URL(location.href);cleanUrl.searchParams.delete('checkin');history.replaceState(null,'',cleanUrl.href);await validateCheckinCode(checkinFromQr)}
 });

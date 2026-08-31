@@ -1,4 +1,84 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#18181b"><link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.56"><link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.56"><link rel="manifest" href="manifest.json?v=1.1.56"><link rel="stylesheet" href="css/app.css?v=1.1.56"><title>Agendamento</title></head><body>
-<header class="topbar"><div class="container topbar-inner"><div class="brand"><div class="brand-mark">✂</div><span id="bookingTenantName">Agendamento</span></div><button id="installApp" class="btn btn-sm btn-outline hidden" onclick="installApp()">Instalar app</button></div></header>
-<main class="container page" id="bookingRoot"><div class="hero"><div><h1>Reserve seu horário</h1><p>Escolha serviço, profissional, dia e horário.</p></div></div><div id="bookingSteps" class="stack"><section class="card"><h2>1. Serviço</h2><div id="services" class="grid grid-2"></div></section><section id="barberSection" class="card hidden"><h2>2. Barbeiro</h2><div id="barbers" class="grid grid-2"></div></section><section id="dateSection" class="card hidden"><h2>3. Data e horário</h2><div class="field"><label>Data</label><input id="bookingDate" class="input" type="date"></div><div id="slots" class="slot-grid" style="margin-top:12px"></div></section><section id="customerSection" class="card hidden"><h2>4. Seus dados</h2><p class="muted small">Horário selecionado: <strong id="selectedTime"></strong></p><form id="bookingForm" class="stack"><div class="field"><label>Nome</label><input class="input" name="customerName" required></div><div class="field"><label>WhatsApp / telefone</label><input class="input" name="customerPhone" required></div><div class="field"><label>E-mail (opcional)</label><input class="input" name="customerEmail" type="email"></div><button class="btn" id="bookBtn">Confirmar agendamento</button></form></section></div><section id="successBox" class="card hidden" style="text-align:center"><div style="font-size:52px">✓</div><h2>Agendamento confirmado</h2><p class="muted">Sua reserva foi criada com sucesso.</p><div class="small muted">Código: <span id="successId"></span></div><a class="btn" style="margin-top:14px" href="javascript:location.reload()">Novo agendamento</a></section></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="js/config.js?v=1.1.56"></script><script src="js/supabase-client.js?v=1.1.56"></script><script src="js/common.js?v=1.1.56"></script><script src="js/booking.js?v=1.1.56"></script><script src="js/pwa.js?v=1.1.56"></script></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#18181b">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.60">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.60">
+  <link rel="manifest" href="manifest.json?v=1.1.60">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/app.css?v=1.1.60">
+  <title>Agendamento</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand"><div class="brand-mark">✂</div><span id="bookingTenantName">Agendamento</span></div>
+    <button id="installApp" class="btn btn-sm btn-outline hidden" onclick="installApp()">Instalar app</button>
+  </div>
+</header>
+
+<main class="container page" id="bookingRoot">
+  <div class="hero booking-hero"><div><h1>Reserve seu horário</h1><p>Escolha serviço, profissional, dia e horário.</p></div></div>
+
+  <section id="publicLoyaltyBanner" class="booking-loyalty-banner hidden">
+    <div class="booking-loyalty-banner-icon"><i class="bi bi-stars" aria-hidden="true"></i></div>
+    <div><strong>Programa de fidelidade</strong><span id="publicLoyaltyText">Valide sua chegada e acumule benefícios.</span></div>
+  </section>
+
+  <section id="clientPortalCard" class="card client-portal-card hidden">
+    <div class="client-portal-head">
+      <div><span class="owner-panel-kicker">MEU CARTÃO</span><h2>Histórico e fidelidade</h2><p class="muted">Seu cartão fica salvo neste aparelho.</p></div>
+      <button id="refreshClientPortal" class="btn btn-sm btn-outline" type="button"><i class="bi bi-arrow-clockwise"></i> Atualizar</button>
+    </div>
+    <div class="client-loyalty-summary">
+      <div><span>Progresso</span><strong id="clientLoyaltyProgress">0/0</strong><small id="clientLoyaltyRewardLabel">Fidelidade</small></div>
+      <div><span>Recompensas</span><strong id="clientRewardsAvailable">0</strong><small>Disponíveis</small></div>
+      <div><span>Visitas validadas</span><strong id="clientTotalVisits">0</strong><small>Com QR confirmado</small></div>
+    </div>
+    <div id="clientLoyaltyStamps" class="client-loyalty-stamps"></div>
+    <div class="client-history-head"><strong>Meus cortes e agendamentos</strong><small>Toque em “QR de chegada” para abrir novamente seu passe.</small></div>
+    <div id="clientHistoryList" class="client-history-list"><div class="empty">Carregando histórico...</div></div>
+  </section>
+
+  <div id="bookingSteps" class="stack">
+    <section class="card"><h2>1. Serviço</h2><div id="services" class="grid grid-2"></div></section>
+    <section id="barberSection" class="card hidden"><h2>2. Barbeiro</h2><div id="barbers" class="grid grid-2"></div></section>
+    <section id="dateSection" class="card hidden"><h2>3. Data e horário</h2><div class="field"><label>Data</label><input id="bookingDate" class="input" type="date"></div><div id="slots" class="slot-grid" style="margin-top:12px"></div></section>
+    <section id="customerSection" class="card hidden"><h2>4. Seus dados</h2><p class="muted small">Horário selecionado: <strong id="selectedTime"></strong></p><form id="bookingForm" class="stack"><div class="field"><label>Nome</label><input class="input" name="customerName" required></div><div class="field"><label>WhatsApp / telefone</label><input class="input" name="customerPhone" required></div><div class="field"><label>E-mail (opcional)</label><input class="input" name="customerEmail" type="email"></div><button class="btn" id="bookBtn">Confirmar agendamento</button></form></section>
+  </div>
+
+  <section id="successBox" class="card booking-success-card hidden">
+    <div class="booking-success-icon">✓</div>
+    <h2>Agendamento confirmado</h2>
+    <p class="muted">Sua reserva foi criada com sucesso.</p>
+    <div class="small muted">Código do agendamento: <span id="successId"></span></div>
+    <div id="successArrivalPass" class="arrival-pass hidden">
+      <div><span class="owner-panel-kicker">CHEGADA</span><h3>Mostre este QR ao chegar</h3><p class="muted small">O barbeiro valida sua chegada. Se a fidelidade estiver ativa, essa validação também soma sua visita.</p></div>
+      <div id="successQrCode" class="arrival-qr-box"></div>
+      <div class="arrival-code-row"><span>Código de chegada</span><strong id="successCheckinCode">--------</strong></div>
+    </div>
+    <div class="booking-success-actions"><button id="openClientPortalAfterBooking" class="btn btn-outline hidden" type="button">Ver meu histórico</button><a class="btn" href="javascript:location.reload()">Novo agendamento</a></div>
+  </section>
+</main>
+
+<dialog id="arrivalQrDialog" class="app-dialog arrival-qr-dialog">
+  <div class="dialog-heading">
+    <div><div class="dialog-kicker">QR DE CHEGADA</div><h2 id="arrivalQrTitle">Seu agendamento</h2><p class="muted" id="arrivalQrMeta">Mostre este QR na barbearia.</p></div>
+    <button type="button" id="arrivalQrCloseButton" class="dialog-close" onclick="closeArrivalQrDialog()" aria-label="Fechar">×</button>
+  </div>
+  <div id="arrivalQrDialogCode" class="arrival-qr-box"></div>
+  <div class="arrival-code-row"><span>Código de chegada</span><strong id="arrivalQrShortCode">--------</strong></div>
+  <div class="notice notice-ok">Ao validar este QR, sua chegada fica registrada e a visita pode contar para a fidelidade.</div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="js/config.js?v=1.1.60"></script>
+<script src="js/supabase-client.js?v=1.1.60"></script>
+<script src="js/common.js?v=1.1.60"></script>
+<script src="js/booking.js?v=1.1.60"></script>
+<script src="js/pwa.js?v=1.1.60"></script>
+</body>
+</html>
