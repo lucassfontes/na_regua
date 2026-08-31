@@ -1,0 +1,17 @@
+NA RÉGUA — VERSÃO 1.1.21
+
+Melhorias no ADM Geral:
+- Painel reorganizado para ficar mais simples e menos confuso.
+- Cadastro de nova barbearia saiu da tela principal e agora abre em um modal organizado por etapas.
+- Resumo financeiro e de status ficou mais visual.
+- Lista de barbearias virou cards com informações separadas e fáceis de ler.
+- Busca por nome ou link.
+- Filtro por ativas, vencendo em 7 dias e vencidas/bloqueadas.
+- Status em português e aviso de vencimento mais claro.
+- Botões de ação continuam um abaixo do outro.
+- Ações foram renomeadas para ficarem mais claras: renovar, editar cadastro, bloquear/desbloquear e excluir.
+- Link público pode ser aberto ou copiado diretamente.
+- Modal de edição reorganizado em seções: Barbearia, Dono e acesso, Assinatura.
+- Layout responsivo melhorado para celular.
+
+Nenhuma alteração de banco de dados é necessária nesta versão.

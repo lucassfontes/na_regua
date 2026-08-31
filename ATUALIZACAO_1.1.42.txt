@@ -1,0 +1,11 @@
+Na Régua — versão 1.1.42
+
+Painel do dono reorganizado por abas:
+- removidos os cards de Agendamento / Link público e Ações rápidas da tela principal;
+- criado menu de navegação por abas: Visão geral, Financeiro, Serviços, Produtos e Barbeiros;
+- cada área agora aparece separadamente, evitando uma página longa e confusa;
+- os cards da Visão geral também funcionam como atalhos: Receita/Atendimentos abrem Financeiro, Serviços abre Serviços e Barbeiros abre Barbeiros;
+- navegação responsiva no celular, com rolagem horizontal quando necessário;
+- Abrir agendamento e Copiar link continuam disponíveis no menu do usuário.
+
+Não requer SQL novo nem atualização da Edge Function.

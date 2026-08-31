@@ -1,0 +1,8 @@
+Na Régua — Atualização 1.1.27
+
+- Menu do usuário do painel do dono agora é totalmente responsivo.
+- A largura do menu se ajusta ao conteúdo sem ultrapassar a tela.
+- Textos longos passam a quebrar corretamente, evitando cortes e estouro lateral.
+- Em telas muito pequenas, o menu usa o espaço disponível do aparelho.
+- Altura máxima adaptada à tela, com rolagem interna quando necessário.
+- Cache PWA atualizado para 1.1.27.

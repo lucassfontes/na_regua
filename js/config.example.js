@@ -1,0 +1,5 @@
+window.APP_CONFIG = {
+  SUPABASE_URL: 'https://SEU-PROJETO.supabase.co',
+  SUPABASE_PUBLISHABLE_KEY: 'SUA_CHAVE_PUBLICAVEL_OU_ANON',
+  APP_NAME: 'Na-Regua'
+}

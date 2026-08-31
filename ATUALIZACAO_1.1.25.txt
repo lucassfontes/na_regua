@@ -1,0 +1,6 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.25
+
+- Removida a informação do plano da barra superior do painel do dono.
+- O plano continua disponível dentro do menu do usuário, com valor mensal e vencimento.
+- Interface da barra superior ficou mais limpa.
+- Cache PWA atualizado para 1.1.25.

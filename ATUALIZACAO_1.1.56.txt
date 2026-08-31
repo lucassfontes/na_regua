@@ -1,0 +1,11 @@
+Na Régua — Atualização 1.1.56
+
+Dashboard do dono melhorado:
+- Resumo mensal mais claro.
+- Movimento do dia: agenda, em atendimento, concluídos e faturamento.
+- Próximo atendimento com cliente, serviço e barbeiro.
+- Destaques do mês: melhor faturamento por barbeiro, comissão da equipe e ticket médio.
+- Alerta de estoque baixo com acesso à aba Produtos.
+- Layout responsivo para celular e desktop.
+
+Não precisa executar SQL nem atualizar Edge Function.

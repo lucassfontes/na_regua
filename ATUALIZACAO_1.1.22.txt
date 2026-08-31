@@ -1,0 +1,6 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.22
+
+- Plano/vencimento movido para a barra superior do painel do dono.
+- Botão “Editar barbearia” removido da visão geral.
+- Link público simplificado: a URL deixou de ser exibida e ficaram apenas os botões de abrir e copiar.
+- Nenhuma alteração de banco ou Edge Function é necessária nesta versão.

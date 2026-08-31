@@ -1,0 +1,7 @@
+NA RÉGUA — VERSÃO 1.1.44
+
+- Financeiro mobile: Atendimentos/comandas ao lado de Comissão da equipe.
+- Produtos: novo campo Valor de custo.
+- Lista de produtos: Custo, Venda e Lucro unitário.
+- Execute ATUALIZAR_BANCO_1.1.44.sql no Supabase.
+- Não precisa atualizar a Edge Function.

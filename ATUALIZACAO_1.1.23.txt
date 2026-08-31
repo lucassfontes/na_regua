@@ -1,0 +1,12 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.25
+
+PAINEL DO DONO
+- Criado um menu de usuário no canto superior direito.
+- O menu mostra o nome do dono e a barbearia atual.
+- Configurações da barbearia foram movidas para o menu de usuário.
+- Botão Sair foi movido para dentro do menu.
+- Instalação do aplicativo, quando disponível, fica dentro do menu.
+- Atalhos para abrir e copiar o link público também ficam disponíveis no menu.
+- A área Ações rápidas ficou focada em Novo serviço, Novo barbeiro e Vincular serviço.
+- Menu responsivo para celular e desktop, com fechamento ao clicar fora ou pressionar Esc.
+- Cache PWA atualizado para 1.1.25.

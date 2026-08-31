@@ -1,0 +1,6 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.27
+
+- Adicionada a versão do sistema abaixo do botão “Sair da conta” no menu do dono.
+- Incluído um separador visual entre o botão de saída e a informação da versão.
+- Cache PWA atualizado para 1.1.27.
+- Nenhuma alteração de banco de dados ou Edge Function é necessária nesta versão.

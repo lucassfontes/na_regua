@@ -1,0 +1,5 @@
+NA RÉGUA — VERSÃO 1.1.21
+
+- Removido do ADM Geral o botão “Renovar +1 ano”.
+- Mantido o botão “Renovar +30 dias”.
+- Cache do PWA atualizado para 1.1.21.

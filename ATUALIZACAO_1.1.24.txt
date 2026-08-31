@@ -1,0 +1,7 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.25
+
+PAINEL DO DONO
+- O plano também aparece dentro do menu de usuário.
+- O menu mostra o valor mensal do plano e a data de vencimento.
+- O indicador de plano continua visível na barra superior.
+- Cache PWA atualizado para 1.1.25.

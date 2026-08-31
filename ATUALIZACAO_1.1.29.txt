@@ -1,0 +1,10 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.29
+
+- Serviços agora possuem botão Editar.
+- É possível alterar nome, preço, duração e ativar/inativar o serviço.
+- Vincular serviço saiu do bloco fixo da tela e voltou a abrir em modal, como antes.
+- No agendamento público, um barbeiro só aparece para o serviço quando existir vínculo ativo entre os dois.
+- Se nenhum barbeiro estiver vinculado ao serviço, nenhum profissional é exibido.
+- Cache PWA atualizado para 1.1.29.
+
+Esta atualização não exige alteração no banco nem nova publicação da Edge Function.

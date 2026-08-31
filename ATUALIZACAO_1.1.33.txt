@@ -1,0 +1,8 @@
+Na Régua 1.1.33
+
+- Corrigido carregamento dos produtos na comanda do barbeiro.
+- Produtos ativos são buscados novamente ao abrir a comanda.
+- Erro de comandas não apaga mais a lista de produtos.
+- Adicionada política/função segura para o barbeiro enxergar os produtos ativos da própria barbearia.
+
+Banco: execute ATUALIZAR_BANCO_1.1.33.sql no Supabase.

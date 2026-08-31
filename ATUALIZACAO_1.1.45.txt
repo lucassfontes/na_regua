@@ -1,0 +1,13 @@
+NA RÉGUA — VERSÃO 1.1.45
+
+- Controle completo de estoque de produtos.
+- Estoque atual e estoque mínimo por produto.
+- Entrada, saída/perda e ajuste de saldo com histórico.
+- Resumo de unidades, estoque baixo, valor de custo e potencial de venda.
+- Baixa automática ao adicionar produto na comanda.
+- Devolução automática ao remover produto da comanda.
+- Bloqueio de venda quando não há saldo suficiente.
+
+IMPORTANTE:
+- Execute ATUALIZAR_BANCO_1.1.45.sql no Supabase.
+- Não precisa republicar a Edge Function.

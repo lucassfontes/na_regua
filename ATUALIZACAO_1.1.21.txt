@@ -1,0 +1,10 @@
+NA RÉGUA — VERSÃO 1.1.21
+
+- Painel do dono redesenhado com a mesma linguagem visual do ADM Geral.
+- Cabeçalho com logo, nome da barbearia e identificação do painel.
+- Visão geral com indicadores de receita, atendimentos, serviços e barbeiros ativos.
+- Link público destacado em um card próprio.
+- Ações rápidas para criar serviço, criar barbeiro, vincular serviço e abrir configurações.
+- Formulários foram movidos para modais, deixando a tela principal mais limpa.
+- Serviços e equipe ficaram em painéis organizados, mantendo todas as funções anteriores.
+- Layout responsivo melhorado para celular.

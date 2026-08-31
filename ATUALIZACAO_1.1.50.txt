@@ -1,0 +1,7 @@
+Na Régua v1.1.56
+
+- Carrossel do painel do dono no padrão VALLE.
+- Arraste horizontal no mobile.
+- Aba ativa centralizada automaticamente.
+- Transição suave entre posições.
+- Sem alteração de banco ou Edge Function.

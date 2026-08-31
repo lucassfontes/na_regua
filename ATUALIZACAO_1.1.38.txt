@@ -1,0 +1,9 @@
+NA RÉGUA — VERSÃO 1.1.38
+
+- Removido o botão “Voltar” do modal da comanda.
+- O modal continua podendo ser fechado pelo X no canto superior.
+- O botão “Fechar comanda” permanece como a ação principal dentro do modal.
+- Corrigida a cor do texto dos botões de comanda na agenda para ficar sempre visível sobre o fundo escuro.
+- Ajustado o botão principal da comanda no celular para ocupar a largura disponível.
+
+Não requer alteração no banco de dados nem republicação de Edge Function.

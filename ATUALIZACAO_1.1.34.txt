@@ -1,0 +1,8 @@
+Na Régua 1.1.34
+
+- A comanda do cliente agora aceita serviços adicionais.
+- O barbeiro vê somente os serviços ativos que estão vinculados ao próprio perfil.
+- O serviço principal do agendamento continua separado e não aparece como opção de serviço extra.
+- É possível adicionar e remover serviços extras enquanto a comanda estiver aberta.
+- O total da comanda soma serviço agendado + serviços adicionais + produtos.
+- Execute ATUALIZAR_BANCO_1.1.34.sql no Supabase para ativar a novidade.

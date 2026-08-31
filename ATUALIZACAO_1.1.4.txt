@@ -1,0 +1,12 @@
+NA-REGUA - VERSAO 1.1.4
+
+ALTERACOES:
+- Senha no cadastro de Novo Barbeiro.
+- Botao Editar na equipe.
+- Edicao de nome, e-mail, comissao e status do barbeiro.
+- Opcao de trocar a senha do barbeiro.
+
+IMPORTANTE:
+Depois de publicar os arquivos HTML/JS, atualize manualmente no Supabase:
+Edge Functions > admin-actions > Code
+Cole o conteudo de supabase/functions/admin-actions/index.ts e clique em Deploy updates.

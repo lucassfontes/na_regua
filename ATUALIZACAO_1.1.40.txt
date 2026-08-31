@@ -1,0 +1,7 @@
+Na Régua — versão 1.1.40
+
+- O modal de mensagens agora usa a camada modal nativa do navegador e aparece acima de todos os outros modais.
+- Nenhum modal fecha mais ao clicar fora dele.
+- O fechamento pelo ESC também foi bloqueado para evitar encerramentos acidentais.
+- Os modais continuam sendo fechados normalmente pelos botões X, Cancelar, OK ou pelas ações específicas de cada tela.
+- Nenhuma alteração de banco de dados ou Edge Function é necessária.

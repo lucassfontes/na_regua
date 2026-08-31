@@ -1,0 +1,12 @@
+Na Régua — Versão 1.1.36
+
+ALTERAÇÕES
+- O botão “Comanda fechada” permanece clicável.
+- Ao clicar, o barbeiro recebe um modal pedindo a senha do dono.
+- A Edge Function valida a senha do dono antes de autorizar a reabertura.
+- Com senha correta, a comanda volta para o status aberto e o atendimento para “Em atendimento”.
+- Após a autorização, a comanda abre automaticamente para continuar adicionando serviços/produtos.
+
+INSTALAÇÃO
+- Não há SQL novo nesta versão.
+- Republicar a Edge Function: supabase/functions/admin-actions/index.ts

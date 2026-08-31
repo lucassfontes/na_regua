@@ -1,0 +1,10 @@
+NA RÉGUA — Atualização 1.1.21
+
+- Timezone não precisa mais ser digitado.
+- O sistema detecta automaticamente o fuso horário do aparelho.
+- No primeiro acesso do dono (e quando o fuso do aparelho mudar), a barbearia é sincronizada automaticamente.
+- A data de vencimento é preservada ao ajustar o fuso.
+- Campo de timezone removido do ADM Geral e do painel do dono.
+
+IMPORTANTE:
+Publique novamente a Edge Function supabase/functions/admin-actions/index.ts para ativar a sincronização automática do fuso horário.

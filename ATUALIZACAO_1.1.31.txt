@@ -1,0 +1,7 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.31
+
+- Menu do painel do Dono usado como padrão visual nos demais painéis.
+- Novo menu de usuário no Painel do Barbeiro.
+- Novo menu de usuário no ADM Geral.
+- Menus responsivos, com avatar, nome, ações próprias do painel, sair da conta e versão do sistema.
+- Nenhuma alteração de banco ou Edge Function é necessária nesta versão.

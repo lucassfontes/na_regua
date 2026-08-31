@@ -1,0 +1,14 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.32
+
+- O painel do barbeiro não usa mais a tabela antiga de Horários/Status.
+- A agenda de hoje agora é exibida por cliente, em cards mais fáceis de usar.
+- A comanda passa a pertencer diretamente ao cliente/agendamento.
+- Não existe mais "Abrir nova comanda" digitando o nome do cliente.
+- Ao tocar em Comanda no cliente, ela é criada automaticamente com número próprio.
+- Serviço agendado e valor aparecem dentro da comanda.
+- Produtos podem ser adicionados normalmente e o total soma serviço + produtos.
+- Status agora usa ações simples: Iniciar atendimento, Concluir atendimento e Não compareceu.
+- Ao finalizar a comanda, o atendimento é marcado como concluído.
+
+BANCO:
+Execute ATUALIZAR_BANCO_1.1.32.sql no Supabase SQL Editor.

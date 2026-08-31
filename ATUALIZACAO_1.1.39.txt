@@ -1,0 +1,9 @@
+NA RÉGUA — VERSÃO 1.1.39
+
+- Criado um modal único e centralizado para mensagens do sistema.
+- Mensagens de sucesso, atenção e erro não aparecem mais como avisos soltos no canto da tela.
+- O modal bloqueia o fundo enquanto a mensagem está aberta e exige confirmação do usuário.
+- A confirmação de fechamento de comanda também usa o novo modal, removendo o aviso padrão do navegador.
+- Erros de login passam a usar o mesmo padrão visual.
+- Ajustado para celular e desktop.
+- Não exige alteração no banco nem na Edge Function.

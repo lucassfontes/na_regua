@@ -1,0 +1,8 @@
+Na-Regua - Versao 1.1.8
+
+- Corrigida a selecao de barbeiro no agendamento publico.
+- Se um servico ainda nao possui barbeiros vinculados, todos os barbeiros ativos ficam disponiveis para escolha.
+- Quando existem vinculos para o servico, apenas os barbeiros vinculados sao exibidos.
+- Cards de barbeiro agora possuem selecao visual e clique mais robusto no celular e PC.
+- A etapa de data so e liberada depois de selecionar o barbeiro.
+- Adicionada migration 003_public_booking_barber_selection.sql para atualizar as RPCs publicas.

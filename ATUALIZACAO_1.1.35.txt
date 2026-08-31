@@ -1,0 +1,7 @@
+Na Régua — Versão 1.1.35
+
+- Botão da agenda mostra "Abrir comanda" quando ainda não existe comanda para o cliente.
+- Quando a comanda está aberta, o botão muda para "Fechar comanda".
+- Fechar a comanda pede confirmação e conclui o atendimento.
+- Comanda finalizada passa a exibir "Comanda fechada".
+- Sem alteração de banco ou Edge Function.

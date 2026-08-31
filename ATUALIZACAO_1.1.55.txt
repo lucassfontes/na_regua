@@ -1,0 +1,5 @@
+Na Régua — Atualização 1.1.56
+
+- Barra inferior mobile preenchida por completo.
+- Ícones distribuídos igualmente em toda a largura útil.
+- Sem áreas vazias nas laterais.

@@ -1,0 +1,7 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.14
+
+- “Slug” agora aparece para o usuário como “Nome do link”.
+- Explicação mais clara: este nome é usado no endereço público de agendamento.
+- O nome do link continua sendo criado automaticamente a partir do nome da barbearia, sem espaços e sem acentos.
+- Na lista de barbearias, o endereço aparece com o rótulo “Link”.
+- Cache PWA atualizado para 1.1.14.

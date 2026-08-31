@@ -1,0 +1,6 @@
+NA-REGUA - VERSAO 1.1.8
+
+- Link público vinculado automaticamente à barbearia logada.
+- Botão Acessar abre o agendamento público da barbearia atual.
+- Botão Copiar copia o link público.
+- Cache PWA atualizado para 1.1.8.

@@ -1,0 +1,11 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.12
+
+- Botões de ação no ADM Geral agora ficam um abaixo do outro.
+- Adicionado botão Editar para cada painel de dono.
+- Modal de edição permite alterar:
+  • Nome da barbearia
+  • Nova senha do dono (opcional)
+  • Data de vencimento
+  • Valor da mensalidade
+- Mantida a exclusão segura do painel e de toda a hierarquia.
+- É necessário publicar a Edge Function supabase/functions/admin-actions/index.ts para usar a alteração de senha.

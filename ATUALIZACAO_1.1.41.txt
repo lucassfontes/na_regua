@@ -1,0 +1,18 @@
+Na Régua — versão 1.1.41
+
+FINANCEIRO COMPLETO NO PAINEL DO DONO
+
+- Nova área "Relatório financeiro" no painel do dono.
+- Filtros por data e por barbeiro.
+- Atalhos rápidos: Hoje, Este mês e Mês anterior.
+- Resumo do período com faturamento total, serviços, produtos, comissão da equipe, valor da barbearia e quantidade de movimentações.
+- Relatório por barbeiro mostra atendimentos, serviços, produtos, faturamento, comissão, quanto o barbeiro ganhou e quanto ficou para a barbearia.
+- Relatório detalhado mostra cliente, comanda, serviços, produtos, total e divisão do valor.
+- Exportação em CSV.
+- Comissão calculada sobre serviços. Produtos entram integralmente no faturamento da barbearia.
+- Fechamentos novos guardam uma fotografia financeira dos totais e da comissão vigente naquele momento.
+- Atendimentos antigos concluídos sem comanda também entram no relatório como registro antigo.
+
+IMPORTANTE
+Execute ATUALIZAR_BANCO_1.1.41.sql no Supabase > SQL Editor.
+Não é necessário republicar a Edge Function nesta versão.

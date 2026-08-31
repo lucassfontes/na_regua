@@ -1,0 +1,11 @@
+NA RÉGUA — VERSÃO 1.1.46
+
+PAINEL DO BARBEIRO / MINHA AGENDA
+- Adicionado no menu do usuário o botão “Abrir minha agenda”.
+- Adicionado no menu do usuário o botão “Copiar link da agenda”.
+- O link compartilhado é específico do barbeiro e mantém somente esse profissional disponível no agendamento público.
+- Ao escolher um serviço realizado por esse barbeiro, o profissional já fica selecionado e o cliente segue direto para a escolha da data.
+
+BANCO / EDGE FUNCTION
+- Nenhuma alteração de banco necessária.
+- Nenhuma republicação de Edge Function necessária.

@@ -1,0 +1,8 @@
+NA RÉGUA — VERSÃO 1.1.21
+
+- Corrigida a sincronização automática do link da barbearia.
+- O link agora é gerado no servidor diretamente pelo nome da barbearia, sem espaços e sem acentos.
+- Removido o aviso incorreto causado pela permissão de atualização do navegador.
+- Barbearias antigas com link diferente do nome são corrigidas automaticamente pelo Super Admin.
+- Se houver duas barbearias com o mesmo nome, o sistema avisa porque os links públicos precisam ser únicos.
+- Cache PWA atualizado para 1.1.21.

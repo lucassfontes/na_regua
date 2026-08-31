@@ -1,0 +1,11 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.12
+
+- Modal Editar do ADM Geral ampliado.
+- Agora permite alterar: nome, slug, nome do dono, e-mail do dono, senha, vencimento, mensalidade e timezone.
+- O slug continua validado e não pode ser duplicado.
+- O e-mail do dono também é validado contra duplicidade.
+- Nome, e-mail e senha do dono são sincronizados com o Supabase Auth.
+- A senha é opcional; deixe em branco para manter a atual.
+- Cache PWA atualizado para 1.1.12.
+
+IMPORTANTE: publique novamente supabase/functions/admin-actions/index.ts no Supabase.

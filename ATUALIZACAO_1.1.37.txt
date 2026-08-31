@@ -1,0 +1,11 @@
+NA RÉGUA — VERSÃO 1.1.38
+
+ALTERAÇÃO
+- Na Minha Agenda do barbeiro, quando a comanda estiver aberta, o botão “Fechar comanda” agora abre o modal da própria comanda.
+- A comanda só é realmente fechada pelo botão “Fechar comanda” que fica dentro do modal.
+- O botão que apenas fecha o modal foi renomeado para “Voltar”, evitando confusão.
+- Ao fechar a comanda pelo modal, o atendimento continua sendo marcado como concluído.
+
+INSTALAÇÃO
+- Não é necessário executar SQL.
+- Não é necessário republicar a Edge Function.

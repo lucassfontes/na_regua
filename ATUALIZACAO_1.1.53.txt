@@ -1,0 +1,6 @@
+Na Régua — Atualização 1.1.56
+
+- Navegação do painel do dono alterada para Bootstrap Icons.
+- Mobile: somente ícones.
+- Desktop: ícones + nomes das abas.
+- Mantido o carrossel inferior responsivo.

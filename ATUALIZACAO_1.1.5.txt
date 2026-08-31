@@ -1,0 +1,8 @@
+NA-REGUA - VERSAO 1.1.5
+
+CORRECOES
+- Corrigido erro ao cadastrar novo barbeiro:
+  Cannot set properties of null (setting 'disabled').
+- Botao Criar barbeiro agora e explicitamente do tipo submit.
+- JavaScript agora identifica o botao pelo evento submitter e possui fallback seguro.
+- Cache PWA atualizado para 1.1.5.

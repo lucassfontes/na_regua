@@ -1,0 +1,9 @@
+NA RÉGUA — VERSÃO 1.1.48
+
+AJUSTES MOBILE
+- Na Minha Agenda, o botão “Concluir atendimento” agora fica com o mesmo tamanho/largura do botão da comanda em telas de celular.
+- No modal “Instalar aplicativo”, o botão “Entendi” agora fica centralizado no mobile.
+
+BANCO / EDGE FUNCTION
+- Nenhuma alteração de banco necessária.
+- Nenhuma republicação de Edge Function necessária.

@@ -1,0 +1,9 @@
+Na Régua — versão 1.1.49
+
+- Corrigido o alinhamento do botão "Entendi" no modal de instalação no iPhone.
+- O sistema identifica iPhone/iPad antes de exibir as instruções manuais de instalação.
+- No Android e no PC, o botão usa normalmente o prompt nativo de instalação do navegador.
+- Se o app já estiver instalado/em modo standalone, o botão Instalar aplicativo permanece oculto.
+- Em Android/PC, quando o navegador ainda não disponibilizou a instalação, o botão permanece oculto em vez de exibir instruções de iPhone.
+
+Não requer SQL nem atualização da Edge Function.

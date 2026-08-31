@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#18181b">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.56">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.56">
+  <link rel="manifest" href="manifest.json?v=1.1.56">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="css/app.css?v=1.1.56">
+  <title>Painel do Dono • Na Régua</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <img class="brand-logo" src="icons/icon-192.png?v=1.1.56" alt="Na Régua">
+      <div class="brand-copy">
+        <strong id="tenantName">Barbearia</strong>
+        <span>Painel do dono</span>
+      </div>
+    </div>
+    <div class="nav-actions owner-nav-actions">
+      <div class="owner-user-menu-wrap">
+        <button id="ownerUserMenuButton" class="owner-user-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="ownerUserMenu">
+          <span class="owner-user-avatar" id="ownerUserAvatar">D</span>
+          <span class="owner-user-trigger-copy">
+            <strong id="ownerName">Dono</strong>
+            <small>Minha conta</small>
+          </span>
+          <span class="owner-user-chevron" aria-hidden="true">⌄</span>
+        </button>
+
+        <div id="ownerUserMenu" class="owner-user-dropdown hidden" role="menu" aria-label="Menu do usuário">
+          <div class="owner-user-menu-head">
+            <span class="owner-user-avatar owner-user-avatar-lg" id="ownerMenuAvatar">D</span>
+            <div>
+              <strong id="ownerMenuName">Dono</strong>
+              <small id="ownerMenuTenant">Barbearia</small>
+            </div>
+          </div>
+
+          <div class="owner-user-plan-card" aria-label="Informações do plano">
+            <span class="owner-menu-item-icon owner-plan-menu-icon" aria-hidden="true">◆</span>
+            <div class="owner-user-plan-copy">
+              <strong>Plano da barbearia</strong>
+              <small><span id="ownerMenuPlanPrice">R$ 0,00</span> por mês</small>
+              <small>Válido até <strong id="ownerMenuExpiresAt">-</strong></small>
+            </div>
+          </div>
+
+          <div class="owner-user-menu-section">
+            <button class="owner-user-menu-item" type="button" data-owner-menu-action="settings" role="menuitem">
+              <span class="owner-menu-item-icon">⚙</span>
+              <span><strong>Configurações da barbearia</strong><small>Nome, WhatsApp e horários</small></span>
+            </button>
+            <button class="owner-user-menu-item" type="button" data-owner-menu-action="open-public" role="menuitem">
+              <span class="owner-menu-item-icon">↗</span>
+              <span><strong>Abrir agendamento</strong><small>Visualizar como o cliente</small></span>
+            </button>
+            <button class="owner-user-menu-item" type="button" data-owner-menu-action="copy-public" role="menuitem">
+              <span class="owner-menu-item-icon">🔗</span>
+              <span><strong>Copiar link público</strong><small>Compartilhar com clientes</small></span>
+            </button>
+            <button id="installApp" class="owner-user-menu-item hidden" type="button" role="menuitem">
+              <span class="owner-menu-item-icon">↓</span>
+              <span><strong>Instalar aplicativo</strong><small>Adicionar neste aparelho</small></span>
+            </button>
+          </div>
+
+          <div class="owner-user-menu-section owner-user-menu-footer">
+            <button class="owner-user-menu-item owner-user-menu-signout" type="button" data-owner-menu-action="signout" role="menuitem">
+              <span class="owner-menu-item-icon">↪</span>
+              <span><strong>Sair da conta</strong><small>Encerrar esta sessão</small></span>
+            </button>
+            <div class="owner-user-version" aria-label="Versão do sistema">
+              <span>Versão do sistema</span>
+              <strong>1.1.56</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container page owner-admin-page">
+  <section class="super-admin-hero owner-admin-hero">
+    <div>
+      <div class="eyebrow">GESTÃO DA BARBEARIA</div>
+      <h1>Painel da barbearia</h1>
+      <p>Use as abas abaixo para acessar cada área da gestão.</p>
+    </div>
+  </section>
+
+  <nav class="owner-section-tabs" id="ownerSectionTabs" role="tablist" aria-label="Áreas do painel">
+    <button class="owner-section-tab is-active" type="button" role="tab" aria-selected="true" data-owner-tab="overview" aria-label="Visão geral" title="Visão geral"><span aria-hidden="true"><i class="bi bi-house-door-fill"></i></span>Visão geral</button>
+    <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="finance" aria-label="Financeiro" title="Financeiro"><span aria-hidden="true"><i class="bi bi-cash-stack"></i></span>Financeiro</button>
+    <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="services" aria-label="Serviços" title="Serviços"><span aria-hidden="true"><i class="bi bi-scissors"></i></span>Serviços</button>
+    <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="products" aria-label="Produtos" title="Produtos"><span aria-hidden="true"><i class="bi bi-box-seam-fill"></i></span>Produtos</button>
+    <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-owner-tab="barbers" aria-label="Barbeiros" title="Barbeiros"><span aria-hidden="true"><i class="bi bi-people-fill"></i></span>Barbeiros</button>
+  </nav>
+
+  <div class="owner-tab-panel owner-dashboard" data-owner-panel="overview">
+    <section class="owner-dashboard-head">
+      <div>
+        <span class="owner-panel-kicker">VISÃO GERAL</span>
+        <h2>Resumo da barbearia</h2>
+        <p class="muted">Acompanhe o mês, a agenda de hoje, a equipe e o estoque em um só lugar.</p>
+      </div>
+      <div class="owner-dashboard-date"><i class="bi bi-calendar3" aria-hidden="true"></i><span id="dashboardTodayLabel">Hoje</span></div>
+    </section>
+
+    <section class="super-metrics owner-metrics owner-main-metrics">
+      <article class="metric-card metric-card-money owner-metric-nav" role="button" tabindex="0" data-owner-tab-target="finance">
+        <div class="metric-icon"><i class="bi bi-cash-stack" aria-hidden="true"></i></div>
+        <div><span class="metric-label">Faturamento no mês</span><strong class="metric-value" id="monthRevenue">R$ 0,00</strong><small>Serviços + produtos faturados</small></div>
+      </article>
+      <article class="metric-card metric-card-active owner-metric-nav" role="button" tabindex="0" data-owner-tab-target="finance">
+        <div class="metric-icon"><i class="bi bi-check2-circle" aria-hidden="true"></i></div>
+        <div><span class="metric-label">Atendimentos no mês</span><strong class="metric-value" id="monthAppointments">0</strong><small>Comandas e atendimentos faturados</small></div>
+      </article>
+      <article class="metric-card owner-metric-nav" role="button" tabindex="0" data-owner-tab-target="services">
+        <div class="metric-icon"><i class="bi bi-scissors" aria-hidden="true"></i></div>
+        <div><span class="metric-label">Serviços ativos</span><strong class="metric-value" id="serviceCount">0</strong><small>Disponíveis para agendamento</small></div>
+      </article>
+      <article class="metric-card owner-metric-nav" role="button" tabindex="0" data-owner-tab-target="barbers">
+        <div class="metric-icon"><i class="bi bi-people-fill" aria-hidden="true"></i></div>
+        <div><span class="metric-label">Barbeiros ativos</span><strong class="metric-value" id="barberCount">0</strong><small>Profissionais disponíveis</small></div>
+      </article>
+    </section>
+
+    <section class="owner-dashboard-section">
+      <div class="owner-dashboard-section-title">
+        <div><span class="owner-panel-kicker">HOJE</span><h3>Movimento do dia</h3></div>
+        <span class="owner-dashboard-live"><span></span>Atualizado agora</span>
+      </div>
+      <div class="owner-today-grid">
+        <article class="owner-today-card"><div class="owner-today-icon"><i class="bi bi-calendar-check" aria-hidden="true"></i></div><div><span>Agenda de hoje</span><strong id="todayAppointments">0</strong><small id="todayWaiting">0 aguardando</small></div></article>
+        <article class="owner-today-card"><div class="owner-today-icon is-progress"><i class="bi bi-person-workspace" aria-hidden="true"></i></div><div><span>Em atendimento</span><strong id="todayInProgress">0</strong><small>Com atendimento iniciado</small></div></article>
+        <article class="owner-today-card"><div class="owner-today-icon is-done"><i class="bi bi-check-circle-fill" aria-hidden="true"></i></div><div><span>Concluídos</span><strong id="todayCompleted">0</strong><small>Finalizados hoje</small></div></article>
+        <article class="owner-today-card"><div class="owner-today-icon is-money"><i class="bi bi-wallet2" aria-hidden="true"></i></div><div><span>Faturado hoje</span><strong id="todayRevenue">R$ 0,00</strong><small>Serviços + produtos</small></div></article>
+      </div>
+    </section>
+
+    <section class="owner-dashboard-insights">
+      <article class="owner-insight-card owner-next-card">
+        <div class="owner-insight-heading"><div class="owner-insight-icon"><i class="bi bi-clock-fill" aria-hidden="true"></i></div><div><span class="owner-panel-kicker">AGENDA</span><h3>Próximo atendimento</h3></div></div>
+        <div class="owner-next-content" id="dashboardNextAppointment"><div class="owner-insight-empty">Nenhum atendimento pendente para hoje.</div></div>
+      </article>
+      <article class="owner-insight-card owner-highlight-card">
+        <div class="owner-insight-heading"><div class="owner-insight-icon"><i class="bi bi-trophy-fill" aria-hidden="true"></i></div><div><span class="owner-panel-kicker">DESTAQUE DO MÊS</span><h3>Desempenho da equipe</h3></div></div>
+        <div class="owner-highlight-grid">
+          <div><span>Maior faturamento</span><strong id="dashboardTopBarber">—</strong><small id="dashboardTopBarberRevenue">Sem dados ainda</small></div>
+          <div><span>Comissão da equipe</span><strong id="dashboardCommission">R$ 0,00</strong><small>Total no mês</small></div>
+          <div><span>Ticket médio</span><strong id="dashboardAverageTicket">R$ 0,00</strong><small>Por atendimento</small></div>
+        </div>
+      </article>
+      <article class="owner-insight-card owner-stock-card owner-metric-nav" role="button" tabindex="0" data-owner-tab-target="products">
+        <div class="owner-insight-heading"><div class="owner-insight-icon"><i class="bi bi-box-seam-fill" aria-hidden="true"></i></div><div><span class="owner-panel-kicker">ESTOQUE</span><h3>Atenção aos produtos</h3></div></div>
+        <div class="owner-stock-dashboard"><strong id="dashboardLowStock">0</strong><span id="dashboardLowStockText">produto com estoque baixo</span></div>
+        <small class="owner-insight-action">Toque para abrir Produtos <i class="bi bi-arrow-right" aria-hidden="true"></i></small>
+      </article>
+    </section>
+  </div>
+
+  <section class="card owner-finance-panel owner-tab-panel hidden" id="financeiro" data-owner-panel="finance">
+    <div class="owner-list-head owner-finance-head">
+      <div>
+        <span class="owner-panel-kicker">FINANCEIRO</span>
+        <h2>Relatório financeiro</h2>
+        <p class="muted">Veja tudo o que foi faturado, quanto cada barbeiro ganhou e quanto ficou para a barbearia.</p>
+      </div>
+      <button class="btn btn-sm btn-outline" id="exportFinanceCsv" type="button">Baixar relatório CSV</button>
+    </div>
+
+    <form id="financeFilterForm" class="owner-finance-filters">
+      <div class="field">
+        <label>Data inicial</label>
+        <input class="input" id="financeFrom" type="date" required>
+      </div>
+      <div class="field">
+        <label>Data final</label>
+        <input class="input" id="financeTo" type="date" required>
+      </div>
+      <div class="field">
+        <label>Barbeiro</label>
+        <select class="input" id="financeBarber"><option value="">Todos os barbeiros</option></select>
+      </div>
+      <button class="btn owner-finance-apply" type="submit">Aplicar filtro</button>
+      <div class="owner-finance-presets" aria-label="Períodos rápidos">
+        <button class="btn btn-sm btn-outline" type="button" data-finance-period="today">Hoje</button>
+        <button class="btn btn-sm btn-outline" type="button" data-finance-period="month">Este mês</button>
+        <button class="btn btn-sm btn-outline" type="button" data-finance-period="last-month">Mês anterior</button>
+      </div>
+    </form>
+
+    <div id="financeSetupNotice" class="notice owner-finance-notice hidden"></div>
+
+    <div class="owner-finance-metrics">
+      <article class="owner-finance-metric">
+        <span>Faturamento total</span>
+        <strong id="financeGross">R$ 0,00</strong>
+        <small>Serviços + produtos</small>
+      </article>
+      <article class="owner-finance-metric">
+        <span>Serviços</span>
+        <strong id="financeServices">R$ 0,00</strong>
+        <small>Principal + adicionais</small>
+      </article>
+      <article class="owner-finance-metric">
+        <span>Produtos</span>
+        <strong id="financeProducts">R$ 0,00</strong>
+        <small>Produtos vendidos nas comandas</small>
+      </article>
+      <article class="owner-finance-metric">
+        <span>Comissão da equipe</span>
+        <strong id="financeCommission">R$ 0,00</strong>
+        <small>Calculada sobre serviços</small>
+      </article>
+      <article class="owner-finance-metric owner-finance-count-metric">
+        <span>Atendimentos/comandas</span>
+        <strong id="financeCount">0</strong>
+        <small>Movimentações faturadas</small>
+      </article>
+      <article class="owner-finance-metric owner-finance-metric-net">
+        <span>Líquido da barbearia</span>
+        <strong id="financeNet">R$ 0,00</strong>
+        <small>Faturamento menos comissões</small>
+      </article>
+    </div>
+
+    <div class="owner-finance-block">
+      <div class="owner-finance-block-head">
+        <div><strong>Ganhos por barbeiro</strong><small>Comissão individual e resultado da barbearia.</small></div>
+        <span class="owner-finance-rule">Comissão aplicada somente sobre serviços.</span>
+      </div>
+      <div class="table-wrap owner-table-wrap">
+        <table class="table owner-finance-table">
+          <thead><tr><th>Barbeiro</th><th>Atendimentos</th><th>Serviços</th><th>Produtos</th><th>Faturado</th><th>Comissão</th><th>Barbeiro ganhou</th><th>Barbearia ficou</th></tr></thead>
+          <tbody id="financeBarberRows"><tr><td colspan="8" class="empty">Carregando relatório...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="owner-finance-block">
+      <div class="owner-finance-block-head">
+        <div><strong>Movimentações detalhadas</strong><small>Confira cliente por cliente, serviços, produtos e divisão do valor.</small></div>
+        <strong id="financePeriodLabel" class="owner-finance-period-label"></strong>
+      </div>
+      <div class="table-wrap owner-table-wrap">
+        <table class="table owner-finance-table owner-finance-detail-table">
+          <thead><tr><th>Data</th><th>Comanda</th><th>Cliente</th><th>Barbeiro</th><th>Serviços</th><th>Produtos</th><th>Total</th><th>Barbeiro</th><th>Barbearia</th></tr></thead>
+          <tbody id="financeDetailRows"><tr><td colspan="9" class="empty">Carregando relatório...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="card owner-list-panel owner-tab-panel hidden" id="ownerServicesPanel" data-owner-panel="services">
+    <div class="owner-list-head">
+      <div>
+        <span class="owner-panel-kicker">CATÁLOGO</span>
+        <h2>Serviços</h2>
+        <p class="muted">Serviços cadastrados na sua barbearia.</p>
+      </div>
+      <button class="btn btn-sm" type="button" onclick="openNewService()">+ Novo serviço</button>
+    </div>
+    <div class="table-wrap owner-table-wrap">
+      <table class="table">
+        <thead><tr><th>Nome</th><th>Preço</th><th>Duração</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody id="serviceRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card owner-list-panel owner-tab-panel hidden" id="ownerProductsPanel" data-owner-panel="products">
+    <div class="owner-list-head">
+      <div>
+        <span class="owner-panel-kicker">VENDAS E ESTOQUE</span>
+        <h2>Produtos</h2>
+        <p class="muted">Cadastre produtos, acompanhe o saldo e controle entradas e saídas do estoque.</p>
+      </div>
+      <button class="btn btn-sm" type="button" onclick="openNewProduct()">+ Novo produto</button>
+    </div>
+    <div id="stockSetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para usar o controle de estoque, execute <strong>ATUALIZAR_BANCO_1.1.45.sql</strong> no Supabase.</div>
+    <div class="stock-summary-grid" aria-label="Resumo do estoque">
+      <div class="stock-summary-card"><span>Unidades em estoque</span><strong id="stockUnitsTotal">0</strong><small>Soma de todos os produtos</small></div>
+      <div class="stock-summary-card"><span>Estoque baixo</span><strong id="stockLowCount">0</strong><small>No mínimo ou abaixo dele</small></div>
+      <div class="stock-summary-card"><span>Valor em custo</span><strong id="stockCostValue">R$ 0,00</strong><small>Custo atual do estoque</small></div>
+      <div class="stock-summary-card"><span>Potencial de venda</span><strong id="stockSaleValue">R$ 0,00</strong><small>Valor se todo estoque for vendido</small></div>
+    </div>
+    <div class="table-wrap owner-table-wrap">
+      <table class="table">
+        <thead><tr><th>Produto</th><th>Custo</th><th>Venda</th><th>Lucro</th><th>Estoque</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody id="productRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card owner-list-panel owner-tab-panel hidden" id="ownerBarbersPanel" data-owner-panel="barbers">
+    <div class="owner-list-head">
+      <div>
+        <span class="owner-panel-kicker">EQUIPE</span>
+        <h2>Barbeiros</h2>
+        <p class="muted">Gerencie acessos, comissão e situação da equipe.</p>
+      </div>
+      <div class="owner-list-actions">
+        <button class="btn btn-sm" type="button" onclick="openNewBarber()">+ Novo barbeiro</button>
+      </div>
+    </div>
+    <div class="table-wrap owner-table-wrap">
+      <table class="table">
+        <thead><tr><th>Nome</th><th>Serviços</th><th>Comissão</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody id="barberRows"></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<dialog id="settingsDialog" class="app-dialog tenant-form-dialog owner-form-dialog">
+  <form id="settingsForm" class="stack" method="dialog">
+    <div class="dialog-heading">
+      <div><div class="dialog-kicker">BARBEARIA</div><h2>Configurações</h2><p class="muted">Atualize os dados principais da sua barbearia.</p></div>
+      <button type="button" class="dialog-close" onclick="closeOwnerDialog('settingsDialog')" aria-label="Fechar">×</button>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title"><span>1</span><div><strong>Informações principais</strong><small>Nome e WhatsApp de atendimento</small></div></div>
+      <div class="field"><label>Nome da barbearia</label><input class="input" id="tenantNameInput"></div>
+      <div class="field"><label>WhatsApp</label><input class="input" id="whatsappInput"></div>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title"><span>2</span><div><strong>Horário de funcionamento</strong><small>Configuração usada nos agendamentos</small></div></div>
+      <div class="field"><label>Horário de funcionamento (JSON)</label><textarea class="textarea owner-hours-input" id="operatingHoursInput"></textarea><div class="small muted">Dias 1=segunda até 7=domingo.</div></div>
+    </div>
+    <div class="form-actions dialog-actions-sticky"><button type="button" class="btn btn-outline" onclick="closeOwnerDialog('settingsDialog')">Cancelar</button><button class="btn" type="submit">Salvar alterações</button></div>
+  </form>
+</dialog>
+
+<dialog id="serviceDialog" class="app-dialog tenant-form-dialog owner-form-dialog owner-small-dialog">
+  <form id="serviceForm" class="stack" method="dialog">
+    <div class="dialog-heading">
+      <div><div class="dialog-kicker">SERVIÇOS</div><h2 id="serviceDialogTitle">Novo serviço</h2><p class="muted" id="serviceDialogDescription">Cadastre um serviço para disponibilizar aos clientes.</p></div>
+      <button type="button" class="dialog-close" onclick="closeOwnerDialog('serviceDialog')" aria-label="Fechar">×</button>
+    </div>
+    <div class="form-section">
+      <input type="hidden" id="serviceId" name="serviceId">
+      <div class="field"><label>Nome</label><input class="input" id="serviceName" name="name" required maxlength="120"></div>
+      <div class="form-grid"><div class="field"><label>Preço R$</label><input class="input" id="servicePrice" name="price" type="number" step="0.01" min="0" required></div><div class="field"><label>Duração</label><input class="input" id="serviceDuration" name="duration" type="number" min="5" max="720" value="30" required></div></div>
+      <label class="check-row hidden" id="serviceActiveRow"><input type="checkbox" id="serviceActive" name="active" checked><span>Serviço ativo</span></label>
+    </div>
+    <div class="form-actions dialog-actions-sticky"><button type="button" class="btn btn-outline" onclick="closeOwnerDialog('serviceDialog')">Cancelar</button><button class="btn" id="saveServiceButton" type="submit">Criar serviço</button></div>
+  </form>
+</dialog>
+
+<dialog id="barberDialog" class="app-dialog tenant-form-dialog owner-form-dialog">
+  <form id="barberForm" class="stack" method="dialog">
+    <div class="dialog-heading">
+      <div><div class="dialog-kicker">EQUIPE</div><h2>Novo barbeiro</h2><p class="muted">Crie o acesso de um novo profissional.</p></div>
+      <button type="button" class="dialog-close" onclick="closeOwnerDialog('barberDialog')" aria-label="Fechar">×</button>
+    </div>
+    <div class="form-section">
+      <div class="field"><label>Nome</label><input class="input" name="fullName" required autocomplete="name"></div>
+      <div class="field"><label>E-mail</label><input class="input" name="email" type="email" required autocomplete="email"></div>
+      <div class="field"><label>Comissão %</label><input class="input" name="commission" type="number" min="0" max="100" step="0.01" value="0"></div>
+      <div class="field">
+        <label>Serviços que realiza</label>
+        <div id="barberServicePicker" class="service-picker"></div>
+        <div class="small muted">Selecione um ou vários serviços. O barbeiro só aparecerá no agendamento dos serviços marcados.</div>
+      </div>
+      <div class="form-grid"><div class="field"><label>Senha</label><input class="input" name="password" type="password" minlength="6" required autocomplete="new-password"></div><div class="field"><label>Confirmar senha</label><input class="input" name="passwordConfirm" type="password" minlength="6" required autocomplete="new-password"></div></div>
+      <div class="small muted">A senha deve ter pelo menos 6 caracteres. O barbeiro poderá entrar imediatamente após o cadastro.</div>
+    </div>
+    <div class="form-actions dialog-actions-sticky"><button type="button" class="btn btn-outline" onclick="closeOwnerDialog('barberDialog')">Cancelar</button><button class="btn" type="submit" id="createBarberBtn">Criar barbeiro</button></div>
+  </form>
+</dialog>
+
+
+
+<dialog id="productDialog" class="app-dialog tenant-form-dialog owner-form-dialog owner-small-dialog">
+  <form id="productForm" class="stack" method="dialog">
+    <div class="dialog-heading">
+      <div><div class="dialog-kicker">PRODUTOS</div><h2 id="productDialogTitle">Novo produto</h2><p class="muted">Cadastre os itens que poderão ser lançados nas comandas.</p></div>
+      <button type="button" class="dialog-close" onclick="closeOwnerDialog('productDialog')" aria-label="Fechar">×</button>
+    </div>
+    <div class="form-section">
+      <input type="hidden" id="productId" name="productId">
+      <div class="field"><label>Nome do produto</label><input class="input" id="productName" name="name" required maxlength="100" placeholder="Ex.: Pomada modeladora"></div>
+      <div class="form-grid">
+        <div class="field"><label>Valor de custo R$</label><input class="input" id="productCost" name="cost" type="number" step="0.01" min="0" required placeholder="0,00"></div>
+        <div class="field"><label>Preço de venda R$</label><input class="input" id="productPrice" name="price" type="number" step="0.01" min="0" required placeholder="0,00"></div>
+      </div>
+      <div class="form-grid">
+        <div class="field" id="productInitialStockField"><label>Estoque inicial</label><input class="input" id="productInitialStock" name="initialStock" type="number" step="1" min="0" value="0" required><div class="small muted">Quantidade disponível ao cadastrar.</div></div>
+        <div class="field"><label>Estoque mínimo</label><input class="input" id="productMinStock" name="minStock" type="number" step="1" min="0" value="0" required><div class="small muted">O sistema avisa quando chegar nesse limite.</div></div>
+      </div>
+      <div class="stock-current-box hidden" id="productCurrentStockBox"><span>Estoque atual</span><strong id="productCurrentStock">0 unidades</strong><small>Use “Movimentar estoque” na lista para alterar o saldo.</small></div>
+      <label class="check-row" id="productActiveRow"><input type="checkbox" id="productActive" checked><span>Produto ativo</span></label>
+    </div>
+    <div class="form-actions dialog-actions-sticky"><button type="button" class="btn btn-outline" onclick="closeOwnerDialog('productDialog')">Cancelar</button><button class="btn" id="saveProductButton" type="submit">Salvar produto</button></div>
+  </form>
+</dialog>
+
+
+<dialog id="stockDialog" class="app-dialog tenant-form-dialog owner-form-dialog owner-small-dialog">
+  <form id="stockForm" class="stack" method="dialog">
+    <div class="dialog-heading">
+      <div><div class="dialog-kicker">CONTROLE DE ESTOQUE</div><h2 id="stockDialogTitle">Movimentar estoque</h2><p class="muted" id="stockDialogMeta">-</p></div>
+      <button type="button" class="dialog-close" onclick="closeOwnerDialog('stockDialog')" aria-label="Fechar">×</button>
+    </div>
+    <div class="stock-balance-box"><span>Saldo atual</span><strong id="stockCurrentBalance">0</strong><small id="stockMinimumLabel">Estoque mínimo: 0</small></div>
+    <div class="form-section">
+      <input type="hidden" id="stockProductId">
+      <div class="field"><label>Movimentação</label><select class="select" id="stockOperation" required><option value="in">Entrada no estoque</option><option value="out">Saída / perda</option><option value="set">Ajustar saldo atual</option></select></div>
+      <div class="field"><label id="stockQuantityLabel">Quantidade</label><input class="input" id="stockQuantity" type="number" step="1" min="1" value="1" required></div>
+      <div class="field"><label>Motivo / observação</label><input class="input" id="stockNote" maxlength="180" placeholder="Ex.: Compra do fornecedor, produto danificado..."></div>
+    </div>
+    <div class="stock-history-block">
+      <div class="stock-history-head"><strong>Últimas movimentações</strong><small>Entradas, saídas e vendas</small></div>
+      <div id="stockMovementList" class="stock-movement-list"><div class="empty">Nenhuma movimentação registrada.</div></div>
+    </div>
+    <div class="form-actions dialog-actions-sticky"><button type="button" class="btn btn-outline" onclick="closeOwnerDialog('stockDialog')">Cancelar</button><button class="btn" id="saveStockButton" type="submit">Salvar movimentação</button></div>
+  </form>
+</dialog>
+
+<dialog id="editBarberDialog" class="app-dialog tenant-form-dialog owner-form-dialog">
+  <form id="editBarberForm" class="stack" method="dialog">
+    <div class="dialog-heading">
+      <div><div class="dialog-kicker">EQUIPE</div><h2>Editar barbeiro</h2><p class="muted">Altere os dados de acesso e comissão.</p></div>
+      <button type="button" class="dialog-close" id="closeEditBarber" aria-label="Fechar">×</button>
+    </div>
+    <div class="form-section">
+      <input type="hidden" name="barberId" id="editBarberId">
+      <div class="field"><label>Nome</label><input class="input" name="fullName" id="editBarberName" required autocomplete="name"></div>
+      <div class="field"><label>E-mail</label><input class="input" name="email" id="editBarberEmail" type="email" required autocomplete="email"></div>
+      <div class="field"><label>Comissão %</label><input class="input" name="commission" id="editBarberCommission" type="number" min="0" max="100" step="0.01" required></div>
+      <div class="field">
+        <label>Serviços que realiza</label>
+        <div id="editBarberServicePicker" class="service-picker"></div>
+        <div class="small muted">Marque para vincular e desmarque para remover. As alterações são aplicadas ao salvar.</div>
+      </div>
+      <label class="check-row"><input type="checkbox" id="editBarberActive" name="active"><span>Barbeiro ativo</span></label>
+    </div>
+    <div class="form-section">
+      <div class="form-section-title"><span>🔒</span><div><strong>Alterar senha</strong><small>Opcional</small></div></div>
+      <div class="field"><label>Nova senha <span class="muted">(opcional)</span></label><input class="input" name="password" id="editBarberPassword" type="password" minlength="6" autocomplete="new-password" placeholder="Deixe vazio para manter a atual"></div>
+      <div class="field"><label>Confirmar nova senha</label><input class="input" name="passwordConfirm" id="editBarberPasswordConfirm" type="password" minlength="6" autocomplete="new-password" placeholder="Repita somente se alterar a senha"></div>
+    </div>
+    <div class="form-actions dialog-actions-sticky"><button type="button" class="btn btn-outline" id="cancelEditBarber">Cancelar</button><button type="submit" class="btn" id="saveEditBarber">Salvar alterações</button></div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=1.1.56"></script>
+<script src="js/supabase-client.js?v=1.1.56"></script>
+<script src="js/common.js?v=1.1.56"></script>
+<script src="js/admin.js?v=1.1.56"></script>
+<script src="js/pwa.js?v=1.1.56"></script>
+</body>
+</html>

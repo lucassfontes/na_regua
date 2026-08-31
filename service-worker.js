@@ -1,0 +1,7 @@
+const CACHE='na-regua-v1.1.56';
+const STATIC=['./','./index.html','./login.html','./super-admin.html','./admin.html','./barber.html','./agendar.html','./assinatura-vencida.html','./agendamentos-indisponiveis.html','./css/app.css','./js/config.js','./js/supabase-client.js','./js/common.js','./js/login.js','./js/super-admin.js','./js/admin.js','./js/barber.js','./js/booking.js','./js/pwa.js','./manifest.json','./icons/icon-192.png','./icons/icon-512.png'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(STATIC)).then(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;const u=new URL(e.request.url);if(u.hostname.includes('supabase.co'))return;e.respondWith(fetch(e.request).then(r=>{const copy=r.clone();caches.open(CACHE).then(c=>c.put(e.request,copy));return r}).catch(()=>caches.match(e.request).then(r=>r||caches.match('./login.html'))))});
+self.addEventListener('push',e=>{let data={title:'Na-Regua',body:'Você tem uma nova notificação.'};try{data={...data,...e.data.json()}}catch{}e.waitUntil(self.registration.showNotification(data.title,{body:data.body,icon:'./icons/icon-192.png',badge:'./icons/icon-192.png',data:data.data||{}}))});
+self.addEventListener('notificationclick',e=>{e.notification.close();const url=e.notification.data?.url||'./barber.html';e.waitUntil(clients.openWindow(url))});

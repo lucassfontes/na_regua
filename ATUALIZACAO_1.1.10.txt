@@ -1,0 +1,10 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.10
+
+- Botão Excluir no ADM Geral para cada barbearia.
+- Confirmação obrigatória digitando EXCLUIR.
+- Exclui painel do dono e toda sua hierarquia (dono, barbeiros, serviços, vínculos, folgas, agendamentos, notificações e dados do tenant).
+- Remove também os acessos do Supabase Auth da hierarquia.
+- Novo ícone aplicado ao PWA/favicon.
+- Cache PWA atualizado.
+
+IMPORTANTE: republicar a Edge Function admin-actions desta versão no Supabase.

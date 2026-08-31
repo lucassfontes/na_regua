@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Arquivos e pastas reais continuam funcionando normalmente.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Opcional: /barbearia-x -> /agendar.html?slug=barbearia-x
+RewriteRule ^([a-z0-9]+(?:-[a-z0-9]+)*)/?$ agendar.html?slug=$1 [L,QSA]

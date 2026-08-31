@@ -1,0 +1,10 @@
+NA RÉGUA — VERSÃO 1.1.43
+
+MELHORIAS MOBILE DO PAINEL DO DONO
+
+- Cards da Visão geral em layout 2x2 no celular.
+- Cards mais compactos, com melhor espaçamento, tipografia e toque.
+- Financeiro otimizado para telas pequenas.
+- Serviços, Produtos e Barbeiros passam de tabela larga para cards responsivos no mobile.
+- Botões de edição ocupam a largura correta no celular.
+- Nenhuma alteração de banco ou Edge Function é necessária.

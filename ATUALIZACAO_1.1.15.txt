@@ -1,0 +1,8 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.21
+
+- Removido o campo “Nome do link” da criação de barbearia.
+- Removido o campo “Nome do link” do modal Editar.
+- O link/slug continua sendo gerado automaticamente pelo nome da barbearia.
+- Ao alterar o nome da barbearia, o sistema atualiza o slug automaticamente ao salvar.
+- A lista continua mostrando o link público apenas para consulta.
+- Cache PWA atualizado para 1.1.21.

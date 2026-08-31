@@ -1,0 +1,7 @@
+Versão 1.1.8
+- Corrigido Link público para sempre usar o slug da barbearia atual.
+- Botão Acessar agora abre diretamente a URL gerada pelo sistema.
+- Slug da barbearia atual salvo como fallback local no painel do dono.
+- Página de agendamento recupera o slug salvo quando a URL perde o parâmetro.
+- Mensagem de link incompleto melhorada.
+- Cache PWA atualizado para 1.1.8.

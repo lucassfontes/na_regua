@@ -1,0 +1,9 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.14
+
+- Slug automático pelo nome da barbearia.
+- O campo slug não precisa mais ser digitado manualmente.
+- Espaços, acentos e caracteres especiais são convertidos para formato de URL.
+- Exemplo: Na Régua Barbearia -> na-regua-barbearia.
+- Ao editar o nome, o slug é atualizado automaticamente no modal.
+- A criação de nova barbearia também usa a mesma regra.
+- Cache PWA atualizado para 1.1.14.

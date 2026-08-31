@@ -1,0 +1,12 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.28
+
+- Vinculação de serviço voltou ao formato anterior, direto no painel do dono.
+- Cadastro e edição de produtos no painel do dono.
+- Novo módulo de comandas no painel do barbeiro.
+- Comanda com numeração automática, cliente opcional, produtos, quantidade, total e finalização.
+- Nova migration: supabase/migrations/004_products_commands.sql.
+- Cache PWA atualizado para 1.1.28.
+
+IMPORTANTE:
+Execute a migration 004_products_commands.sql no SQL Editor do Supabase para ativar Produtos e Comandas.
+Não precisa atualizar a Edge Function nesta versão.

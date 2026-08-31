@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#18181b">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.56">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.56">
+  <link rel="manifest" href="manifest.json?v=1.1.56">
+  <link rel="stylesheet" href="css/app.css?v=1.1.56">
+  <title>Painel do Barbeiro • Na Régua</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand"><img class="brand-logo" src="icons/icon-192.png?v=1.1.56" alt="Na Régua"><div class="brand-copy"><strong>Minha agenda</strong><span id="barberName"></span></div></div>
+    <div class="nav-actions owner-nav-actions">
+      <div class="owner-user-menu-wrap">
+        <button id="barberUserMenuButton" class="owner-user-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="barberUserMenu">
+          <span class="owner-user-avatar" id="barberUserAvatar">B</span>
+          <span class="owner-user-trigger-copy"><strong id="barberMenuTriggerName">Barbeiro</strong><small>Minha conta</small></span>
+          <span class="owner-user-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div id="barberUserMenu" class="owner-user-dropdown hidden" role="menu" aria-label="Menu do usuário">
+          <div class="owner-user-menu-head">
+            <span class="owner-user-avatar owner-user-avatar-lg" id="barberMenuAvatar">B</span>
+            <div><strong id="barberMenuName">Barbeiro</strong><small>Painel do barbeiro</small></div>
+          </div>
+          <div class="owner-user-menu-section">
+            <button class="owner-user-menu-item" type="button" data-barber-menu-action="refresh" role="menuitem">
+              <span class="owner-menu-item-icon">↻</span>
+              <span><strong>Atualizar agenda</strong><small>Buscar os dados mais recentes</small></span>
+            </button>
+            <button class="owner-user-menu-item" type="button" data-barber-menu-action="open-public" role="menuitem">
+              <span class="owner-menu-item-icon">↗</span>
+              <span><strong>Abrir minha agenda</strong><small>Visualizar seu link de agendamento</small></span>
+            </button>
+            <button class="owner-user-menu-item" type="button" data-barber-menu-action="copy-public" role="menuitem">
+              <span class="owner-menu-item-icon">🔗</span>
+              <span><strong>Copiar link da agenda</strong><small>Compartilhar com seus clientes</small></span>
+            </button>
+            <button id="installApp" class="owner-user-menu-item hidden" type="button" role="menuitem">
+              <span class="owner-menu-item-icon">↓</span>
+              <span><strong>Instalar aplicativo</strong><small>Adicionar neste aparelho</small></span>
+            </button>
+          </div>
+          <div class="owner-user-menu-section owner-user-menu-footer">
+            <button class="owner-user-menu-item owner-user-menu-signout" type="button" data-barber-menu-action="signout" role="menuitem">
+              <span class="owner-menu-item-icon">↪</span>
+              <span><strong>Sair da conta</strong><small>Encerrar esta sessão</small></span>
+            </button>
+            <div class="owner-user-version" aria-label="Versão do sistema"><span>Versão do sistema</span><strong>1.1.56</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container page barber-dashboard-page">
+  <div class="hero barber-hero"><div><div class="eyebrow">PAINEL DO BARBEIRO</div><h1>Agenda de hoje</h1><p>Atendimentos, comissões e comandas.</p></div></div>
+
+  <section class="grid grid-4 barber-metrics">
+    <div class="card"><div class="muted small">Comissão hoje</div><div class="metric" id="commissionToday">R$ 0,00</div></div>
+    <div class="card"><div class="muted small">Comissão no mês</div><div class="metric" id="commissionMonth">R$ 0,00</div></div>
+    <div class="card"><div class="muted small">Agendamentos hoje</div><div class="metric" id="todayCount">0</div></div>
+    <div class="card"><div class="muted small">Comandas abertas</div><div class="metric" id="openCommandCount">0</div></div>
+  </section>
+
+  <section class="card barber-schedule-panel barber-client-agenda-panel">
+    <div class="row between barber-client-agenda-head">
+      <div><span class="owner-panel-kicker">MINHA AGENDA</span><h2>Clientes de hoje</h2><p class="muted">Cada cliente agendado já possui acesso direto à própria comanda.</p></div>
+      <button class="btn btn-sm btn-outline" onclick="loadBarber()">Atualizar</button>
+    </div>
+    <div id="commandSetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para usar as comandas, aplique as atualizações do banco até a versão <strong>1.1.34</strong>.</div>
+    <div id="appointmentRows" class="barber-client-agenda"><div class="empty">Carregando agenda...</div></div>
+  </section>
+</main>
+
+<dialog id="commandDialog" class="app-dialog command-dialog">
+  <div class="dialog-heading command-dialog-heading">
+    <div><div class="dialog-kicker">COMANDA ABERTA</div><h2 id="commandTitle">Comanda</h2><p class="muted" id="commandMeta">-</p></div>
+    <button type="button" class="dialog-close" onclick="closeBarberDialog('commandDialog')" aria-label="Fechar">×</button>
+  </div>
+
+  <div id="commandServiceSummary" class="command-service-summary"></div>
+
+  <div id="extraServiceSetupNotice" class="notice notice-warn hidden command-inline-notice">Para adicionar serviços extras, execute <strong>ATUALIZAR_BANCO_1.1.34.sql</strong> no Supabase.</div>
+
+  <section class="command-section command-extra-service-section">
+    <div class="command-section-head"><div><span>Serviços adicionais</span><strong>Adicionar outro serviço</strong></div><small>Somente serviços ativos vinculados a você.</small></div>
+    <form id="addServiceForm" class="command-add-service-form">
+      <div class="field"><label>Serviço</label><select id="commandService" class="select" required></select></div>
+      <button id="addServiceButton" class="btn command-add-button" type="submit">Adicionar serviço</button>
+    </form>
+    <div class="command-items-wrap command-extra-services-wrap">
+      <div id="commandExtraServices" class="command-items"><div class="empty">Nenhum serviço adicional.</div></div>
+    </div>
+  </section>
+
+  <section class="command-section command-products-section">
+    <div class="command-section-head"><div><span>Produtos</span><strong>Adicionar produto</strong></div><small>Somente produtos com estoque disponível.</small></div>
+    <div id="stockSetupNoticeBarber" class="notice notice-warn hidden" style="margin-bottom:10px">O controle de estoque ainda não foi atualizado. Execute <strong>ATUALIZAR_BANCO_1.1.45.sql</strong>.</div>
+    <form id="addProductForm" class="command-add-product-form">
+      <div class="field command-product-field"><label>Produto</label><select id="commandProduct" class="select" required></select></div>
+      <div class="field command-qty-field"><label>Qtd.</label><input id="commandQuantity" class="input" type="number" min="1" max="99" value="1" required></div>
+      <button class="btn command-add-button" type="submit">Adicionar produto</button>
+    </form>
+    <div class="command-items-wrap">
+      <div id="commandItems" class="command-items"><div class="empty">Nenhum produto adicionado.</div></div>
+    </div>
+  </section>
+
+  <div class="command-total-row"><span>Total da comanda</span><strong id="commandTotal">R$ 0,00</strong></div>
+  <div class="form-actions command-dialog-actions"><button class="btn" id="finishCommandButton" type="button">Fechar comanda</button></div>
+</dialog>
+
+<dialog id="reopenCommandDialog" class="app-dialog owner-dialog compact-dialog">
+  <div class="dialog-heading">
+    <div><div class="dialog-kicker">AUTORIZAÇÃO DO DONO</div><h2 id="reopenCommandTitle">Reabrir comanda</h2><p class="muted" id="reopenCommandMeta">-</p></div>
+    <button type="button" class="dialog-close" onclick="pendingReopenAppointmentId=null;closeBarberDialog('reopenCommandDialog')" aria-label="Fechar">×</button>
+  </div>
+  <div class="notice notice-warn command-inline-notice">Esta comanda já foi fechada. Para reabri-la, informe a senha do dono da barbearia.</div>
+  <form id="reopenCommandForm" class="stack" autocomplete="off">
+    <div class="field"><label for="ownerPasswordReopen">Senha do dono</label><input id="ownerPasswordReopen" class="input" type="password" autocomplete="current-password" required placeholder="Digite a senha do dono"></div>
+    <div class="form-actions"><button class="btn btn-outline" type="button" onclick="pendingReopenAppointmentId=null;closeBarberDialog('reopenCommandDialog')">Cancelar</button><button class="btn" id="confirmReopenCommandButton" type="submit">Autorizar e abrir</button></div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=1.1.56"></script>
+<script src="js/supabase-client.js?v=1.1.56"></script>
+<script src="js/common.js?v=1.1.56"></script>
+<script src="js/barber.js?v=1.1.56"></script>
+<script src="js/pwa.js?v=1.1.56"></script>
+</body>
+</html>

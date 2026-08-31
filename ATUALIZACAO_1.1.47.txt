@@ -1,0 +1,13 @@
+NA RÉGUA — VERSÃO 1.1.47
+
+INSTALAÇÃO DO APLICATIVO / PWA
+- O botão “Instalar aplicativo” agora também aparece no iPhone e iPad quando o sistema está aberto no navegador.
+- No iPhone/iPad, ao tocar em “Instalar aplicativo”, o sistema abre um modal com o passo a passo para adicionar o Na Régua à Tela de Início.
+- Se o navegador atual não mostrar a opção “Adicionar à Tela de Início”, o modal orienta abrir a página no Safari.
+- Quando o Na Régua estiver rodando como aplicativo instalado (modo standalone), o botão “Instalar aplicativo” é escondido automaticamente.
+- Android/Chrome/Edge continuam usando o prompt nativo de instalação quando disponível.
+- Depois de uma instalação confirmada pelo navegador, o botão também é ocultado automaticamente.
+
+BANCO / EDGE FUNCTION
+- Nenhuma alteração de banco necessária.
+- Nenhuma republicação de Edge Function necessária.

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#18181b">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.56">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.56">
+  <link rel="manifest" href="manifest.json?v=1.1.56">
+  <link rel="stylesheet" href="css/app.css?v=1.1.56">
+  <title>ADM Geral • Na Régua</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="container topbar-inner">
+    <div class="brand">
+      <img class="brand-logo" src="icons/icon-192.png?v=1.1.56" alt="Na Régua">
+      <div class="brand-copy"><strong>Na Régua</strong><span>ADM Geral</span></div>
+    </div>
+    <div class="nav-actions owner-nav-actions">
+      <div class="owner-user-menu-wrap">
+        <button id="superUserMenuButton" class="owner-user-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="superUserMenu">
+          <span class="owner-user-avatar" id="superUserAvatar">A</span>
+          <span class="owner-user-trigger-copy"><strong id="adminName">Administrador</strong><small>Minha conta</small></span>
+          <span class="owner-user-chevron" aria-hidden="true">⌄</span>
+        </button>
+        <div id="superUserMenu" class="owner-user-dropdown hidden" role="menu" aria-label="Menu do usuário">
+          <div class="owner-user-menu-head">
+            <span class="owner-user-avatar owner-user-avatar-lg" id="superMenuAvatar">A</span>
+            <div><strong id="superMenuName">Administrador</strong><small>ADM Geral</small></div>
+          </div>
+          <div class="owner-user-menu-section">
+            <button class="owner-user-menu-item" type="button" data-super-menu-action="refresh" role="menuitem">
+              <span class="owner-menu-item-icon">↻</span>
+              <span><strong>Atualizar painel</strong><small>Recarregar barbearias e indicadores</small></span>
+            </button>
+            <button id="installApp" class="owner-user-menu-item hidden" type="button" role="menuitem">
+              <span class="owner-menu-item-icon">↓</span>
+              <span><strong>Instalar aplicativo</strong><small>Adicionar neste aparelho</small></span>
+            </button>
+          </div>
+          <div class="owner-user-menu-section owner-user-menu-footer">
+            <button class="owner-user-menu-item owner-user-menu-signout" type="button" data-super-menu-action="signout" role="menuitem">
+              <span class="owner-menu-item-icon">↪</span>
+              <span><strong>Sair da conta</strong><small>Encerrar esta sessão</small></span>
+            </button>
+            <div class="owner-user-version" aria-label="Versão do sistema"><span>Versão do sistema</span><strong>1.1.56</strong></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="container page super-admin-page">
+  <section class="super-admin-hero">
+    <div>
+      <div class="eyebrow">ADMINISTRAÇÃO</div>
+      <h1>Painel geral</h1>
+      <p>Controle as barbearias, assinaturas e acessos em um só lugar.</p>
+    </div>
+    <button class="btn super-primary-action" type="button" onclick="openCreateTenantDialog()">+ Nova barbearia</button>
+  </section>
+
+  <section class="super-metrics">
+    <article class="metric-card metric-card-money">
+      <div class="metric-icon">R$</div>
+      <div><span class="metric-label">Receita mensal ativa</span><strong class="metric-value" id="mrr">R$ 0,00</strong><small>Somente planos ativos</small></div>
+    </article>
+    <article class="metric-card metric-card-active">
+      <div class="metric-icon">✓</div>
+      <div><span class="metric-label">Barbearias ativas</span><strong class="metric-value" id="activeCount">0</strong><small>Com acesso liberado</small></div>
+    </article>
+    <article class="metric-card metric-card-warning">
+      <div class="metric-icon">!</div>
+      <div><span class="metric-label">Vencem em 7 dias</span><strong class="metric-value" id="due7Count">0</strong><small>Precisam de atenção</small></div>
+    </article>
+    <article class="metric-card metric-card-danger">
+      <div class="metric-icon">×</div>
+      <div><span class="metric-label">Vencidas ou bloqueadas</span><strong class="metric-value" id="blockedCount">0</strong><small>Sem acesso normal</small></div>
+    </article>
+  </section>
+
+  <section class="card tenants-panel">
+    <div class="tenants-panel-head">
+      <div>
+        <h2>Barbearias</h2>
+        <p class="muted">Encontre uma barbearia e escolha a ação que deseja realizar.</p>
+      </div>
+      <button class="btn btn-sm btn-outline" type="button" onclick="loadTenants()">Atualizar</button>
+    </div>
+
+    <div class="tenant-toolbar">
+      <div class="tenant-search-wrap">
+        <span class="tenant-search-icon">⌕</span>
+        <input id="tenantSearch" class="input tenant-search" type="search" placeholder="Buscar por nome ou link..." autocomplete="off">
+      </div>
+      <select id="tenantStatusFilter" class="select tenant-filter" aria-label="Filtrar barbearias">
+        <option value="all">Todas</option>
+        <option value="active">Ativas</option>
+        <option value="due">Vencendo em 7 dias</option>
+        <option value="blocked">Vencidas ou bloqueadas</option>
+      </select>
+    </div>
+
+    <div id="tenantList" class="tenant-card-list"></div>
+    <div id="tenantEmpty" class="tenant-empty hidden">
+      <div class="tenant-empty-icon">✂</div>
+      <strong>Nenhuma barbearia encontrada</strong>
+      <span class="muted">Tente mudar a busca ou o filtro.</span>
+    </div>
+  </section>
+</main>
+
+<dialog id="createTenantDialog" class="app-dialog tenant-form-dialog">
+  <form id="createTenantForm" class="stack">
+    <div class="dialog-heading">
+      <div>
+        <span class="dialog-kicker">NOVO CADASTRO</span>
+        <h2>Nova barbearia</h2>
+        <p class="muted">Cadastre a barbearia, o dono e a assinatura.</p>
+      </div>
+      <button type="button" class="dialog-close" onclick="closeCreateTenantDialog()" aria-label="Fechar">×</button>
+    </div>
+
+    <section class="form-section">
+      <div class="form-section-title"><span>1</span><div><strong>Barbearia</strong><small>Identificação do estabelecimento</small></div></div>
+      <div class="field">
+        <label>Nome da barbearia</label>
+        <input class="input" name="name" required minlength="2" placeholder="Ex.: Barbearia Central">
+        <div class="small muted">O link de agendamento será criado automaticamente pelo nome.</div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-title"><span>2</span><div><strong>Acesso do dono</strong><small>Dados usados para entrar no painel</small></div></div>
+      <div class="edit-tenant-grid">
+        <div class="field"><label>Nome do dono</label><input class="input" name="ownerName" required minlength="2"></div>
+        <div class="field"><label>E-mail do dono</label><input class="input" name="ownerEmail" type="email" autocomplete="email" required></div>
+        <div class="field"><label>Senha</label><input class="input" name="ownerPassword" type="password" autocomplete="new-password" minlength="6" required></div>
+        <div class="field"><label>Confirmar senha</label><input class="input" name="ownerPasswordConfirm" type="password" autocomplete="new-password" minlength="6" required></div>
+      </div>
+      <div class="small muted">A senha precisa ter no mínimo 6 caracteres.</div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-title"><span>3</span><div><strong>Assinatura</strong><small>Vencimento e valor mensal</small></div></div>
+      <div class="edit-tenant-grid">
+        <div class="field"><label>Data de vencimento</label><input class="input" name="expiresDate" type="date" required></div>
+        <div class="field"><label>Mensalidade (R$)</label><input class="input" name="monthlyPrice" type="number" step="0.01" min="0" value="0" required></div>
+      </div>
+      <div class="small muted">O fuso horário é detectado automaticamente pelo aparelho do dono.</div>
+    </section>
+
+    <div class="form-actions dialog-actions-sticky">
+      <button type="button" class="btn btn-outline" onclick="closeCreateTenantDialog()">Cancelar</button>
+      <button id="createTenantBtn" class="btn" type="submit">Criar barbearia</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="editTenantDialog" class="app-dialog tenant-form-dialog edit-tenant-dialog">
+  <form id="editTenantForm" class="stack">
+    <div class="dialog-heading">
+      <div>
+        <span class="dialog-kicker">EDITAR CADASTRO</span>
+        <h2>Editar painel do dono</h2>
+        <p class="muted">Altere os dados principais sem mexer no restante da hierarquia.</p>
+      </div>
+      <button type="button" class="dialog-close" onclick="closeEditTenantDialog()" aria-label="Fechar">×</button>
+    </div>
+    <div id="editTenantLoading" class="notice notice-warn hidden">Carregando dados do dono...</div>
+
+    <section class="form-section">
+      <div class="form-section-title"><span>1</span><div><strong>Barbearia</strong><small>Nome exibido no sistema</small></div></div>
+      <div class="field"><label for="editTenantName">Nome da barbearia</label><input id="editTenantName" class="input" name="name" required minlength="2"></div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-title"><span>2</span><div><strong>Dono e acesso</strong><small>Identidade e login do responsável</small></div></div>
+      <div class="edit-tenant-grid">
+        <div class="field"><label for="editOwnerName">Nome do dono</label><input id="editOwnerName" class="input" name="ownerName" required minlength="2"></div>
+        <div class="field"><label for="editOwnerEmail">E-mail do dono</label><input id="editOwnerEmail" class="input" name="ownerEmail" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="editOwnerPassword">Nova senha</label><input id="editOwnerPassword" class="input" name="ownerPassword" type="password" autocomplete="new-password" minlength="6" placeholder="Deixe em branco para manter"></div>
+        <div class="field"><label for="editOwnerPasswordConfirm">Confirmar nova senha</label><input id="editOwnerPasswordConfirm" class="input" name="ownerPasswordConfirm" type="password" autocomplete="new-password" minlength="6" placeholder="Repita somente se alterar"></div>
+      </div>
+    </section>
+
+    <section class="form-section">
+      <div class="form-section-title"><span>3</span><div><strong>Assinatura</strong><small>Validade e cobrança</small></div></div>
+      <div class="edit-tenant-grid">
+        <div class="field"><label for="editTenantExpiry">Data de vencimento</label><input id="editTenantExpiry" class="input" name="expiresDate" type="date" required></div>
+        <div class="field"><label for="editTenantPrice">Mensalidade (R$)</label><input id="editTenantPrice" class="input" name="monthlyPrice" type="number" step="0.01" min="0" required></div>
+      </div>
+    </section>
+
+    <div class="form-actions dialog-actions-sticky">
+      <button type="button" class="btn btn-outline" onclick="closeEditTenantDialog()">Cancelar</button>
+      <button type="submit" id="saveTenantEditBtn" class="btn">Salvar alterações</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="deleteTenantDialog" class="app-dialog delete-tenant-dialog">
+  <div class="stack">
+    <div class="delete-danger-icon" aria-hidden="true">!</div>
+    <div>
+      <h2 style="margin:0 0 6px">Excluir painel do dono?</h2>
+      <p class="muted" style="margin:0">Você está prestes a excluir <strong id="deleteTenantName">esta barbearia</strong> e toda a hierarquia vinculada.</p>
+    </div>
+    <div class="notice notice-error">Esta ação remove permanentemente o dono, barbeiros, serviços, vínculos, indisponibilidades, agendamentos, assinaturas, notificações e o acesso público da barbearia.</div>
+    <div class="field"><label for="deleteTenantConfirmText">Digite <strong>EXCLUIR</strong> para confirmar</label><input id="deleteTenantConfirmText" class="input" autocomplete="off" spellcheck="false" placeholder="EXCLUIR"></div>
+    <div class="form-actions">
+      <button type="button" class="btn btn-outline" onclick="closeDeleteTenantDialog()">Cancelar</button>
+      <button type="button" id="confirmDeleteTenantBtn" class="btn btn-danger" onclick="confirmDeleteTenant()" disabled>Excluir tudo</button>
+    </div>
+  </div>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="js/config.js?v=1.1.56"></script>
+<script src="js/supabase-client.js?v=1.1.56"></script>
+<script src="js/common.js?v=1.1.56"></script>
+<script src="js/super-admin.js?v=1.1.56"></script>
+<script src="js/pwa.js?v=1.1.56"></script>
+</body>
+</html>

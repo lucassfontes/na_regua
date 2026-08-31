@@ -1,0 +1,8 @@
+NA RÉGUA — VERSÃO 1.1.21
+
+- O endereço público agora é gerado diretamente pelo nome da barbearia.
+- Espaços, acentos e caracteres especiais são removidos automaticamente.
+- Exemplo: "Berbe Shop" gera o link "berbeshop".
+- Ao abrir o ADM Geral, os links antigos são sincronizados automaticamente com o nome atual da barbearia.
+- O campo de link continua oculto no cadastro e na edição.
+- Cache PWA atualizado para 1.1.21.

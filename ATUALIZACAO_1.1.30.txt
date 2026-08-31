@@ -1,0 +1,10 @@
+NA RÉGUA — ATUALIZAÇÃO 1.1.31
+
+- Removido o botão/modal separado de “Vincular serviço”.
+- A vinculação agora faz parte do cadastro e da edição do barbeiro.
+- É possível marcar vários serviços de uma só vez ao criar o barbeiro.
+- Ao editar o barbeiro, é possível adicionar novos serviços ou desmarcar para remover vínculos existentes.
+- A lista de barbeiros agora mostra quais serviços cada profissional realiza.
+- Barbeiro sem serviço vinculado continua sem aparecer no agendamento público daquele serviço.
+- Não exige alteração no banco nem republicação da Edge Function.
+- Cache PWA atualizado para 1.1.31.
