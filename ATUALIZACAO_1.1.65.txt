@@ -1,0 +1,11 @@
+Na Régua — Atualização 1.1.65
+
+- Validação opcional do cliente por código enviado no WhatsApp dentro de "4. Seus dados".
+- O cliente pode reservar normalmente sem validar o WhatsApp.
+- Somente clientes com WhatsApp validado participam do programa de fidelidade.
+- QR de chegada continua disponível para reservas validadas ou não.
+- A validação da chegada só credita uma visita na fidelidade quando o WhatsApp estiver validado.
+- Histórico e cartão de fidelidade público são liberados apenas depois da validação por WhatsApp.
+- O painel do dono mostra na fidelidade somente clientes com WhatsApp validado.
+- Códigos OTP expiram em 10 minutos, possuem limite de tentativas e intervalo mínimo para reenvio.
+- O envio usa WhatsApp Cloud API através da nova Edge Function whatsapp-verification.

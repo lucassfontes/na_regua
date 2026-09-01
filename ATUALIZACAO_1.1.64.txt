@@ -1,0 +1,6 @@
+Na Régua — Atualização 1.1.65
+
+- Confirmação ao vivo do QR de chegada no celular do cliente.
+- Ao validar a chegada no painel do barbeiro, o modal do cliente exibe automaticamente “Chegada validada!”.
+- Histórico e fidelidade são atualizados junto com a confirmação.
+- Não requer SQL novo nem alteração de Edge Function.

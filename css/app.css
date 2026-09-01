@@ -7,6 +7,7 @@
 
 /* v1.1.6 - link público da barbearia com acessar/copiar */
 .app-dialog{width:min(520px,calc(100% - 24px));border:0;border-radius:18px;padding:20px;background:var(--card);color:var(--text);box-shadow:0 28px 80px rgba(0,0,0,.28)}
+.app-dialog:not([open]){display:none!important}
 .app-dialog::backdrop{background:rgba(9,9,11,.56);backdrop-filter:blur(3px)}
 .app-dialog h2{font-size:22px;letter-spacing:-.02em}
 .check-row{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700;cursor:pointer}.check-row input{width:18px;height:18px;accent-color:var(--accent)}
@@ -384,7 +385,7 @@ body.app-message-open{overflow:hidden}
 }
 
 
-/* Na Régua 1.1.60 — navegação móvel inferior no padrão VALLE, sem espaços vazios nas pontas */
+/* Na Régua 1.1.65 — navegação móvel inferior no padrão VALLE, sem espaços vazios nas pontas */
 @media(max-width:700px){
   .owner-admin-page{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
   .owner-section-tabs{
@@ -411,7 +412,7 @@ body.app-message-open{overflow:hidden}
 }
 
 
-/* Na Régua 1.1.60 — dashboard do dono mais completo e responsivo */
+/* Na Régua 1.1.65 — dashboard do dono mais completo e responsivo */
 .owner-dashboard{display:grid;gap:16px}
 .owner-dashboard-head{display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:2px 2px 0}
 .owner-dashboard-head h2{margin:3px 0 4px;font-size:24px;letter-spacing:-.025em}
@@ -500,18 +501,18 @@ body.app-message-open{overflow:hidden}
   .owner-highlight-grid>div small{grid-column:1/-1}
 }
 
-/* Na Régua 1.1.60 — fidelidade, histórico do cliente e QR de chegada */
+/* Na Régua 1.1.65 — fidelidade, histórico do cliente e QR de chegada */
 .booking-loyalty-banner{display:flex;align-items:center;gap:12px;margin:-6px 0 16px;padding:13px 15px;border:1px solid #fde68a;border-radius:16px;background:#fffbeb;color:#78350f;box-shadow:0 5px 18px rgba(120,53,15,.04)}
 .booking-loyalty-banner-icon{width:42px;height:42px;display:grid;place-items:center;flex:0 0 42px;border-radius:13px;background:#fef3c7;color:#a16207}.booking-loyalty-banner-icon .bi{font-size:20px}.booking-loyalty-banner>div:last-child{display:grid;gap:2px}.booking-loyalty-banner strong{font-size:14px}.booking-loyalty-banner span{font-size:12px;line-height:1.4}
 .client-portal-card{display:grid;gap:16px;margin-bottom:16px}.client-portal-head{display:flex;align-items:flex-end;justify-content:space-between;gap:14px}.client-portal-head h2{margin:3px 0 4px}.client-portal-head p{margin:0}
 .client-loyalty-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.client-loyalty-summary>div{display:grid;gap:3px;padding:13px;border:1px solid var(--line);border-radius:14px;background:#fafafa}.client-loyalty-summary span{font-size:10px;font-weight:900;color:var(--muted);text-transform:uppercase;letter-spacing:.045em}.client-loyalty-summary strong{font-size:22px;letter-spacing:-.03em}.client-loyalty-summary small{font-size:10px;color:var(--muted);line-height:1.35}
 .client-loyalty-stamps{display:flex;gap:8px;flex-wrap:wrap}.client-loyalty-stamp{width:38px;height:38px;display:grid;place-items:center;border:1px solid var(--line);border-radius:12px;background:#fff;color:#a1a1aa}.client-loyalty-stamp.is-filled{background:#18181b;color:#fff;border-color:#18181b}.client-loyalty-stamp .bi{font-size:16px}
 .client-history-head{display:grid;gap:2px;padding-top:3px}.client-history-head strong{font-size:15px}.client-history-head small{font-size:11px;color:var(--muted)}.client-history-list{display:grid;gap:9px}.client-history-item{display:grid;grid-template-columns:minmax(170px,.8fr) minmax(180px,1fr) auto;align-items:center;gap:12px;padding:12px;border:1px solid var(--line);border-radius:14px;background:#fff}.client-history-date,.client-history-main{display:grid;gap:4px;min-width:0}.client-history-date strong{font-size:12px}.client-history-date .badge{width:max-content}.client-history-main strong{font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.client-history-main span{font-size:11px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.client-history-actions{display:flex;justify-content:flex-end}.client-checkin-ok{display:inline-flex;align-items:center;gap:5px;color:#047857;font-size:11px;font-weight:800;white-space:nowrap}
-.booking-success-card{text-align:center}.booking-success-icon{font-size:52px}.booking-success-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:14px}.arrival-pass{display:grid;justify-items:center;gap:13px;margin:18px auto 0;padding:16px;border:1px solid var(--line);border-radius:17px;background:#fafafa;max-width:430px}.arrival-pass h3{margin:3px 0 4px}.arrival-pass p{margin:0}.arrival-qr-box{width:230px;min-height:230px;display:grid;place-items:center;padding:10px;border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}.arrival-qr-box canvas{display:block!important;margin:auto!important;max-width:100%;height:auto!important}.arrival-qr-box img{display:none!important}.arrival-code-row{display:flex;align-items:center;justify-content:space-between;gap:18px;width:min(100%,300px);padding:10px 12px;border:1px dashed #a1a1aa;border-radius:12px;background:#fff}.arrival-code-row span{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em}.arrival-code-row strong{font-size:17px;letter-spacing:.08em}.arrival-qr-dialog{width:min(440px,calc(100% - 24px))}.arrival-qr-dialog[open]{display:grid;justify-items:center;gap:14px}.arrival-qr-dialog .dialog-heading{width:100%}.arrival-qr-dialog .notice{width:100%}
+.booking-success-dialog{width:min(500px,calc(100% - 24px));max-height:92vh;overflow:auto;padding:0}.booking-success-heading{position:sticky;top:0}.booking-success-content{text-align:center;padding:18px 20px 20px}.booking-success-icon{width:62px;height:62px;margin:0 auto 10px;border-radius:999px;display:grid;place-items:center;background:var(--ok-bg);color:var(--ok);font-size:38px;font-weight:900}.booking-success-actions{display:flex;justify-content:center;gap:9px;flex-wrap:wrap;margin-top:16px}.arrival-pass{display:grid;justify-items:center;gap:13px;margin:18px auto 0;padding:16px;border:1px solid var(--line);border-radius:17px;background:#fafafa;max-width:430px}.arrival-pass h3{margin:3px 0 4px}.arrival-pass p{margin:0}.arrival-qr-box{width:230px;min-height:230px;display:grid;place-items:center;padding:10px;border:1px solid var(--line);border-radius:18px;background:#fff;overflow:hidden}.arrival-qr-box canvas{display:block!important;margin:auto!important;max-width:100%;height:auto!important}.arrival-qr-box img{display:none!important}.arrival-code-row{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(100%,360px);padding:10px 12px;border:1px dashed #a1a1aa;border-radius:12px;background:#fff}.arrival-code-value{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px}.arrival-code-value span{font-size:10px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.04em}.arrival-code-value strong{font-size:17px;letter-spacing:.08em;overflow-wrap:anywhere}.arrival-copy-btn{flex:0 0 auto;min-height:36px;padding:7px 10px}.arrival-copy-btn i{font-size:14px}.arrival-qr-dialog{width:min(440px,calc(100% - 24px))}.arrival-qr-dialog[open]{display:grid;justify-items:center;gap:14px}.arrival-qr-dialog .dialog-heading{width:100%}.arrival-qr-dialog .notice{width:100%}
 
 .owner-loyalty-panel{display:grid;gap:16px}.loyalty-settings-card{display:grid;gap:14px;padding:15px;border:1px solid var(--line);border-radius:16px;background:#fafafa}.loyalty-enable-row{display:flex;align-items:flex-start;gap:10px;cursor:pointer}.loyalty-enable-row input{width:19px;height:19px;margin-top:2px;accent-color:#18181b}.loyalty-enable-row span{display:grid;gap:2px}.loyalty-enable-row strong{font-size:14px}.loyalty-enable-row small{font-size:11px;color:var(--muted);line-height:1.4}.loyalty-settings-fields{display:grid;grid-template-columns:minmax(130px,.55fr) minmax(220px,1.25fr) auto;gap:10px;align-items:end}.loyalty-save-button{min-height:44px}.loyalty-summary-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.loyalty-summary-grid>article{display:grid;gap:3px;padding:14px;border:1px solid var(--line);border-radius:15px;background:#fff}.loyalty-summary-grid span{font-size:10px;color:var(--muted);font-weight:900;text-transform:uppercase;letter-spacing:.045em}.loyalty-summary-grid strong{font-size:24px;letter-spacing:-.035em}.loyalty-summary-grid small{font-size:10px;color:var(--muted)}.loyalty-phone{display:block;margin-top:3px;color:var(--muted);font-size:10px}.loyalty-progress-cell{display:grid;gap:5px;min-width:120px}.loyalty-progress-cell>div:first-child{display:flex;justify-content:space-between;gap:8px;font-size:11px}.loyalty-progress-cell>div:first-child span{color:var(--muted)}.loyalty-progress-track{height:7px;border-radius:999px;background:#e4e4e7;overflow:hidden}.loyalty-progress-track span{display:block;height:100%;border-radius:999px;background:#18181b}.loyalty-reward-pill{display:inline-grid;place-items:center;min-width:32px;height:27px;padding:0 9px;border-radius:999px;background:#f4f4f5;color:#71717a;font-size:12px;font-weight:900}.loyalty-reward-pill.is-ready{background:#ecfdf5;color:#047857}.loyalty-customer-table{min-width:880px}
 
-.barber-agenda-actions{display:flex;gap:8px;flex-wrap:wrap}.checkin-dialog{width:min(520px,calc(100% - 24px));display:grid;gap:14px}.checkin-reader{width:100%;min-height:250px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#111}.checkin-reader:empty{display:none}.checkin-reader video{border-radius:14px}.checkin-divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase}.checkin-divider::before,.checkin-divider::after{content:'';height:1px;flex:1;background:var(--line)}.checkin-manual-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}.checkin-code-input{text-transform:uppercase;letter-spacing:.08em;font-weight:800}.checkin-help{margin:0;text-align:center}
+.barber-agenda-actions{display:flex;gap:8px;flex-wrap:wrap}.checkin-dialog{width:min(520px,calc(100% - 24px));gap:14px}.checkin-dialog[open]{display:grid}.checkin-reader{width:100%;min-height:250px;border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#111}.checkin-reader:empty{display:none}.checkin-reader video{border-radius:14px}.checkin-divider{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:11px;font-weight:800;text-transform:uppercase}.checkin-divider::before,.checkin-divider::after{content:'';height:1px;flex:1;background:var(--line)}.checkin-manual-form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:end}.checkin-code-input{text-transform:uppercase;letter-spacing:.08em;font-weight:800}.checkin-help{margin:0;text-align:center}
 
 @media(max-width:700px){
   .client-portal-head{align-items:flex-start}.client-portal-head .btn{font-size:0;width:42px;height:42px;padding:0;flex:0 0 42px}.client-portal-head .btn .bi{font-size:17px}
@@ -528,7 +529,7 @@ body.app-message-open{overflow:hidden}
 }
 
 
-/* Na Régua 1.1.60 — leitor de QR responsivo e fallback de câmera mobile */
+/* Na Régua 1.1.65 — leitor de QR responsivo e fallback de câmera mobile */
 .checkin-camera-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .checkin-reader video{width:100%!important;height:auto!important;object-fit:cover}
 @media(max-width:520px){
@@ -536,4 +537,45 @@ body.app-message-open{overflow:hidden}
   .checkin-reader{min-height:230px}
   .checkin-camera-actions{grid-template-columns:1fr}
   .checkin-camera-actions .btn{width:100%;min-height:44px}
+}
+
+/* Na Régua 1.1.65 — confirmação do agendamento em modal */
+@media(max-width:520px){.booking-success-dialog{width:calc(100% - 16px);max-height:94vh;border-radius:16px}.booking-success-content{padding:15px}.booking-success-heading{padding-left:15px;padding-right:15px}.booking-success-actions{display:grid;grid-template-columns:1fr}.booking-success-actions .btn{width:100%}}
+
+/* Na Régua 1.1.65 — copiar código de chegada */
+@media(max-width:380px){.arrival-code-row{gap:8px}.arrival-copy-btn{padding:7px 9px;font-size:12px}}
+
+/* Na Régua 1.1.65 — confirmação ao vivo da chegada no modal do cliente */
+.checkin-live-status{width:min(100%,390px);display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:13px;text-align:left;border:1px solid var(--line);transition:background .18s ease,border-color .18s ease,color .18s ease}
+.checkin-live-status>div{display:grid;gap:2px;min-width:0}.checkin-live-status strong{font-size:13px}.checkin-live-status span:not(.checkin-live-pulse){font-size:11px;line-height:1.4}
+.checkin-live-status.is-waiting{background:#fafafa;color:var(--muted)}
+.checkin-live-status.is-validated{background:var(--ok-bg);border-color:#86efac;color:#047857}
+.checkin-live-status.is-validated>i{font-size:20px;line-height:1;margin-top:1px}
+.checkin-live-pulse{width:11px;height:11px;flex:0 0 11px;margin-top:4px;border-radius:999px;background:#a1a1aa;box-shadow:0 0 0 0 rgba(161,161,170,.35);animation:checkinLivePulse 1.4s ease-out infinite}
+@keyframes checkinLivePulse{0%{box-shadow:0 0 0 0 rgba(161,161,170,.42)}70%{box-shadow:0 0 0 8px rgba(161,161,170,0)}100%{box-shadow:0 0 0 0 rgba(161,161,170,0)}}
+@media(max-width:520px){.checkin-live-status{width:100%;padding:10px 11px}}
+
+/* Na Régua 1.1.67 — validação de e-mail para adesão à fidelidade */
+.email-verification-box{display:grid;gap:12px;padding:14px;border:1px solid #bbf7d0;border-radius:16px;background:#f0fdf4}
+.email-verification-head{display:flex;align-items:flex-start;gap:11px}
+.email-verification-icon{width:40px;height:40px;display:grid;place-items:center;flex:0 0 40px;border-radius:13px;background:#dcfce7;color:#15803d}
+.email-verification-icon .bi{font-size:20px}
+.email-verification-head>div:last-child{display:grid;gap:3px}
+.email-verification-head strong{font-size:13px;line-height:1.35}
+.email-verification-head span{font-size:11px;line-height:1.45;color:#4b5563}
+.email-verification-status{display:flex;align-items:center;gap:8px;min-height:38px;padding:9px 11px;border-radius:12px;font-size:11px;font-weight:800;background:#fff;border:1px solid #e4e4e7;color:#52525b}
+.email-verification-status .bi{font-size:15px}
+.email-verification-status.is-sent{border-color:#bfdbfe;background:#eff6ff;color:#1d4ed8}
+.email-verification-status.is-verified{border-color:#86efac;background:#dcfce7;color:#166534}
+.email-verification-status.is-error{border-color:#fecaca;background:#fef2f2;color:#b91c1c}
+.email-verification-actions{display:flex;gap:8px;flex-wrap:wrap}
+.email-verification-actions .btn{min-height:40px}
+.email-code-area{display:grid;gap:10px;padding-top:2px}
+.email-code-input{font-size:20px;font-weight:900;letter-spacing:.22em;text-align:center;font-variant-numeric:tabular-nums}
+.email-code-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#successLoyaltyEligibility{margin-top:10px}
+@media(max-width:520px){
+  .email-verification-box{padding:12px;border-radius:14px}
+  .email-verification-actions .btn{width:100%}
+  .email-code-actions{grid-template-columns:1fr}
 }

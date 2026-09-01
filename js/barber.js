@@ -519,9 +519,12 @@ async function closeCheckinScannerDialog(){
 function checkinResultMessage(data){
   const name=data?.customer_name||'Cliente';
   if(!data?.loyalty_enabled)return `Chegada de ${name} validada com sucesso.`;
+  if(data?.email_verified===false)return `Chegada de ${name} validada com sucesso. O e-mail do cliente ainda não foi validado, então esta visita não entrou na fidelidade.`;
   const base=`Chegada de ${name} validada. Fidelidade: ${Number(data.visits_balance||0)}/${Number(data.visits_required||0)}.`;
-  if(Number(data.reward_earned||0)>0)return `${base}\n🎁 Nova recompensa liberada: ${data.reward_name}.`;
-  if(Number(data.rewards_available||0)>0)return `${base}\nO cliente possui ${Number(data.rewards_available)} recompensa(s) disponível(is).`;
+  if(Number(data.reward_earned||0)>0)return `${base}
+🎁 Nova recompensa liberada: ${data.reward_name}.`;
+  if(Number(data.rewards_available||0)>0)return `${base}
+O cliente possui ${Number(data.rewards_available)} recompensa(s) disponível(is).`;
   return base;
 }
 async function validateCheckinCode(raw){
@@ -624,6 +627,9 @@ async function loadBarber(){
 }
 
 document.addEventListener('DOMContentLoaded',async()=>{
+  const checkinDialog=$('#checkinDialog');
+  if(checkinDialog){try{if(checkinDialog.open&&typeof checkinDialog.close==='function')checkinDialog.close()}catch{}checkinDialog.removeAttribute('open')}
+  await stopCheckinScanner();
   const initialCheckin=qs('checkin');
   if(initialCheckin){try{sessionStorage.setItem('na_regua_pending_checkin',initialCheckin)}catch{}}
   $('#barberUserMenuButton')?.addEventListener('click',e=>{e.stopPropagation();toggleBarberUserMenu()});
@@ -655,7 +661,6 @@ document.addEventListener('DOMContentLoaded',async()=>{
   $('#finishCommandButton')?.addEventListener('click',finishCommand);
   $('#reopenCommandForm')?.addEventListener('submit',async e=>{e.preventDefault();await reopenClientCommandWithOwnerPassword()});
   $('#openCheckinScanner')?.addEventListener('click',openCheckinScannerDialog);
-  $('#closeCheckinDialog')?.addEventListener('click',closeCheckinScannerDialog);
   $('#retryCheckinCamera')?.addEventListener('click',startCheckinCamera);
   $('#captureCheckinQr')?.addEventListener('click',()=>$('#checkinQrPhotoInput')?.click());
   $('#checkinQrPhotoInput')?.addEventListener('change',e=>scanCheckinQrPhoto(e.target.files?.[0]));

@@ -449,7 +449,7 @@ O painel do dono foi reorganizado em abas para reduzir a quantidade de cards e i
 - O botão de instalação fica oculto quando o app já está instalado.
 
 
-## Atualização 1.1.60
+## Atualização 1.1.65
 
 - A navegação por abas do painel do dono virou um carrossel horizontal no padrão do VALLE no celular.
 - O botão ativo é centralizado automaticamente.
@@ -469,20 +469,40 @@ O painel do dono foi reorganizado em abas para reduzir a quantidade de cards e i
 - Não exige alteração no banco nem Edge Function.
 
 
-## Versão 1.1.60 — Fidelidade e QR de chegada
+## Versão 1.1.65 — Fidelidade e QR de chegada
 - Criado programa de fidelidade configurável pelo dono: ativar/desativar, quantidade de visitas necessárias e nome da recompensa.
 - Nova aba **Fidelidade** no painel do dono, com clientes, progresso, visitas validadas, recompensas disponíveis e resgate de recompensa.
 - Cada agendamento público passa a gerar um **QR Code de chegada** e um código curto de segurança.
 - No painel do barbeiro, o botão **Validar chegada** abre a câmera para ler o QR; também existe digitação manual do código como alternativa.
 - A chegada validada pode iniciar o atendimento e, quando a fidelidade estiver ativa, soma exatamente uma visita ao cartão do cliente.
 - No celular do cliente, o site guarda um token privado no aparelho e mostra **histórico de cortes/agendamentos**, progresso da fidelidade, recompensas e o QR dos próximos atendimentos.
-- Execute `ATUALIZAR_BANCO_1.1.60.sql` no Supabase. Não exige republicação da Edge Function.
+- Execute `ATUALIZAR_BANCO_1.1.65.sql` no Supabase. Não exige republicação da Edge Function.
 
 
-## Atualização 1.1.60
+## Atualização 1.1.65
 - Corrigida a abertura da câmera para validar QR Code no celular.
 - O sistema solicita a permissão e prioriza a câmera traseira.
 - Melhor compatibilidade com Safari/iPhone e Chrome/Android.
 - Adicionado botão para tentar abrir a câmera novamente.
 - Adicionado fallback "Ler QR pela câmera", usando a câmera nativa do aparelho para fotografar o QR quando o scanner em tempo real não abrir.
 - Mensagens específicas para HTTPS, permissão negada e câmera ocupada.
+
+## Atualização 1.1.65
+
+- O passo **4. Seus dados** agora permite validar o WhatsApp com um código de 6 dígitos.
+- A validação é opcional para reservar, porém obrigatória para participar do programa de fidelidade.
+- Clientes sem WhatsApp validado continuam recebendo QR de chegada, mas a visita não soma fidelidade.
+- O histórico e o cartão de fidelidade ficam protegidos pela validação do WhatsApp.
+- Nova Edge Function: `supabase/functions/whatsapp-verification/index.ts`.
+- Execute `ATUALIZAR_BANCO_1.1.65.sql` e siga `CONFIGURAR_WHATSAPP_1.1.65.md`.
+
+
+
+## Atualização 1.1.67 — validação por e-mail
+- A entrada no programa de fidelidade agora é validada por **e-mail**, usando código de 6 dígitos do Supabase Auth.
+- O WhatsApp/telefone continua sendo cadastrado normalmente para contato e identificação da reserva, mas não precisa mais de API da Meta.
+- O cliente pode reservar sem validar o e-mail; nesse caso recebe QR de chegada normalmente, porém a visita não gera ponto de fidelidade.
+- Depois da validação, o cliente recebe acesso ao histórico e ao cartão de fidelidade no aparelho.
+- O painel do dono lista somente os clientes com e-mail validado na área Fidelidade.
+- Execute `ATUALIZAR_BANCO_1.1.67.sql` e siga `CONFIGURAR_EMAIL_1.1.67.md`.
+- Não é necessário publicar Edge Function nesta versão.

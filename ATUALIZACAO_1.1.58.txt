@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.60
+Na Régua — Atualização 1.1.65
 
 - Corrigido o problema em que dois QR Codes apareciam ao mesmo tempo.
 - Agora somente um QR Code de chegada é exibido por agendamento.

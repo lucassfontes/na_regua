@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#18181b">
-  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.60">
-  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.60">
-  <link rel="manifest" href="manifest.json?v=1.1.60">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.67">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.67">
+  <link rel="manifest" href="manifest.json?v=1.1.67">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="css/app.css?v=1.1.60">
+  <link rel="stylesheet" href="css/app.css?v=1.1.67">
   <title>Painel do Dono • Na Régua</title>
 </head>
 <body>
 <header class="topbar">
   <div class="container topbar-inner">
     <div class="brand">
-      <img class="brand-logo" src="icons/icon-192.png?v=1.1.60" alt="Na Régua">
+      <img class="brand-logo" src="icons/icon-192.png?v=1.1.67" alt="Na Régua">
       <div class="brand-copy">
         <strong id="tenantName">Barbearia</strong>
         <span>Painel do dono</span>
@@ -76,7 +76,7 @@
             </button>
             <div class="owner-user-version" aria-label="Versão do sistema">
               <span>Versão do sistema</span>
-              <strong>1.1.60</strong>
+              <strong>1.1.67</strong>
             </div>
           </div>
         </div>
@@ -308,10 +308,10 @@
         <p class="muted">Configure a recompensa e acompanhe o progresso dos clientes que validaram a chegada pelo QR Code.</p>
       </div>
     </div>
-    <div id="loyaltySetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para ativar a fidelidade e o QR de chegada, execute <strong>ATUALIZAR_BANCO_1.1.60.sql</strong> no Supabase.</div>
+    <div id="loyaltySetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para ativar a fidelidade, QR de chegada e validação por e-mail, execute <strong>ATUALIZAR_BANCO_1.1.67.sql</strong> no Supabase.</div>
 
     <form id="loyaltySettingsForm" class="loyalty-settings-card">
-      <label class="loyalty-enable-row"><input id="loyaltyEnabled" type="checkbox"><span><strong>Programa de fidelidade ativo</strong><small>Quando ativo, cada chegada validada pelo QR soma uma visita.</small></span></label>
+      <label class="loyalty-enable-row"><input id="loyaltyEnabled" type="checkbox"><span><strong>Programa de fidelidade ativo</strong><small>Quando ativo, cada chegada validada pelo QR soma uma visita somente para clientes com e-mail validado.</small></span></label>
       <div class="loyalty-settings-fields">
         <div class="field"><label for="loyaltyVisitsRequired">Visitas para ganhar</label><input id="loyaltyVisitsRequired" class="input" type="number" min="2" max="30" value="10" required></div>
         <div class="field"><label for="loyaltyRewardName">Recompensa</label><input id="loyaltyRewardName" class="input" maxlength="120" value="1 serviço grátis" required></div>
@@ -320,7 +320,7 @@
     </form>
 
     <div class="loyalty-summary-grid" aria-label="Resumo da fidelidade">
-      <article><span>Clientes</span><strong id="loyaltyCustomerCount">0</strong><small>Com cartão criado</small></article>
+      <article><span>Clientes</span><strong id="loyaltyCustomerCount">0</strong><small>E-mail validado</small></article>
       <article><span>Visitas validadas</span><strong id="loyaltyVisitCount">0</strong><small>Confirmadas por QR</small></article>
       <article><span>Recompensas disponíveis</span><strong id="loyaltyRewardCount">0</strong><small>Prontas para resgate</small></article>
     </div>
@@ -491,10 +491,10 @@
 </dialog>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="js/config.js?v=1.1.60"></script>
-<script src="js/supabase-client.js?v=1.1.60"></script>
-<script src="js/common.js?v=1.1.60"></script>
-<script src="js/admin.js?v=1.1.60"></script>
-<script src="js/pwa.js?v=1.1.60"></script>
+<script src="js/config.js?v=1.1.67"></script>
+<script src="js/supabase-client.js?v=1.1.67"></script>
+<script src="js/common.js?v=1.1.67"></script>
+<script src="js/admin.js?v=1.1.67"></script>
+<script src="js/pwa.js?v=1.1.67"></script>
 </body>
 </html>

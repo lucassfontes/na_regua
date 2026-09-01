@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.60
+Na Régua — Atualização 1.1.65
 
 - A navegação inferior do painel do dono foi movida um pouco para cima no mobile.
 - Mantidos os Bootstrap Icons e o carrossel responsivo.

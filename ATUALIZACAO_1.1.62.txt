@@ -1,0 +1,6 @@
+Na Régua — Atualização 1.1.65
+
+- 'Agendamento confirmado' agora é exibido em modal.
+- Adicionado botão X de fechamento no mesmo padrão dos demais modais.
+- Ao fechar, o formulário já fica pronto para um novo agendamento.
+- Mantidos QR Code de chegada, fidelidade e acesso ao histórico dentro do modal.

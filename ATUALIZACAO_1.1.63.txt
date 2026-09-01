@@ -1,0 +1,5 @@
+Na Régua — Atualização 1.1.65
+
+- Adicionado botão Copiar ao lado do código de chegada no modal QR de chegada.
+- O mesmo botão também aparece no modal de agendamento confirmado.
+- Compatibilidade de cópia melhorada para celular e iPhone.

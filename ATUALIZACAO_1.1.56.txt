@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.60
+Na Régua — Atualização 1.1.65
 
 Dashboard do dono melhorado:
 - Resumo mensal mais claro.

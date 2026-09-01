@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.60
+Na Régua — Atualização 1.1.65
 
 - No celular, a navegação do painel do dono foi movida para a parte inferior da tela.
 - O primeiro item do carrossel fica alinhado à esquerda e o último à direita.

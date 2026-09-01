@@ -1,0 +1,6 @@
+Na Régua — Atualização 1.1.65
+
+- Corrigido o X do modal Validar chegada.
+- Ao fechar, a câmera é encerrada e o modal é ocultado.
+- O modal não fica mais visível ao carregar/recarregar Minha Agenda.
+- Adicionada proteção para dialogs fechados não serem exibidos por regras CSS.

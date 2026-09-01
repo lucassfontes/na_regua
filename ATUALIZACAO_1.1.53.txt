@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.60
+Na Régua — Atualização 1.1.65
 
 - Navegação do painel do dono alterada para Bootstrap Icons.
 - Mobile: somente ícones.

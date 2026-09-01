@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.60
+Na Régua — Atualização 1.1.65
 
 - Sistema de fidelidade gerenciado pelo dono.
 - Configuração de quantidade de visitas e recompensa.
@@ -8,5 +8,5 @@ Na Régua — Atualização 1.1.60
 - Histórico de cortes/agendamentos e cartão de fidelidade no celular do cliente.
 - Resgate de recompensas pelo painel do dono.
 
-IMPORTANTE: execute ATUALIZAR_BANCO_1.1.60.sql no Supabase > SQL Editor.
+IMPORTANTE: execute ATUALIZAR_BANCO_1.1.65.sql no Supabase > SQL Editor.
 Não é necessário atualizar a Edge Function.

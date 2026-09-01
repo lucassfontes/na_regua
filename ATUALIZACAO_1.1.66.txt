@@ -1,0 +1,8 @@
+Na Régua — Atualização 1.1.67
+
+- O código de validação por WhatsApp agora usa automaticamente o WhatsApp cadastrado na própria barbearia como remetente, desde que esse número esteja conectado à WABA da plataforma na Meta.
+- Removida a dependência de WHATSAPP_PHONE_NUMBER_ID fixo.
+- A Edge Function resolve o phone_number_id a partir do número cadastrado na barbearia.
+- O idioma do template agora segue o idioma padrão do celular/navegador do cliente.
+- Se a tradução não existir na Meta, o sistema tenta o idioma de fallback configurado.
+- Não há SQL novo nesta versão; é necessário republicar whatsapp-verification.

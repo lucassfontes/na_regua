@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.60
+Na Régua — Atualização 1.1.65
 
 - Corrigida a câmera do leitor de QR Code no painel do barbeiro em celulares.
 - Prioriza a câmera traseira e melhora a solicitação de permissão no iPhone e Android.
