@@ -11,6 +11,10 @@ let pendingReopenAppointmentId=null;
 let currentBarberPublicUrl='';
 let checkinScanner=null;
 let checkinBusy=false;
+let barberFinancialMonthRows=[];
+let barberSelectedEarningsDate='';
+let barberSelectedEarningsMonth='';
+let barberFinancialLoading=false;
 
 function menuInitial(name,fallback='U'){
   const clean=String(name||'').trim();
@@ -31,6 +35,56 @@ function setBarberUserMenu(open){
 }
 function closeBarberUserMenu(){setBarberUserMenu(false)}
 function toggleBarberUserMenu(){const menu=$('#barberUserMenu');if(menu)setBarberUserMenu(menu.classList.contains('hidden'))}
+
+
+const BARBER_TAB_NAMES={summary:'Resumo',earnings:'Ganhos',agenda:'Agenda'};
+function centerBarberTab(button,behavior='smooth'){
+  const track=$('#barberSectionTabs');
+  if(!track||!button)return;
+  const buttons=[...track.querySelectorAll('[data-barber-tab]')];
+  const index=buttons.indexOf(button),maxScroll=Math.max(0,track.scrollWidth-track.clientWidth);
+  let left=button.offsetLeft-(track.clientWidth-button.offsetWidth)/2;
+  if(index===0)left=0;else if(index===buttons.length-1)left=maxScroll;else left=Math.min(maxScroll,Math.max(0,left));
+  track.scrollTo({left,behavior});
+}
+function setBarberTab(tab,{remember=true}={}){
+  const selected=BARBER_TAB_NAMES[tab]?tab:'summary';
+  document.querySelectorAll('[data-barber-panel]').forEach(panel=>panel.classList.toggle('hidden',panel.dataset.barberPanel!==selected));
+  document.querySelectorAll('[data-barber-tab]').forEach(button=>{
+    const active=button.dataset.barberTab===selected;
+    button.classList.toggle('is-active',active);button.setAttribute('aria-selected',active?'true':'false');
+  });
+  if(remember){try{sessionStorage.setItem('na_regua_barber_tab',selected)}catch{}}
+  requestAnimationFrame(()=>centerBarberTab(document.querySelector(`[data-barber-tab="${selected}"]`),remember?'smooth':'auto'));
+}
+function initBarberTabCarousel(){
+  const track=$('#barberSectionTabs');if(!track)return;
+  let dragging=false,moved=false,startX=0,startScroll=0,suppressClick=false;
+  const finish=event=>{
+    if(!dragging)return;dragging=false;
+    if(moved){suppressClick=true;setTimeout(()=>{suppressClick=false},0)}
+    track.classList.remove('is-dragging','is-grabbing');
+    try{if(event&&track.hasPointerCapture?.(event.pointerId))track.releasePointerCapture(event.pointerId)}catch{}
+  };
+  track.addEventListener('pointerdown',event=>{
+    if(event.pointerType==='mouse'&&event.button!==0)return;
+    dragging=true;moved=false;startX=event.clientX;startScroll=track.scrollLeft;track.classList.add('is-grabbing');
+    try{track.setPointerCapture(event.pointerId)}catch{}
+  });
+  track.addEventListener('pointermove',event=>{
+    if(!dragging)return;const delta=event.clientX-startX;
+    if(Math.abs(delta)>4){moved=true;track.classList.add('is-dragging')}
+    if(!moved)return;track.scrollLeft=startScroll-delta;if(event.cancelable)event.preventDefault();
+  },{passive:false});
+  track.addEventListener('pointerup',finish);track.addEventListener('pointercancel',finish);track.addEventListener('lostpointercapture',()=>{if(dragging)finish()});
+  track.addEventListener('click',event=>{if(!suppressClick)return;event.preventDefault();event.stopImmediatePropagation()},true);
+}
+function initBarberTabs(){
+  let initial='summary';try{initial=sessionStorage.getItem('na_regua_barber_tab')||'summary'}catch{}
+  setBarberTab(initial,{remember:false});
+  document.querySelectorAll('[data-barber-tab]').forEach(button=>button.addEventListener('click',()=>setBarberTab(button.dataset.barberTab)));
+  initBarberTabCarousel();
+}
 
 function buildBarberPublicAgendaUrl(){
   const slug=String(barberProfile?.tenant?.slug||'').trim();
@@ -68,6 +122,207 @@ function commandNumber(v){return `#${String(v??0).padStart(4,'0')}`}
 function commandTime(v){return new Intl.DateTimeFormat('pt-BR',{hour:'2-digit',minute:'2-digit'}).format(new Date(v))}
 function openBarberDialog(id){const d=document.getElementById(id);if(!d||d.open)return;if(typeof d.showModal==='function')d.showModal();else d.setAttribute('open','')}
 function closeBarberDialog(id){const d=document.getElementById(id);if(!d)return;if(d.open&&typeof d.close==='function')d.close();else d.removeAttribute('open')}
+
+
+function localDateValue(date=new Date()){
+  const d=new Date(date);
+  const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');
+  return `${y}-${m}-${day}`;
+}
+function localMonthValue(date=new Date()){
+  const d=new Date(date);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`;
+}
+function monthBoundsValue(value){
+  const [y,m]=String(value||'').split('-').map(Number),now=new Date();
+  const year=y||now.getFullYear(),month=(m||now.getMonth()+1)-1;
+  return {start:new Date(year,month,1,0,0,0,0),end:new Date(year,month+1,1,0,0,0,0)};
+}
+function earningsMonthLabel(value){
+  const {start}=monthBoundsValue(value);
+  const text=new Intl.DateTimeFormat('pt-BR',{month:'long',year:'numeric'}).format(start);
+  return text.charAt(0).toUpperCase()+text.slice(1);
+}
+function localDateBounds(value){
+  const [y,m,d]=String(value||'').split('-').map(Number);
+  const start=(y&&m&&d)?new Date(y,m-1,d,0,0,0,0):new Date();
+  if(!(y&&m&&d))start.setHours(0,0,0,0);
+  const end=new Date(start);end.setDate(end.getDate()+1);
+  return {start,end};
+}
+function monthBounds(date=new Date()){
+  const d=new Date(date),start=new Date(d.getFullYear(),d.getMonth(),1,0,0,0,0),end=new Date(d.getFullYear(),d.getMonth()+1,1,0,0,0,0);
+  return {start,end};
+}
+function sameLocalDate(a,b){
+  const da=new Date(a),db=new Date(b);
+  return da.getFullYear()===db.getFullYear()&&da.getMonth()===db.getMonth()&&da.getDate()===db.getDate();
+}
+function earningsDateLabel(value){
+  const {start}=localDateBounds(value),today=new Date(),yesterday=new Date(today);yesterday.setDate(yesterday.getDate()-1);
+  if(sameLocalDate(start,today))return 'Hoje';
+  if(sameLocalDate(start,yesterday))return 'Ontem';
+  const text=new Intl.DateTimeFormat('pt-BR',{weekday:'long',day:'2-digit',month:'long'}).format(start);
+  return text.charAt(0).toUpperCase()+text.slice(1);
+}
+function agendaDateShortLabel(value){
+  const {start}=localDateBounds(value);
+  return new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit'}).format(start);
+}
+function syncSelectedAgendaLabels(value,count=0){
+  const label=earningsDateLabel(value);
+  const short=agendaDateShortLabel(value);
+  setText('barberAgendaTitle',`Clientes de ${label.toLowerCase()}`);
+  setText('barberAgendaSelectedDate',label);
+  setText('agendaCountHint',`${count===1?'cliente':'clientes'} em ${short}`);
+}
+function sumFinancial(rows,key){return rows.reduce((total,row)=>total+Number(row?.[key]||0),0)}
+function rowOccurrence(row){return row.occurred_at||row.closed_at||row.starts_at||new Date().toISOString()}
+
+async function fetchBarberEarnings(from,to){
+  if(!barberProfile)return [];
+  const baseCommands=sb.from('commands')
+    .select('id,appointment_id,customer_name,closed_at,created_at,service_total_cents,gross_total_cents,commission_pct_snapshot,commission_cents')
+    .eq('tenant_id',barberProfile.tenant_id).eq('barber_id',barberProfile.id).eq('status','closed')
+    .gte('closed_at',from.toISOString()).lt('closed_at',to.toISOString()).order('closed_at',{ascending:false});
+  const appointmentsQuery=sb.from('appointments')
+    .select('id,starts_at,customer_name,price_cents,service_id,services(name)')
+    .eq('tenant_id',barberProfile.tenant_id).eq('barber_id',barberProfile.id).eq('status','completed')
+    .gte('starts_at',from.toISOString()).lt('starts_at',to.toISOString()).order('starts_at',{ascending:false});
+  const [commandResult,appointmentResult]=await Promise.all([baseCommands,appointmentsQuery]);
+
+  // Bancos antigos ainda conseguem mostrar o financeiro básico pelos atendimentos.
+  const commands=commandResult.error?[]:(commandResult.data||[]);
+  const appointments=appointmentResult.error?[]:(appointmentResult.data||[]);
+  if(commandResult.error)console.warn('Financeiro por comanda indisponível:',commandResult.error.message);
+  if(appointmentResult.error)console.warn('Financeiro por atendimento indisponível:',appointmentResult.error.message);
+
+  let linkedAppointmentIds=new Set();
+  const appointmentIds=appointments.map(item=>item.id).filter(Boolean);
+  if(appointmentIds.length){
+    const linked=await sb.from('commands').select('appointment_id').eq('tenant_id',barberProfile.tenant_id).eq('barber_id',barberProfile.id).in('appointment_id',appointmentIds);
+    if(!linked.error)linkedAppointmentIds=new Set((linked.data||[]).map(item=>item.appointment_id).filter(Boolean));
+  }
+
+  const pct=Number(barberProfile.commission_pct||0);
+  const commandRows=commands.map(command=>{
+    const serviceCents=Number(command.service_total_cents||0);
+    const commandPct=Number(command.commission_pct_snapshot??pct);
+    const commissionCents=command.commission_cents==null?Math.round(serviceCents*commandPct/100):Number(command.commission_cents||0);
+    return {
+      id:`command:${command.id}`,
+      occurred_at:command.closed_at||command.created_at,
+      customer_name:command.customer_name||'Cliente',
+      detail:'Comanda fechada',
+      service_revenue_cents:serviceCents,
+      gross_revenue_cents:Number(command.gross_total_cents||serviceCents),
+      commission_cents:commissionCents,
+      commission_pct:commandPct,
+      source:'command'
+    };
+  });
+  const legacyRows=appointments.filter(item=>!linkedAppointmentIds.has(item.id)).map(item=>({
+    id:`appointment:${item.id}`,
+    occurred_at:item.starts_at,
+    customer_name:item.customer_name||'Cliente',
+    detail:item.services?.name||'Serviço concluído',
+    service_revenue_cents:Number(item.price_cents||0),
+    gross_revenue_cents:Number(item.price_cents||0),
+    commission_cents:Math.round(Number(item.price_cents||0)*pct/100),
+    commission_pct:pct,
+    source:'appointment'
+  }));
+  return [...commandRows,...legacyRows].sort((a,b)=>new Date(rowOccurrence(b))-new Date(rowOccurrence(a)));
+}
+
+function renderSelectedEarnings(rows,dateValue){
+  const amount=sumFinancial(rows,'commission_cents');
+  setText('selectedEarningsDateLabel',earningsDateLabel(dateValue));
+  setText('selectedEarningsAmount',money(amount));
+  setText('selectedEarningsCount',rows.length);
+  const host=$('#barberEarningsDayRows');if(!host)return;
+  if(!rows.length){host.innerHTML='<div class="empty">Nenhum ganho registrado neste dia.</div>';return}
+  host.innerHTML=rows.map(row=>`<div class="barber-earning-row">
+    <div class="barber-earning-row-time">${commandTime(rowOccurrence(row))}</div>
+    <div class="barber-earning-row-main"><strong>${escapeHtml(row.customer_name||'Cliente')}</strong><span>${escapeHtml(row.detail||'Serviço concluído')} · ${Number(row.commission_pct||0).toFixed(2).replace('.',',')}%</span></div>
+    <div class="barber-earning-row-value"><strong>${money(row.commission_cents)}</strong><small>meu ganho</small></div>
+  </div>`).join('');
+}
+
+async function loadSelectedEarnings(dateValue,{reuseMonth=true}={}){
+  const input=$('#barberEarningsDate');
+  const value=dateValue||input?.value||localDateValue();
+  barberSelectedEarningsDate=value;
+  if(input&&input.value!==value)input.value=value;
+  const monthKey=value.slice(0,7);
+  let rows;
+  if(reuseMonth&&monthKey===barberSelectedEarningsMonth){
+    const {start,end}=localDateBounds(value);
+    rows=barberFinancialMonthRows.filter(row=>{const d=new Date(rowOccurrence(row));return d>=start&&d<end});
+  }else{
+    const {start,end}=localDateBounds(value);
+    rows=await fetchBarberEarnings(start,end);
+  }
+  renderSelectedEarnings(rows,value);
+}
+
+function startOfWeek(date=new Date()){
+  const d=new Date(date);d.setHours(0,0,0,0);
+  const day=d.getDay()||7;d.setDate(d.getDate()-day+1);
+  return d;
+}
+function renderBarberWeekChart(rows,now=new Date()){
+  const host=$('#barberWeekChart');if(!host)return;
+  const days=[];
+  for(let offset=6;offset>=0;offset--){
+    const date=new Date(now);date.setHours(0,0,0,0);date.setDate(date.getDate()-offset);
+    const dayRows=rows.filter(row=>sameLocalDate(rowOccurrence(row),date));
+    days.push({date,amount:sumFinancial(dayRows,'commission_cents'),count:dayRows.length});
+  }
+  const max=Math.max(...days.map(day=>day.amount),1);
+  const weekday=new Intl.DateTimeFormat('pt-BR',{weekday:'short'});
+  host.innerHTML=days.map(day=>{
+    const pct=day.amount?Math.max(10,Math.round(day.amount/max*100)):4;
+    const isToday=sameLocalDate(day.date,now);
+    const label=weekday.format(day.date).replace('.','').slice(0,3);
+    return `<div class="barber-week-day${isToday?' is-today':''}" title="${escapeHtml(earningsDateLabel(localDateValue(day.date)))}: ${money(day.amount)}">
+      <div class="barber-week-value">${day.amount?money(day.amount):'—'}</div>
+      <div class="barber-week-bar-track"><div class="barber-week-bar" style="height:${pct}%"></div></div>
+      <div class="barber-week-day-label"><strong>${escapeHtml(label)}</strong><span>${String(day.date.getDate()).padStart(2,'0')}</span></div>
+    </div>`;
+  }).join('');
+}
+
+async function loadBarberFinancialDashboard(monthValue=''){
+  if(!barberProfile||barberFinancialLoading)return;
+  barberFinancialLoading=true;
+  const dashboard=$('.barber-summary-panel');dashboard?.classList.add('barber-earnings-loading');
+  try{
+    const now=new Date(),currentMonth=localMonthValue(now);
+    const selected=monthValue||barberSelectedEarningsMonth||currentMonth;
+    barberSelectedEarningsMonth=selected;
+    const input=$('#barberEarningsMonth');
+    if(input){input.max=currentMonth;if(input.value!==selected)input.value=selected}
+    const {start:monthStart,end:monthEnd}=monthBoundsValue(selected);
+    barberFinancialMonthRows=await fetchBarberEarnings(monthStart,monthEnd);
+    const {start:todayStart,end:todayEnd}=localDateBounds(localDateValue(now));
+    const todayRows=selected===currentMonth
+      ? barberFinancialMonthRows.filter(row=>sameLocalDate(rowOccurrence(row),now))
+      : await fetchBarberEarnings(todayStart,todayEnd);
+    const monthCommission=sumFinancial(barberFinancialMonthRows,'commission_cents');
+    setText('commissionToday',money(sumFinancial(todayRows,'commission_cents')));
+    setText('commissionMonth',money(monthCommission));
+    setText('monthAppointmentsCount',barberFinancialMonthRows.length);
+    setText('todayEarningsHint',`${todayRows.length} ${todayRows.length===1?'atendimento concluído':'atendimentos concluídos'}`);
+    setText('monthEarningsHint',`${barberFinancialMonthRows.length} ${barberFinancialMonthRows.length===1?'atendimento concluído':'atendimentos concluídos'}`);
+    setText('selectedMonthLabel',earningsMonthLabel(selected));
+    setText('barberCommissionPct',`${Number(barberProfile.commission_pct||0).toFixed(2).replace('.',',')}%`);
+    const dateInput=$('#barberEarningsDate'),todayValue=localDateValue(now);
+    if(dateInput){dateInput.max=todayValue;if(!dateInput.value)dateInput.value=barberSelectedEarningsDate||todayValue}
+    if(!barberSelectedEarningsDate)await loadSelectedEarnings(dateInput?.value||todayValue,{reuseMonth:true});
+  }finally{
+    barberFinancialLoading=false;dashboard?.classList.remove('barber-earnings-loading');
+  }
+}
 
 const statusInfo={
   pending:{label:'Pendente',className:'warning'},
@@ -236,7 +491,7 @@ async function renderAppointments(){
   if(!host)return;
   const totals=commandModuleReady?await commandTotalsById():new Map();
   if(!barberTodayAppointments.length){
-    host.innerHTML='<div class="empty">Nenhum cliente agendado para hoje.</div>';
+    host.innerHTML=`<div class="empty">Nenhum cliente agendado para ${escapeHtml(earningsDateLabel(barberSelectedEarningsDate||localDateValue()).toLowerCase())}.</div>`;
     return;
   }
   host.innerHTML=barberTodayAppointments.map(a=>{
@@ -272,7 +527,7 @@ async function renderAppointments(){
 async function openClientCommand(appointmentId){
   if(!commandModuleReady)return toast('Atualize o banco com o arquivo ATUALIZAR_BANCO_1.1.32.sql.','warn');
   const appointment=appointmentById(appointmentId);
-  if(!appointment)return toast('Cliente não encontrado na agenda de hoje.','error');
+  if(!appointment)return toast('Cliente não encontrado no dia selecionado.','error');
   let command=commandForAppointment(appointmentId);
   if(!command){
     const {data,error}=await sb.from('commands').insert({
@@ -519,7 +774,6 @@ async function closeCheckinScannerDialog(){
 function checkinResultMessage(data){
   const name=data?.customer_name||'Cliente';
   if(!data?.loyalty_enabled)return `Chegada de ${name} validada com sucesso.`;
-  if(data?.email_verified===false)return `Chegada de ${name} validada com sucesso. O e-mail do cliente ainda não foi validado, então esta visita não entrou na fidelidade.`;
   const base=`Chegada de ${name} validada. Fidelidade: ${Number(data.visits_balance||0)}/${Number(data.visits_required||0)}.`;
   if(Number(data.reward_earned||0)>0)return `${base}
 🎁 Nova recompensa liberada: ${data.reward_name}.`;
@@ -609,21 +863,35 @@ async function openCheckinScannerDialog(){
   await startCheckinCamera();
 }
 
+async function loadBarberAppointmentsForDate(dateValue,{reloadCommands=true}={}){
+  if(!barberProfile)return;
+  const value=dateValue||barberSelectedEarningsDate||localDateValue();
+  barberSelectedEarningsDate=value;
+  const {start,end}=localDateBounds(value);
+  const {data,error}=await sb.from('appointments')
+    .select('id,service_id,starts_at,ends_at,status,customer_name,customer_phone,price_cents,services(name)')
+    .eq('tenant_id',barberProfile.tenant_id)
+    .eq('barber_id',barberProfile.id)
+    .gte('starts_at',start.toISOString())
+    .lt('starts_at',end.toISOString())
+    .order('starts_at');
+  if(error){toast(error.message,'error');return}
+  barberTodayAppointments=data||[];
+  setText('todayCount',barberTodayAppointments.length);
+  syncSelectedAgendaLabels(value,barberTodayAppointments.length);
+  if(reloadCommands)await loadCommandModule(barberTodayAppointments);
+  await renderAppointments();
+}
+
 async function loadBarber(){
   barberProfile=barberProfile||await guard(['barber']);
   setText('barberName',barberProfile.full_name);syncBarberUserMenu();updateBarberPublicAgendaUrl();
-  const now=new Date(),start=new Date(now);start.setHours(0,0,0,0);const end=new Date(start);end.setDate(end.getDate()+1);const monthStart=new Date(now.getFullYear(),now.getMonth(),1);
-  const {data,error}=await sb.from('appointments').select('id,service_id,starts_at,ends_at,status,customer_name,customer_phone,price_cents,services(name)').eq('tenant_id',barberProfile.tenant_id).eq('barber_id',barberProfile.id).gte('starts_at',monthStart.toISOString()).order('starts_at');
-  if(error)return toast(error.message,'error');
-  const monthCompleted=(data||[]).filter(a=>a.status==='completed');
-  barberTodayAppointments=(data||[]).filter(a=>new Date(a.starts_at)>=start&&new Date(a.starts_at)<end);
-  const todayCompleted=barberTodayAppointments.filter(a=>a.status==='completed');
-  const pct=Number(barberProfile.commission_pct||0)/100;
-  setText('commissionToday',money(Math.round(todayCompleted.reduce((a,x)=>a+x.price_cents,0)*pct)));
-  setText('commissionMonth',money(Math.round(monthCompleted.reduce((a,x)=>a+x.price_cents,0)*pct)));
-  setText('todayCount',barberTodayAppointments.length);
-  await loadCommandModule(barberTodayAppointments);
-  await renderAppointments();
+  const selectedDate=barberSelectedEarningsDate||$('#barberEarningsDate')?.value||localDateValue();
+  barberSelectedEarningsDate=selectedDate;
+  await Promise.all([
+    loadBarberFinancialDashboard(),
+    loadBarberAppointmentsForDate(selectedDate,{reloadCommands:true})
+  ]);
 }
 
 document.addEventListener('DOMContentLoaded',async()=>{
@@ -665,6 +933,12 @@ document.addEventListener('DOMContentLoaded',async()=>{
   $('#captureCheckinQr')?.addEventListener('click',()=>$('#checkinQrPhotoInput')?.click());
   $('#checkinQrPhotoInput')?.addEventListener('change',e=>scanCheckinQrPhoto(e.target.files?.[0]));
   $('#manualCheckinForm')?.addEventListener('submit',async e=>{e.preventDefault();await validateCheckinCode($('#manualCheckinCode').value)});
+  initBarberTabs();
+  $('#barberEarningsMonth')?.addEventListener('change',async e=>{if(e.target.value)await loadBarberFinancialDashboard(e.target.value)});
+  $('#barberEarningsCurrentMonth')?.addEventListener('click',async()=>{await loadBarberFinancialDashboard(localMonthValue())});
+  $('#barberEarningsDate')?.addEventListener('change',async e=>{if(e.target.value)await Promise.all([loadSelectedEarnings(e.target.value,{reuseMonth:true}),loadBarberAppointmentsForDate(e.target.value,{reloadCommands:true})])});
+  $('#barberEarningsToday')?.addEventListener('click',async()=>{const value=localDateValue();await Promise.all([loadSelectedEarnings(value,{reuseMonth:true}),loadBarberAppointmentsForDate(value,{reloadCommands:true})])});
+  $('#barberEarningsYesterday')?.addEventListener('click',async()=>{const d=new Date();d.setDate(d.getDate()-1);const value=localDateValue(d);await Promise.all([loadSelectedEarnings(value,{reuseMonth:true}),loadBarberAppointmentsForDate(value,{reloadCommands:true})])});
   await loadBarber();
   let checkinFromQr=qs('checkin');
   if(!checkinFromQr){try{checkinFromQr=sessionStorage.getItem('na_regua_pending_checkin')||''}catch{}}

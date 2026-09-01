@@ -1,0 +1,6 @@
+Na-Regua — Versão 1.1.88
+
+- Painel do barbeiro: o card “Atendimentos” agora usa o mesmo padrão visual do card “Ganhei no mês”.
+- Os dois cards ficam lado a lado com a mesma largura, altura, alinhamento e hierarquia visual.
+- No celular, os dois continuam na mesma linha com layout responsivo.
+- Cache e referências do sistema atualizados para 1.1.88.

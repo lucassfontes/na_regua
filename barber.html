@@ -4,17 +4,17 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#18181b">
-  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.67">
-  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.67">
-  <link rel="manifest" href="manifest.json?v=1.1.67">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.88">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.88">
+  <link rel="manifest" href="manifest.json?v=1.1.88">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="css/app.css?v=1.1.67">
+  <link rel="stylesheet" href="css/app.css?v=1.1.88">
   <title>Painel do Barbeiro • Na Régua</title>
 </head>
 <body>
 <header class="topbar">
   <div class="container topbar-inner">
-    <div class="brand"><img class="brand-logo" src="icons/icon-192.png?v=1.1.67" alt="Na Régua"><div class="brand-copy"><strong>Minha agenda</strong><span id="barberName"></span></div></div>
+    <div class="brand"><img class="brand-logo" src="icons/icon-192.png?v=1.1.88" alt="Na Régua"><div class="brand-copy"><strong>Minha agenda</strong><span id="barberName"></span></div></div>
     <div class="nav-actions owner-nav-actions">
       <div class="owner-user-menu-wrap">
         <button id="barberUserMenuButton" class="owner-user-trigger" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="barberUserMenu">
@@ -50,7 +50,7 @@
               <span class="owner-menu-item-icon">↪</span>
               <span><strong>Sair da conta</strong><small>Encerrar esta sessão</small></span>
             </button>
-            <div class="owner-user-version" aria-label="Versão do sistema"><span>Versão do sistema</span><strong>1.1.67</strong></div>
+            <div class="owner-user-version" aria-label="Versão do sistema"><span>Versão do sistema</span><strong>1.1.88</strong></div>
           </div>
         </div>
       </div>
@@ -59,22 +59,79 @@
 </header>
 
 <main class="container page barber-dashboard-page">
-  <div class="hero barber-hero"><div><div class="eyebrow">PAINEL DO BARBEIRO</div><h1>Agenda de hoje</h1><p>Atendimentos, comissões e comandas.</p></div></div>
+  <div class="hero barber-hero barber-finance-hero"><div><div class="eyebrow">PAINEL DO BARBEIRO</div><h1>Meu painel</h1><p>Veja seus ganhos e sua agenda de um jeito simples.</p></div></div>
 
-  <section class="grid grid-4 barber-metrics">
-    <div class="card"><div class="muted small">Comissão hoje</div><div class="metric" id="commissionToday">R$ 0,00</div></div>
-    <div class="card"><div class="muted small">Comissão no mês</div><div class="metric" id="commissionMonth">R$ 0,00</div></div>
-    <div class="card"><div class="muted small">Agendamentos hoje</div><div class="metric" id="todayCount">0</div></div>
-    <div class="card"><div class="muted small">Comandas abertas</div><div class="metric" id="openCommandCount">0</div></div>
+  <nav class="owner-section-tabs barber-section-tabs" id="barberSectionTabs" role="tablist" aria-label="Áreas do painel do barbeiro">
+    <button class="owner-section-tab is-active" type="button" role="tab" aria-selected="true" data-barber-tab="summary" aria-label="Resumo" title="Resumo"><span aria-hidden="true"><i class="bi bi-house-door-fill"></i></span>Resumo</button>
+    <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-barber-tab="earnings" aria-label="Ganhos" title="Ganhos"><span aria-hidden="true"><i class="bi bi-wallet2"></i></span>Ganhos</button>
+    <button class="owner-section-tab" type="button" role="tab" aria-selected="false" data-barber-tab="agenda" aria-label="Agenda" title="Agenda"><span aria-hidden="true"><i class="bi bi-calendar-check-fill"></i></span>Agenda</button>
+  </nav>
+
+  <section class="barber-tab-panel barber-summary-panel" data-barber-panel="summary">
+    <div class="barber-summary-head">
+      <div><span class="owner-panel-kicker">RESUMO</span><h2>Meus ganhos</h2><p class="muted">Escolha um mês para ver somente o que importa.</p></div>
+      <div class="barber-commission-pill"><i class="bi bi-percent"></i><span>Comissão</span><strong id="barberCommissionPct">0%</strong></div>
+    </div>
+
+    <div class="card barber-month-selector-card">
+      <div class="barber-month-selector-copy"><span>Mês do resumo</span><strong id="selectedMonthLabel">Este mês</strong></div>
+      <div class="barber-month-selector-controls">
+        <label class="barber-month-input-shell" for="barberEarningsMonth"><i class="bi bi-calendar2-month"></i><input class="input" type="month" id="barberEarningsMonth" aria-label="Escolher mês para consultar ganhos"></label>
+        <button class="btn btn-sm btn-outline" type="button" id="barberEarningsCurrentMonth">Este mês</button>
+      </div>
+    </div>
+
+    <div class="barber-summary-grid">
+      <article class="card barber-summary-primary">
+        <span class="barber-summary-label"><i class="bi bi-cash-stack"></i> GANHEI NO MÊS</span>
+        <strong id="commissionMonth">R$ 0,00</strong>
+        <small id="monthEarningsHint">0 atendimentos concluídos</small>
+      </article>
+      <article class="card barber-summary-primary barber-summary-appointments">
+        <span class="barber-summary-label"><i class="bi bi-scissors"></i> ATENDIMENTOS</span>
+        <strong id="monthAppointmentsCount">0</strong>
+        <small>concluídos no mês</small>
+      </article>
+    </div>
+
+    <div class="barber-today-strip">
+      <div><span>Hoje</span><strong id="commissionToday">R$ 0,00</strong><small id="todayEarningsHint">0 atendimentos concluídos</small></div>
+      <div><span>Agenda</span><strong id="todayCount">0</strong><small id="agendaCountHint">clientes hoje</small></div>
+      <div><span>Comandas</span><strong id="openCommandCount">0</strong><small>abertas agora</small></div>
+    </div>
   </section>
 
-  <section class="card barber-schedule-panel barber-client-agenda-panel">
-    <div class="row between barber-client-agenda-head">
-      <div><span class="owner-panel-kicker">MINHA AGENDA</span><h2>Clientes de hoje</h2><p class="muted">Cada cliente agendado já possui acesso direto à própria comanda.</p></div>
-      <div class="barber-agenda-actions"><button class="btn btn-sm" type="button" id="openCheckinScanner"><i class="bi bi-qr-code-scan"></i> Validar chegada</button><button class="btn btn-sm btn-outline" onclick="loadBarber()">Atualizar</button></div>
-    </div>
-    <div id="commandSetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para usar as comandas, aplique as atualizações do banco até a versão <strong>1.1.34</strong>.</div>
-    <div id="appointmentRows" class="barber-client-agenda"><div class="empty">Carregando agenda...</div></div>
+  <section class="barber-tab-panel barber-earnings-panel hidden" data-barber-panel="earnings">
+    <section class="card barber-day-earnings-card">
+      <div class="barber-day-earnings-top">
+        <div><span class="owner-panel-kicker">CONSULTAR UM DIA</span><h2>Quanto ganhei?</h2><p class="muted">Escolha qualquer data para ver o total e os atendimentos.</p></div>
+        <div class="barber-day-picker-wrap">
+          <label for="barberEarningsDate">Data</label>
+          <div class="barber-day-picker">
+            <button class="btn btn-sm btn-outline" type="button" id="barberEarningsYesterday"><i class="bi bi-arrow-left"></i> Ontem</button>
+            <button class="btn btn-sm" type="button" id="barberEarningsToday"><i class="bi bi-dot"></i> Hoje</button>
+            <label class="barber-date-input-shell" for="barberEarningsDate"><i class="bi bi-calendar3"></i><input class="input" type="date" id="barberEarningsDate" aria-label="Escolher dia para consultar ganhos"></label>
+          </div>
+        </div>
+      </div>
+      <div class="barber-selected-day-summary barber-selected-day-summary-simple">
+        <div class="barber-selected-day-main"><span id="selectedEarningsDateLabel">Hoje</span><strong id="selectedEarningsAmount">R$ 0,00</strong><small>minha comissão neste dia</small></div>
+        <div class="barber-selected-day-stat"><span>Atendimentos</span><strong id="selectedEarningsCount">0</strong><small>concluídos</small></div>
+      </div>
+      <div class="barber-day-details-head"><strong>Atendimentos do dia</strong><span>Comissão de cada atendimento</span></div>
+      <div id="barberEarningsDayRows" class="barber-earnings-day-rows"><div class="empty">Selecione uma data para ver os detalhes.</div></div>
+    </section>
+  </section>
+
+  <section class="barber-tab-panel hidden" data-barber-panel="agenda">
+    <section class="card barber-schedule-panel barber-client-agenda-panel">
+      <div class="row between barber-client-agenda-head">
+        <div><span class="owner-panel-kicker">MINHA AGENDA · <span id="barberAgendaSelectedDate">Hoje</span></span><h2 id="barberAgendaTitle">Clientes de hoje</h2><p class="muted">A agenda acompanha automaticamente o dia escolhido em Ganhos.</p></div>
+        <div class="barber-agenda-actions"><button class="btn btn-sm" type="button" id="openCheckinScanner"><i class="bi bi-qr-code-scan"></i> Validar chegada</button><button class="btn btn-sm btn-outline" onclick="loadBarber()">Atualizar</button></div>
+      </div>
+      <div id="commandSetupNotice" class="notice notice-warn hidden" style="margin-bottom:12px">Para usar as comandas, aplique as atualizações do banco até a versão <strong>1.1.34</strong>.</div>
+      <div id="appointmentRows" class="barber-client-agenda"><div class="empty">Carregando agenda...</div></div>
+    </section>
   </section>
 </main>
 
@@ -151,10 +208,10 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
-<script src="js/config.js?v=1.1.67"></script>
-<script src="js/supabase-client.js?v=1.1.67"></script>
-<script src="js/common.js?v=1.1.67"></script>
-<script src="js/barber.js?v=1.1.67"></script>
-<script src="js/pwa.js?v=1.1.67"></script>
+<script src="js/config.js?v=1.1.88"></script>
+<script src="js/supabase-client.js?v=1.1.88"></script>
+<script src="js/common.js?v=1.1.88"></script>
+<script src="js/barber.js?v=1.1.88"></script>
+<script src="js/pwa.js?v=1.1.88"></script>
 </body>
 </html>

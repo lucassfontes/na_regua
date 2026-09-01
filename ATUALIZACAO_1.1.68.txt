@@ -1,0 +1,15 @@
+Na Régua — Atualização 1.1.68
+
+- Cada barbearia pode conectar o próprio WhatsApp pelo painel do dono usando a autorização segura da Meta (Embedded Signup).
+- Novo bloco Configurações → WhatsApp automático com status, conectar, reconectar/trocar número e desconectar.
+- O código de 6 dígitos da fidelidade é enviado automaticamente pelo número conectado da própria barbearia.
+- O idioma do template segue o idioma do celular do cliente quando existir tradução disponível.
+- Cliente sem WhatsApp validado continua podendo reservar e usar o QR de chegada, mas não recebe ponto de fidelidade.
+- Credenciais da Meta ficam protegidas no backend/RLS e não são expostas no navegador.
+- Templates OTP são solicitados automaticamente ao conectar a barbearia.
+
+Ativação:
+1. Executar ATUALIZAR_BANCO_1.1.68.sql.
+2. Configurar os Secrets da Meta no Supabase.
+3. Publicar whatsapp-connect e whatsapp-verification.
+4. Seguir CONFIGURAR_WHATSAPP_EMBEDDED_1.1.68.md.

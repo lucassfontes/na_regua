@@ -1,0 +1,8 @@
+Na Régua — Atualização 1.1.79
+
+- Botão Agendar horário acima do histórico.
+- Agendamento aberto em modal.
+- Fluxo em 4 páginas: Serviço → Barbeiro → Data/Horário → Seus dados.
+- Avanço automático após cada escolha e botão Voltar para revisar.
+- Não empilha mais as etapas uma abaixo da outra.
+- Sem SQL novo.

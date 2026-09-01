@@ -4,6 +4,85 @@ function dateBR(v){if(!v)return '-';return new Intl.DateTimeFormat('pt-BR',{date
 function getDeviceTimezone(){try{return Intl.DateTimeFormat().resolvedOptions().timeZone||'UTC'}catch(_){return 'UTC'}}
 let appMessageResolve=null;
 
+// v1.1.79 - trava global de rolagem/foco enquanto qualquer modal estiver aberto.
+// Mantém a página exatamente na posição em que estava e permite rolar somente o conteúdo do modal.
+let modalPageScrollY=0;
+const modalOpenStack=[];
+function visibleOpenDialogs(){
+  return $$('dialog[open]').filter(d=>!d.classList.contains('hidden'));
+}
+function topOpenDialog(){
+  for(let i=modalOpenStack.length-1;i>=0;i--){
+    const d=modalOpenStack[i];
+    if(d?.isConnected&&d.open&&!d.classList.contains('hidden'))return d;
+  }
+  const dialogs=visibleOpenDialogs();
+  return dialogs[dialogs.length-1]||null;
+}
+function syncModalPageLock(){
+  const dialogs=visibleOpenDialogs();
+  const shouldLock=dialogs.length>0;
+  const body=document.body;
+  const html=document.documentElement;
+  if(!body)return;
+  if(shouldLock&&!body.classList.contains('modal-page-locked')){
+    modalPageScrollY=window.scrollY||html.scrollTop||0;
+    body.dataset.modalScrollY=String(modalPageScrollY);
+    body.style.top=`-${modalPageScrollY}px`;
+    body.classList.add('modal-page-locked');
+    html.classList.add('modal-page-locked');
+  }else if(!shouldLock&&body.classList.contains('modal-page-locked')){
+    const y=Number(body.dataset.modalScrollY||modalPageScrollY||0);
+    body.classList.remove('modal-page-locked');
+    html.classList.remove('modal-page-locked');
+    body.style.top='';
+    delete body.dataset.modalScrollY;
+    window.scrollTo(0,y);
+  }
+}
+function trackDialogState(dialog){
+  if(!(dialog instanceof HTMLDialogElement))return;
+  const idx=modalOpenStack.indexOf(dialog);
+  if(dialog.open&&!dialog.classList.contains('hidden')){
+    if(idx>=0)modalOpenStack.splice(idx,1);
+    modalOpenStack.push(dialog);
+    requestAnimationFrame(()=>{
+      const active=topOpenDialog();
+      if(active===dialog&&!dialog.contains(document.activeElement)){
+        const focusable=dialog.querySelector('[autofocus],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])');
+        focusable?.focus({preventScroll:true});
+      }
+    });
+  }else if(idx>=0){
+    modalOpenStack.splice(idx,1);
+  }
+  syncModalPageLock();
+}
+function initGlobalModalFocusLock(){
+  $$('dialog').forEach(trackDialogState);
+  const observer=new MutationObserver(records=>{
+    for(const record of records){
+      if(record.type==='attributes'&&(record.attributeName==='open'||record.attributeName==='class'))trackDialogState(record.target);
+      if(record.type==='childList'){
+        record.addedNodes.forEach(node=>{
+          if(node instanceof HTMLDialogElement)trackDialogState(node);
+          node?.querySelectorAll?.('dialog').forEach(trackDialogState);
+        });
+      }
+    }
+  });
+  observer.observe(document.documentElement,{subtree:true,childList:true,attributes:true,attributeFilter:['open','class']});
+  document.addEventListener('focusin',e=>{
+    const dialog=topOpenDialog();
+    if(!dialog||dialog.contains(e.target))return;
+    const focusable=dialog.querySelector('[autofocus],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),a[href],[tabindex]:not([tabindex="-1"])');
+    (focusable||dialog).focus?.({preventScroll:true});
+  },true);
+  window.addEventListener('pageshow',syncModalPageLock);
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',initGlobalModalFocusLock,{once:true});
+else initGlobalModalFocusLock();
+
 // v1.1.41 - todos os modais só fecham por uma ação explícita do usuário.
 // Impede fechamento acidental ao clicar no backdrop e também pelo ESC.
 document.addEventListener('click',e=>{

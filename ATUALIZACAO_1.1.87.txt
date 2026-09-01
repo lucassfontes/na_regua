@@ -1,0 +1,8 @@
+NA-RÉGUA — ATUALIZAÇÃO 1.1.87
+
+Painel do barbeiro
+- O card “Atendimentos” agora fica na mesma linha do card “Ganhei no mês”.
+- O alinhamento foi mantido também em telas menores/celulares, sem jogar “Ganhei no mês” para uma linha inteira separada.
+- O grid do resumo foi ajustado para usar apenas as duas colunas necessárias, eliminando espaço vazio e deixando os cards mais equilibrados.
+
+Versão do sistema: 1.1.87

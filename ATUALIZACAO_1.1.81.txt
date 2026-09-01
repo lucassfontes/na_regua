@@ -1,0 +1,11 @@
+Na Régua — versão 1.1.81
+
+- O seletor de país continua compacto quando fechado (ex.: 🇧🇷 +55).
+- Ao abrir a lista, cada opção mostra bandeira, nome completo do país e DDI (ex.: 🇧🇷 Brasil (+55)).
+- O campo de WhatsApp mostra um exemplo de telefone de acordo com o país selecionado.
+- A digitação recebe formatação automática conforme o país.
+- Para o Brasil, a máscara visual segue o formato 00 0 0000-0000.
+- A detecção automática do país por localização/idioma/fuso foi mantida.
+- O número continua sendo normalizado com DDI antes de ser salvo e usado como identidade da fidelidade.
+
+Não requer SQL nem atualização de Edge Function.

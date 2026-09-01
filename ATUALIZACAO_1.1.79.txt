@@ -1,0 +1,7 @@
+Na Régua — Atualização 1.1.79
+
+- Rolagem dos horários mais suave e sem travas durante movimentos rápidos.
+- O seletor encaixa no horário somente quando a rolagem termina.
+- Háptico/vibração reduzido para não causar engasgos.
+- Campo de WhatsApp agora possui seleção de país e DDI.
+- Detecção automática do país por localização, com fallback para idioma/fuso do aparelho.

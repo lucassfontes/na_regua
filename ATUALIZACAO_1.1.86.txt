@@ -1,0 +1,6 @@
+Na Régua 1.1.86
+
+- Painel do barbeiro: removido o card "Serviços" de Meus Ganhos para evitar confusão entre faturamento e comissão.
+- O resumo financeiro agora destaca somente o que realmente pertence ao barbeiro: ganho do mês, atendimentos, ganho do dia, agenda e comandas.
+- Na consulta de um dia, cada atendimento mostra apenas o valor que o barbeiro ganhou, sem exibir o valor-base do serviço como se fosse ganho.
+- Nenhuma alteração de banco de dados é necessária.

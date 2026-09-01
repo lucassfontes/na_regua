@@ -1,0 +1,14 @@
+NA RÉGUA — VERSÃO 1.1.84
+
+PAINEL DO BARBEIRO
+- Dashboard financeiro simplificado, com menos informações na tela inicial.
+- Novo seletor de mês para consultar qualquer mês anterior e o mês atual.
+- Resumo mensal mostra somente: ganho do barbeiro, atendimentos concluídos e serviços faturados.
+- Resumo de hoje permanece compacto com ganho, agenda e comandas abertas.
+- Consulta detalhada de um dia foi separada em uma aba própria.
+- Agenda foi separada em uma aba própria.
+- Criada navegação em carrossel/abas no mesmo padrão do painel do dono.
+- No celular, a navegação fica fixa embaixo e exibe somente ícones Bootstrap.
+
+BANCO DE DADOS
+- Nenhuma alteração SQL necessária.

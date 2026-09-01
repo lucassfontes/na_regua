@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#18181b">
-  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.67">
-  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.67">
-  <link rel="manifest" href="manifest.json?v=1.1.67">
+  <link rel="icon" type="image/png" href="icons/icon-192.png?v=1.1.88">
+  <link rel="apple-touch-icon" href="icons/icon-192.png?v=1.1.88">
+  <link rel="manifest" href="manifest.json?v=1.1.88">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-  <link rel="stylesheet" href="css/app.css?v=1.1.67">
+  <link rel="stylesheet" href="css/app.css?v=1.1.88">
   <title>Agendamento</title>
 </head>
 <body>
@@ -27,6 +27,10 @@
     <div><strong>Programa de fidelidade</strong><span id="publicLoyaltyText">Valide sua chegada e acumule benefícios.</span></div>
   </section>
 
+  <section class="booking-start-row" aria-label="Novo agendamento">
+    <button id="openBookingWizard" class="btn booking-start-btn" type="button"><i class="bi bi-calendar2-plus" aria-hidden="true"></i> Agendar horário</button>
+  </section>
+
   <section id="clientPortalCard" class="card client-portal-card hidden">
     <div class="client-portal-head">
       <div><span class="owner-panel-kicker">MEU CARTÃO</span><h2>Histórico e fidelidade</h2><p class="muted">Seu cartão fica salvo neste aparelho.</p></div>
@@ -42,38 +46,58 @@
     <div id="clientHistoryList" class="client-history-list"><div class="empty">Carregando histórico...</div></div>
   </section>
 
-  <div id="bookingSteps" class="stack">
-    <section class="card"><h2>1. Serviço</h2><div id="services" class="grid grid-2"></div></section>
-    <section id="barberSection" class="card hidden"><h2>2. Barbeiro</h2><div id="barbers" class="grid grid-2"></div></section>
-    <section id="dateSection" class="card hidden"><h2>3. Data e horário</h2><div class="field"><label>Data</label><input id="bookingDate" class="input" type="date"></div><div id="slots" class="slot-grid" style="margin-top:12px"></div></section>
-    <section id="customerSection" class="card hidden">
-      <h2>4. Seus dados</h2>
-      <p class="muted small">Horário selecionado: <strong id="selectedTime"></strong></p>
+
+</main>
+
+<dialog id="bookingWizardDialog" class="app-dialog booking-wizard-dialog">
+  <div class="dialog-heading booking-wizard-heading">
+    <div>
+      <div class="dialog-kicker">NOVA RESERVA</div>
+      <h2 id="bookingWizardTitle">1. Escolha o serviço</h2>
+      <p class="muted" id="bookingWizardHint">Toque no serviço desejado para continuar.</p>
+    </div>
+    <button type="button" id="bookingWizardCloseButton" class="dialog-close" aria-label="Fechar">×</button>
+  </div>
+  <div class="booking-wizard-progress" aria-label="Etapas do agendamento">
+    <span class="is-active" data-wizard-progress="1"><b>1</b><small>Serviço</small></span>
+    <span data-wizard-progress="2"><b>2</b><small>Barbeiro</small></span>
+    <span data-wizard-progress="3"><b>3</b><small>Horário</small></span>
+    <span data-wizard-progress="4"><b>4</b><small>Dados</small></span>
+  </div>
+  <div class="booking-wizard-body">
+    <section id="serviceSection" class="booking-wizard-page" data-booking-step="1">
+      <div id="services" class="grid grid-2"></div>
+    </section>
+    <section id="barberSection" class="booking-wizard-page hidden" data-booking-step="2">
+      <div id="barbers" class="grid grid-2"></div>
+    </section>
+    <section id="dateSection" class="booking-wizard-page hidden" data-booking-step="3">
+      <div class="booking-date-picker">
+        <div class="booking-date-picker-head">
+          <div><strong>Escolha o dia</strong><small>Toque em uma data para ver os horários livres.</small></div>
+          <label class="booking-other-date" for="bookingDate"><i class="bi bi-calendar3" aria-hidden="true"></i><span>Outra data</span><input id="bookingDate" class="booking-native-date" type="date" aria-label="Escolher outra data"></label>
+        </div>
+        <div id="bookingQuickDates" class="booking-quick-dates" aria-label="Próximos dias"></div>
+      </div>
+      <div id="bookingTimeArea" class="booking-time-area hidden">
+        <div class="booking-time-head"><div><strong id="bookingSelectedDateLabel">Horários disponíveis</strong><small>Toque no melhor horário para continuar.</small></div><i class="bi bi-clock" aria-hidden="true"></i></div>
+        <div id="slots" class="booking-wizard-slots"></div>
+      </div>
+    </section>
+    <section id="customerSection" class="booking-wizard-page hidden" data-booking-step="4">
+      <div class="booking-selected-summary"><i class="bi bi-check2-circle" aria-hidden="true"></i><span>Horário selecionado: <strong id="selectedTime"></strong></span></div>
       <form id="bookingForm" class="stack">
         <div class="field"><label>Nome</label><input class="input" name="customerName" autocomplete="name" required></div>
-        <div class="field"><label>WhatsApp / telefone</label><input class="input" name="customerPhone" inputmode="tel" autocomplete="tel" placeholder="Ex.: +55 11 99999-9999" required></div>
-        <div class="field"><label>E-mail <span class="muted small">(necessário somente para a fidelidade)</span></label><input class="input" name="customerEmail" type="email" autocomplete="email" placeholder="voce@exemplo.com"></div>
-        <div id="emailVerificationBox" class="email-verification-box hidden">
-          <div class="email-verification-head">
-            <div class="email-verification-icon"><i class="bi bi-envelope-check-fill" aria-hidden="true"></i></div>
-            <div><strong>Valide seu e-mail para entrar na fidelidade</strong><span>É opcional. Você pode reservar normalmente sem validar. Somente clientes com e-mail validado acumulam visitas e recompensas.</span></div>
-          </div>
-          <div id="emailVerificationStatus" class="email-verification-status is-idle"><i class="bi bi-envelope-check" aria-hidden="true"></i><span>E-mail ainda não validado.</span></div>
-          <div class="email-verification-actions">
-            <button type="button" id="sendEmailCode" class="btn btn-outline"><i class="bi bi-envelope-arrow-up" aria-hidden="true"></i> Enviar código por e-mail</button>
-          </div>
-          <div id="emailCodeArea" class="email-code-area hidden">
-            <div class="field"><label for="emailCode">Código recebido no e-mail</label><input id="emailCode" class="input email-code-input" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" placeholder="000000"></div>
-            <div class="email-code-actions"><button type="button" id="verifyEmailCode" class="btn">Validar código</button><button type="button" id="resendEmailCode" class="btn btn-outline">Reenviar</button></div>
-            <small class="muted">Se não encontrar a mensagem, verifique também a caixa de spam.</small>
-          </div>
-        </div>
-        <button class="btn" id="bookBtn">Confirmar agendamento</button>
+        <div class="field"><label>WhatsApp / telefone</label><div class="booking-phone-row"><label class="booking-country-select-wrap" aria-label="País do WhatsApp"><span id="customerCountryCompact" class="booking-country-compact" aria-hidden="true">🇧🇷 +55</span><select id="customerCountry" class="input booking-country-select" autocomplete="country" aria-label="Selecionar país"></select></label><input id="customerPhone" class="input booking-phone-input" name="customerPhone" inputmode="tel" autocomplete="tel-national" placeholder="Ex.: 00 0 0000-0000" required></div><div id="customerCountryHint" class="small muted">Detectando seu país automaticamente… Você pode alterar se necessário.</div></div>
+        <button class="btn" id="bookBtn"><i class="bi bi-check2" aria-hidden="true"></i> Confirmar agendamento</button>
       </form>
     </section>
   </div>
-
-</main>
+  <div class="booking-wizard-footer">
+    <button id="bookingWizardBack" class="btn btn-outline hidden" type="button"><i class="bi bi-chevron-left" aria-hidden="true"></i> Voltar</button>
+    <span class="small muted">Escolha uma opção para avançar.</span>
+  </div>
+</dialog>
 
 <dialog id="bookingSuccessDialog" class="app-dialog booking-success-dialog">
   <div class="dialog-heading booking-success-heading">
@@ -88,7 +112,7 @@
     <div class="booking-success-icon">✓</div>
     <div class="small muted">Código do agendamento: <span id="successId"></span></div>
     <div id="successArrivalPass" class="arrival-pass hidden">
-      <div><span class="owner-panel-kicker">CHEGADA</span><h3>Mostre este QR ao chegar</h3><p class="muted small">O barbeiro valida sua chegada. A visita só soma na fidelidade quando seu e-mail estiver validado.</p></div>
+      <div><span class="owner-panel-kicker">CHEGADA</span><h3>Mostre este QR ao chegar</h3><p class="muted small">O barbeiro valida sua chegada e, se a fidelidade estiver ativa, esta visita é registrada no cadastro identificado pelo seu número de WhatsApp.</p></div>
       <div id="successQrCode" class="arrival-qr-box"></div>
       <div class="arrival-code-row"><div class="arrival-code-value"><span>Código de chegada</span><strong id="successCheckinCode">--------</strong></div><button type="button" id="copySuccessCheckinCode" class="btn btn-sm btn-outline arrival-copy-btn" aria-label="Copiar código de chegada"><i class="bi bi-copy" aria-hidden="true"></i> Copiar</button></div>
       <div id="successCheckinLive" class="checkin-live-status is-waiting" aria-live="polite"><span class="checkin-live-pulse" aria-hidden="true"></span><div><strong>Aguardando validação</strong><span>Assim que o barbeiro validar seu QR, a confirmação aparecerá aqui automaticamente.</span></div></div>
@@ -113,10 +137,11 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="js/config.js?v=1.1.67"></script>
-<script src="js/supabase-client.js?v=1.1.67"></script>
-<script src="js/common.js?v=1.1.67"></script>
-<script src="js/booking.js?v=1.1.67"></script>
-<script src="js/pwa.js?v=1.1.67"></script>
+<script src="https://cdn.jsdelivr.net/npm/libphonenumber-js@1.13.12/bundle/libphonenumber-max.js"></script>
+<script src="js/config.js?v=1.1.88"></script>
+<script src="js/supabase-client.js?v=1.1.88"></script>
+<script src="js/common.js?v=1.1.88"></script>
+<script src="js/booking.js?v=1.1.88"></script>
+<script src="js/pwa.js?v=1.1.88"></script>
 </body>
 </html>

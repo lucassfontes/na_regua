@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.67
+Na Régua — Atualização 1.1.68
 
 - O código de validação por WhatsApp agora usa automaticamente o WhatsApp cadastrado na própria barbearia como remetente, desde que esse número esteja conectado à WABA da plataforma na Meta.
 - Removida a dependência de WHATSAPP_PHONE_NUMBER_ID fixo.

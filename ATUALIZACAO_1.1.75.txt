@@ -1,0 +1,7 @@
+Na Régua — Atualização 1.1.79
+
+- Horários no agendamento agora usam seletor vertical com rolagem e encaixe central, inspirado no seletor do iPhone.
+- O horário central fica destacado e o cliente confirma em “Continuar”.
+- Corrigido o botão de calendário/Outra data para abrir o seletor nativo no iPhone, Android e computador.
+- Os dias rápidos agora funcionam como carrossel e a data selecionada é centralizada automaticamente.
+- Nenhuma alteração de banco de dados nesta versão.

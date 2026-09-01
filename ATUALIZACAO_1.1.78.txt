@@ -1,0 +1,8 @@
+Na Régua — Atualização 1.1.79
+
+- Rolagem dos horários mais suave e com inércia.
+- Flick rápido percorre vários horários sem travar item por item.
+- Roda repete os horários disponíveis para dar sensação de rolagem sem fim.
+- O horário central acompanha o movimento em tempo real e encaixa suavemente ao parar.
+- Vibração tátil curta quando o navegador oferece a Vibration API (principalmente Android).
+- Carrossel de dias também ficou mais solto, sem recriar todo o conteúdo a cada seleção.

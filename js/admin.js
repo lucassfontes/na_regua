@@ -1,5 +1,6 @@
 let ownerProfile, services=[], barbers=[], products=[], barberServiceLinks=[], currentPublicUrl='', financialReportRows=[], ownerMonthAppointments=[], loyaltyCustomers=[], loyaltySettings={enabled:false,visits_required:10,reward_name:'1 serviço grátis'}, loyaltyModuleReady=true;
 const OWNER_TAB_NAMES={overview:'Visão geral',finance:'Financeiro',services:'Serviços',products:'Produtos',loyalty:'Fidelidade',barbers:'Barbeiros'};
+function appConfirm(message,options={}){return confirmMessage(message,{title:options.title||'Atenção',okText:options.confirmText||options.okText||'Confirmar',cancelText:options.cancelText||'Cancelar'});}
 function centerOwnerTab(button,behavior='smooth'){
   const track=$('#ownerSectionTabs');
   if(!track||!button)return;
@@ -289,6 +290,7 @@ function renderOwnerDashboardFinance(){
   if(todayGross>0)setText('todayRevenue',money(todayGross));
 }
 
+
 async function refreshAdmin(){
   ownerProfile=ownerProfile||await guard(['owner']);
   const t=ownerProfile.tenant;
@@ -413,24 +415,24 @@ function renderLoyaltyCustomers(){
   setText('loyaltyRewardCount',String(loyaltyCustomers.reduce((sum,c)=>sum+Number(c.rewards_available||0),0)));
   const rows=$('#loyaltyCustomerRows');if(!rows)return;
   rows.innerHTML=loyaltyCustomers.map(c=>`<tr>
-    <td data-label="Cliente"><strong>${escapeHtml(c.customer_name||'Cliente')}</strong><small class="loyalty-phone">${escapeHtml(c.phone||'')}</small><small class="loyalty-phone">${escapeHtml(c.email||'')}</small></td>
+    <td data-label="Cliente"><strong>${escapeHtml(c.customer_name||'Cliente')}</strong><small class="loyalty-phone">${escapeHtml(c.phone||'')}</small></td>
     <td data-label="Progresso">${loyaltyProgressHtml(c)}</td>
     <td data-label="Visitas"><strong>${Number(c.total_validated_visits||0)}</strong></td>
     <td data-label="Recompensas"><span class="loyalty-reward-pill ${Number(c.rewards_available||0)>0?'is-ready':''}">${Number(c.rewards_available||0)}</span></td>
     <td data-label="Última visita">${loyaltyDate(c.last_visit_at)}</td>
     <td data-label="Ações">${Number(c.rewards_available||0)>0?`<button class="btn btn-sm" type="button" data-redeem-loyalty="${c.id}">Usar recompensa</button>`:'<span class="muted small">Sem recompensa</span>'}</td>
-  </tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhum cliente com e-mail validado ainda.</td></tr>';
+  </tr>`).join('')||'<tr><td colspan="6" class="empty">Nenhum cliente na fidelidade ainda.</td></tr>';
 }
 async function loadLoyalty(){
   const notice=$('#loyaltySetupNotice');
   const [settingsResult,customersResult]=await Promise.all([
     sb.from('loyalty_settings').select('tenant_id,enabled,visits_required,reward_name').eq('tenant_id',ownerProfile.tenant_id).maybeSingle(),
-    sb.from('loyalty_customers').select('id,customer_name,phone,email,visits_balance,rewards_available,total_validated_visits,last_visit_at,updated_at,email_verified_at').eq('tenant_id',ownerProfile.tenant_id).not('email_verified_at','is',null).order('updated_at',{ascending:false})
+    sb.from('loyalty_customers').select('id,customer_name,phone,phone_key,visits_balance,rewards_available,total_validated_visits,last_visit_at,updated_at').eq('tenant_id',ownerProfile.tenant_id).order('updated_at',{ascending:false})
   ]);
   if(settingsResult.error||customersResult.error){
     loyaltyModuleReady=false;loyaltyCustomers=[];loyaltySettings={enabled:false,visits_required:10,reward_name:'1 serviço grátis'};
     notice?.classList.remove('hidden');
-    const rows=$('#loyaltyCustomerRows');if(rows)rows.innerHTML='<tr><td colspan="6" class="empty">Execute ATUALIZAR_BANCO_1.1.67.sql para ativar esta área.</td></tr>';
+    const rows=$('#loyaltyCustomerRows');if(rows)rows.innerHTML='<tr><td colspan="6" class="empty">Execute ATUALIZAR_BANCO_1.1.71.sql para ativar esta área.</td></tr>';
     setText('loyaltyCustomerCount','0');setText('loyaltyVisitCount','0');setText('loyaltyRewardCount','0');
     return;
   }
@@ -443,7 +445,7 @@ async function loadLoyalty(){
   renderLoyaltyCustomers();
 }
 async function saveLoyaltySettings(){
-  if(!loyaltyModuleReady)return toast('Execute ATUALIZAR_BANCO_1.1.67.sql no Supabase primeiro.','warn');
+  if(!loyaltyModuleReady)return toast('Execute ATUALIZAR_BANCO_1.1.71.sql no Supabase primeiro.','warn');
   const visits=Math.floor(Number($('#loyaltyVisitsRequired').value));
   const reward=$('#loyaltyRewardName').value.trim();
   if(!Number.isInteger(visits)||visits<2||visits>30)return toast('Informe entre 2 e 30 visitas.','error');

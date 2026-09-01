@@ -1,0 +1,7 @@
+Na Régua 1.1.86
+
+- A agenda do barbeiro agora acompanha o dia selecionado na aba Ganhos.
+- Ao escolher uma data, o total de clientes e a lista de atendimentos mudam para aquele mesmo dia.
+- Os atalhos Hoje e Ontem também atualizam a agenda automaticamente.
+- O título da agenda mostra claramente a data que está sendo exibida.
+- Nenhuma alteração de banco de dados é necessária.

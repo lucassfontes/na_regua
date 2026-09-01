@@ -1,0 +1,6 @@
+Na Régua — Atualização 1.1.70
+
+- Removido o botão “Ir para Meta” que ficava acima do passo a passo.
+- O botão para abrir a Meta agora fica somente dentro do guia.
+- O passo a passo foi ampliado para 10 etapas visuais, explicando preparação da conta Meta, Portfólio empresarial, autorização, conta WhatsApp Business, número, confirmação por SMS/ligação e conferência final no Na Régua.
+- Adicionados avisos sobre segurança e sobre possíveis etapas extras para números já usados no WhatsApp/WhatsApp Business.

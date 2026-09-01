@@ -1,0 +1,12 @@
+Na Régua 1.1.82
+
+PAINEL DO BARBEIRO
+- Dashboard financeiro mais claro e moderno.
+- Mostra quanto o barbeiro ganhou hoje.
+- Mostra quanto ganhou no mês atual.
+- Permite escolher uma data específica para consultar quanto ganhou naquele dia.
+- Mostra quantidade de atendimentos concluídos e valor de serviços usado como base da comissão.
+- Exibe detalhes de cada ganho do dia selecionado.
+- Considera o fechamento financeiro das comandas e serviços extras.
+
+Banco de dados: nenhuma atualização nova necessária.

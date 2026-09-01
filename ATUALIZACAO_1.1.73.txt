@@ -1,0 +1,8 @@
+Na Régua — Atualização 1.1.79
+
+- Todos os modais agora bloqueiam completamente a rolagem da página ao fundo.
+- A página permanece exatamente na posição em que estava ao abrir o modal.
+- Somente o conteúdo interno do modal pode ser rolado quando for maior que a tela.
+- O modal aberto mantém o foco de teclado; ao tentar focar algo atrás, o foco volta ao modal superior.
+- O bloqueio funciona também quando um modal de mensagem é aberto por cima de outro modal.
+- Compatibilidade reforçada para iPhone/iPad e Android.

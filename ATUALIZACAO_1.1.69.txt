@@ -1,0 +1,7 @@
+Na Régua — Atualização 1.1.70
+
+- Criado passo a passo visual para o dono conectar o WhatsApp da barbearia.
+- Adicionado botão “Ir para Meta” em Configurações > WhatsApp automático.
+- O guia orienta: abrir a Meta, preparar a empresa, voltar ao Na Régua, conectar o WhatsApp, confirmar o número e concluir a conexão.
+- Adicionado botão “Abrir Meta Business” dentro do guia.
+- Não requer SQL novo nem republicação das Edge Functions.

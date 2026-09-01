@@ -1,0 +1,8 @@
+Na Régua — Atualização 1.1.79
+
+- Data e horário mais fáceis no agendamento.
+- Próximos 8 dias em botões rápidos.
+- Opção Outra data abre o calendário do aparelho.
+- Horários separados em Manhã, Tarde e Noite.
+- Botões de horário maiores e mais fáceis no celular.
+- Avanço automático após escolher o horário.

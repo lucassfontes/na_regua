@@ -1,0 +1,6 @@
+Na Régua — Atualização 1.1.79
+
+- Corrigido o seletor de horário no agendamento.
+- Ao escolher um horário, avançar para Seus dados e depois voltar, o horário não fica mais com fundo preto.
+- O horário central continua destacado apenas no estilo de rolagem do iPhone.
+- Nenhuma alteração de banco de dados é necessária.

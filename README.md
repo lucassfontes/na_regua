@@ -498,11 +498,152 @@ O painel do dono foi reorganizado em abas para reduzir a quantidade de cards e i
 
 
 
-## Atualização 1.1.67 — validação por e-mail
+## Atualização 1.1.68 — validação por e-mail
 - A entrada no programa de fidelidade agora é validada por **e-mail**, usando código de 6 dígitos do Supabase Auth.
 - O WhatsApp/telefone continua sendo cadastrado normalmente para contato e identificação da reserva, mas não precisa mais de API da Meta.
 - O cliente pode reservar sem validar o e-mail; nesse caso recebe QR de chegada normalmente, porém a visita não gera ponto de fidelidade.
 - Depois da validação, o cliente recebe acesso ao histórico e ao cartão de fidelidade no aparelho.
 - O painel do dono lista somente os clientes com e-mail validado na área Fidelidade.
-- Execute `ATUALIZAR_BANCO_1.1.67.sql` e siga `CONFIGURAR_EMAIL_1.1.67.md`.
+- Execute `ATUALIZAR_BANCO_1.1.68.sql` e siga `CONFIGURAR_EMAIL_1.1.68.md`.
 - Não é necessário publicar Edge Function nesta versão.
+
+## Atualização 1.1.68
+
+A validação de fidelidade voltou a usar WhatsApp, agora com **conexão individual por barbearia**. O dono pode conectar o próprio número em Configurações usando o Meta Embedded Signup. Após a autorização, os códigos OTP são enviados automaticamente pelo número daquela barbearia. Reservas continuam permitidas sem validação, mas somente clientes com WhatsApp validado acumulam fidelidade.
+
+Para ativar a integração, execute `ATUALIZAR_BANCO_1.1.68.sql`, publique as Edge Functions `whatsapp-connect` e `whatsapp-verification` e siga `CONFIGURAR_WHATSAPP_EMBEDDED_1.1.68.md`.
+
+
+## Atualização 1.1.70 — passo a passo para conectar o WhatsApp
+
+- Em **Configurações → WhatsApp automático**, o dono agora encontra um guia simples com 5 etapas para conectar o número da própria barbearia.
+- Adicionado o botão **Ir para Meta**, que abre o Meta Business em uma nova aba.
+- O guia explica como entrar/criar a empresa, voltar ao Na Régua, conectar o WhatsApp, confirmar o número e concluir a autorização.
+- Também foi adicionado um botão **Abrir Meta Business** dentro do passo a passo.
+- Nenhuma alteração de banco ou Edge Function é necessária nesta versão; é apenas uma melhoria de interface e orientação do usuário.
+
+## Atualização 1.1.71 — fidelidade simples pelo WhatsApp
+- Removida a validação por código, e-mail, Meta e WhatsApp API do fluxo público.
+- Em `4. Seus dados`, o cliente informa apenas nome e WhatsApp/telefone.
+- O número do WhatsApp normalizado é a identidade do cliente dentro de cada barbearia.
+- Mesmo nome + WhatsApp diferente = clientes diferentes e cartões de fidelidade separados.
+- Mesmo WhatsApp na mesma barbearia = mesmo cliente, preservando histórico, visitas e recompensas.
+- Ao validar o QR de chegada, a visita entra imediatamente na fidelidade quando o programa estiver ativo.
+- O painel do dono volta a listar todos os clientes da fidelidade, sem exigir verificação de WhatsApp.
+
+
+## Atualização 1.1.79 — agendamento em modal por etapas
+- Novo botão **Agendar horário** acima do histórico/fidelidade.
+- O agendamento agora abre em um modal e mostra uma etapa por vez, como páginas de um livro.
+- Etapa 1: serviço; etapa 2: barbeiro; etapa 3: data e horário; etapa 4: dados do cliente.
+- Ao escolher uma opção, a interface avança automaticamente para a próxima etapa.
+- Botão Voltar permite revisar a etapa anterior sem empilhar os conteúdos na página.
+- O modal só fecha pelo botão X; clicar fora não fecha.
+- Nenhuma alteração de banco é necessária nesta versão.
+
+
+## Atualização 1.1.79
+- Bloqueio global de fundo em todos os modais: sem rolagem da página atrás do modal.
+- Preserva a posição da página ao abrir/fechar.
+- Mantém o foco no modal superior e permite rolagem apenas dentro dele.
+
+
+## Atualização 1.1.79
+- Etapa de data e horário do agendamento simplificada.
+- Os próximos 8 dias aparecem como botões grandes (Hoje, Amanhã e dias da semana).
+- O dia atual é aberto automaticamente ao chegar à etapa 3.
+- Continua disponível a opção Outra data pelo calendário nativo do aparelho.
+- Horários foram separados em Manhã, Tarde e Noite e os botões ficaram maiores para toque no celular.
+- Ao escolher o horário, o sistema avança automaticamente para Seus dados.
+
+
+## Atualização 1.1.79
+- Seletor de horários em rolagem vertical estilo iPhone, com snap central e botão Continuar.
+- Botão Outra data corrigido para abrir o calendário nativo.
+- Carrossel de dias centraliza automaticamente a data selecionada.
+- Sem SQL novo.
+
+
+## Atualização 1.1.79
+- Corrigido o estado visual do horário selecionado ao voltar para a etapa de data e horário: o item não fica mais preto e mantém apenas o destaque do seletor em rolagem.
+
+
+## Atualização 1.1.79
+- Seletor de horários com inércia mais solta, sem `scroll-snap-stop: always`, permitindo flick rápido atravessar vários horários sem sensação de trava.
+- Roda de horários passa a repetir os horários disponíveis em blocos e se reposiciona silenciosamente, criando sensação de rolagem contínua/sem fim.
+- Seleção central acompanha a rolagem em tempo real e faz encaixe suave somente ao final do movimento.
+- Retorno tátil curto via Vibration API quando o navegador/aparelho oferece suporte. Em Safari/iOS web essa API não é disponibilizada, então o retorno fica visual.
+- Carrossel de dias não é recriado a cada seleção e usa snap por proximidade, mantendo a inércia mais natural.
+
+
+## Atualização 1.1.79
+- Seletor de horários com rolagem nativa mais suave, sem snap durante o movimento e com encaixe somente ao parar.
+- Vibração/háptico reduzido para o momento da seleção, evitando travamentos durante rolagens rápidas.
+- Campo de WhatsApp ganhou seletor de país com DDI.
+- O país é detectado automaticamente pela localização do aparelho quando a permissão estiver disponível; se não estiver, usa idioma/fuso do aparelho como fallback.
+- O usuário pode alterar o país manualmente a qualquer momento.
+
+
+## Atualização 1.1.81
+
+- Seletor de país do WhatsApp simplificado para exibir apenas bandeira + DDI (ex.: 🇧🇷 +55).
+- Layout do telefone ficou mais compacto no mobile.
+- Sem alteração de banco de dados.
+
+## Versão 1.1.81
+- Seletor de país compacto ao fechar e com nome completo ao abrir.
+- Exemplo e máscara de WhatsApp adaptados ao país selecionado.
+- Formatação automática durante a digitação e normalização internacional antes de salvar.
+
+## Atualização 1.1.82
+
+- Dashboard do barbeiro redesenhado com foco nos próprios ganhos.
+- Card **Ganhei hoje** com valor da comissão e quantidade de atendimentos concluídos.
+- Card **Ganhei este mês** com total acumulado da comissão e quantidade de atendimentos concluídos no mês.
+- Nova consulta **Quanto ganhei neste dia?** com seletor de data, atalhos Hoje/Ontem e detalhamento dos ganhos do dia.
+- A consulta mostra comissão recebida, quantidade de atendimentos e total de serviços que serviu como base para a comissão.
+- O cálculo usa o fechamento financeiro das comandas, incluindo serviços extras, e mantém compatibilidade com atendimentos antigos sem comanda.
+- Nenhuma atualização nova de banco é necessária para quem já aplicou as atualizações financeiras anteriores do projeto.
+
+## Versão 1.1.82
+- Painel do barbeiro com resumo de ganhos hoje, no mês e por data específica.
+
+
+
+## Atualização 1.1.84
+
+- Dashboard financeiro do barbeiro reorganizado para destacar o valor ganho hoje como informação principal.
+- Novo resumo de **Esta semana**, **Este mês**, **Média por atendimento** e **Serviços faturados**.
+- Novo gráfico visual dos **últimos 7 dias**, com comissão por dia e total do período.
+- Consulta por data ficou mais clara, com atalhos Hoje/Ontem, calendário e detalhamento de cada atendimento.
+- Melhorias de responsividade para o painel financeiro no celular.
+- Nenhuma atualização nova de banco é necessária.
+
+## Versão 1.1.84
+- Painel do barbeiro com visão financeira mais rápida, profissional e completa.
+
+## Versão 1.1.84
+- Painel do barbeiro resumido.
+- Consulta de ganhos por qualquer mês.
+- Navegação Resumo / Ganhos / Agenda no padrão do painel do dono.
+- Nenhum SQL novo necessário.
+
+## Versão 1.1.86
+- A aba Agenda do barbeiro passa a mostrar os atendimentos do mesmo dia selecionado em Ganhos.
+- Contador e título da agenda acompanham a data escolhida.
+- Hoje/Ontem e o calendário atualizam ganhos e atendimentos juntos.
+- Nenhum SQL novo necessário.
+
+
+## Versão 1.1.86
+- Simplificado o painel **Meus Ganhos** do barbeiro.
+- Removido o indicador **Serviços faturados** para não confundir faturamento da barbearia com o valor recebido pelo profissional.
+- Na consulta diária, os atendimentos passam a destacar apenas a comissão/ganho do barbeiro.
+- Não requer SQL novo.
+
+
+## Versão 1.1.87
+- No resumo do barbeiro, **Ganhei no mês** e **Atendimentos** ficam na mesma linha, inclusive no celular.
+
+## Versão 1.1.88
+- Card “Atendimentos” igual ao card “Ganhei no mês” no painel do barbeiro, mantendo ambos na mesma linha.

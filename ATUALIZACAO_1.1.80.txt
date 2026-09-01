@@ -1,0 +1,7 @@
+Na Régua — versão 1.1.81
+
+- O seletor de país do campo WhatsApp agora mostra somente a bandeira e o DDI.
+- Exemplo: Brasil aparece como “🇧🇷 +55”.
+- O nome completo do país continua sendo usado internamente para detecção automática e mensagens auxiliares.
+- O seletor ficou mais compacto para liberar mais espaço para o número do WhatsApp, especialmente no celular.
+- Não requer atualização de banco nem Edge Function.

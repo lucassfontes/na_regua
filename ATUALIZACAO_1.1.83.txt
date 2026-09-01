@@ -1,0 +1,12 @@
+Na Régua 1.1.83
+
+PAINEL DO BARBEIRO
+- Financeiro redesenhado com destaque principal para o ganho de hoje.
+- Mostra ganhos da semana e do mês.
+- Mostra média de comissão por atendimento.
+- Mostra total de serviços faturados que servem de base para comissão.
+- Gráfico dos últimos 7 dias para o barbeiro visualizar o ritmo dos próprios ganhos.
+- Consulta de um dia específico com Hoje, Ontem, calendário e detalhes de cada atendimento.
+- Layout mobile mais compacto e fácil de ler.
+
+Banco de dados: nenhuma atualização nova necessária.

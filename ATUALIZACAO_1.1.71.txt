@@ -1,0 +1,8 @@
+Na Régua — Atualização 1.1.71
+
+- Removida toda a validação por código de WhatsApp/e-mail e a conexão com a Meta.
+- Em Reserve seu horário > 4. Seus dados, ficam somente Nome e WhatsApp/telefone.
+- A fidelidade identifica o cliente pelo número do WhatsApp dentro da barbearia.
+- Clientes com o mesmo nome e números de WhatsApp diferentes são tratados como clientes diferentes.
+- O mesmo WhatsApp mantém o mesmo histórico, progresso e recompensas.
+- Ao validar o QR de chegada, a visita entra imediatamente na fidelidade se o programa estiver ativo.

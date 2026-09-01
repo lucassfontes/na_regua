@@ -1,0 +1,5 @@
+Na Régua — Atualização 1.1.79
+
+- Ao trocar o dia, os horários atuais permanecem visíveis até a nova disponibilidade chegar.
+- Adicionada indicação discreta de atualização sem sumir com a rolagem de horários.
+- O carrossel mostra 7 dias anteriores desativados para preencher a lateral esquerda e manter o dia atual centralizado.

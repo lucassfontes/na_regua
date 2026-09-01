@@ -1,4 +1,4 @@
-Na Régua — Atualização 1.1.67
+Na Régua — Atualização 1.1.68
 
 - A validação para participar do programa de fidelidade agora é feita por e-mail.
 - Em 4. Seus dados, o cliente informa nome, WhatsApp/telefone e e-mail.
@@ -8,5 +8,5 @@ Na Régua — Atualização 1.1.67
 - Sem e-mail validado, o QR de chegada funciona, mas a visita não soma fidelidade.
 - Clientes com e-mail validado recebem acesso ao histórico e ao cartão de fidelidade.
 - O painel do dono mostra na fidelidade somente clientes com e-mail validado.
-- Execute ATUALIZAR_BANCO_1.1.67.sql e siga CONFIGURAR_EMAIL_1.1.67.md.
+- Execute ATUALIZAR_BANCO_1.1.68.sql e siga CONFIGURAR_EMAIL_1.1.68.md.
 - Não é necessário publicar Edge Function para esta atualização.
